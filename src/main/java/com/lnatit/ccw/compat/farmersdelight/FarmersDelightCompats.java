@@ -1,5 +1,6 @@
 package com.lnatit.ccw.compat.farmersdelight;
 
+import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.SingleEffectSugar;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
@@ -15,7 +16,8 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.function.Supplier;
 
-public class FarmersDelightCompats {
+public class FarmersDelightCompats
+{
     public static final DeferredHolder<Sugar, SingleEffectSugar> NOURISHED = Sugars.registerSingle(
             "nourished",
             builder -> builder
@@ -33,7 +35,7 @@ public class FarmersDelightCompats {
 
     // TODO add compat recipe
     // TODO include in #farmersdelight:meals
-    public static final Supplier<Item> GLAZED_MEAT_RICE = ModItems.registerWithTab(
+    public static final Supplier<Item> GLAZED_MEAT_RICE = registerWithTab(
             "glazed_meat_rice",
             () -> new ConsumableItem(
                     ModItems.bowlFoodItem(
@@ -45,7 +47,7 @@ public class FarmersDelightCompats {
                     )
             )
     );
-    public static final Supplier<Item> SWEET_HARVEST_SOUP = ModItems.registerWithTab(
+    public static final Supplier<Item> SWEET_HARVEST_SOUP = registerWithTab(
             "sweet_harvest_soup",
             () -> new ConsumableItem(
                     ModItems.bowlFoodItem(
@@ -60,6 +62,12 @@ public class FarmersDelightCompats {
 
     public static void init() {
         SugarRefining.addCustomBlendProviders(FarmersDelightCompats::addBlends);
+    }
+
+    private static Supplier<Item> registerWithTab(String name, Supplier<Item> supplier) {
+        Supplier<Item> item = ItemRegistry.ITEMS.register(name, supplier);
+        ModItems.CREATIVE_TAB_ITEMS.add(item);
+        return item;
     }
 
     private static void addBlends(SugarRefining.Builder builder) {

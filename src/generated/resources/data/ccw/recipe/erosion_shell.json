@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "apotheosis:gem_dust"
+        },
+        {
+            "item": "minecraft:fermented_spider_eye"
+        },
+        {
+            "item": "minecraft:shulker_shell"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "ccw:erosion_shell"
+    }
+}

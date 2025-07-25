@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-30T21:33:13.9420053	Item Models: ccw
+// 1.21.1	2025-07-25T12:01:45.2474066	Item Models: ccw
 35d5d97672911e648688c3a91c5b5ba8d0d89c7f assets/ccw/models/item/binding_gummy.json
 370fbf24f51fd76e21fe3af55e5b7934b892d33e assets/ccw/models/item/blessed_steak.json
 b0b8c83ff20f14d7ee49a06b5e97d4146d020a65 assets/ccw/models/item/blinding_gummy.json
@@ -21,6 +21,7 @@ a4c832e387fe7fff6045bb918e39d613ab800404 assets/ccw/models/item/fish_swim_gummy.
 ffa24394f5b88400eb8ce46f4d631044f49b5081 assets/ccw/models/item/floating_gummy.json
 6bf1234f570936bcd382e74de9d61c413dfcdd08 assets/ccw/models/item/flutter_gummy.json
 31f2df74152da3b43f13bf3d7d86e0a51f7d7f9f assets/ccw/models/item/gale_gummy.json
+75dfab2893ac350d82b3ba84e003fe727fc0b441 assets/ccw/models/item/glazed_meat_rice.json
 cc42b6f9e94c723eeb12fde5950ee95a8db49a4c assets/ccw/models/item/golden_heart_gummy.json
 8112bc7533fa51ea3727a02d277b3faa0600a62a assets/ccw/models/item/gold_studded_apple.json
 1f8bb41d8a8f7376d623e0a0d4595b84822230a1 assets/ccw/models/item/greedy_offering.json
@@ -60,6 +61,7 @@ de4c734df1e555e2705ea6745441d27b65e9b057 assets/ccw/models/item/snail_gummy.json
 3515ad04f25e0dcdf843197b8b8972e24b08879d assets/ccw/models/item/strength_gummy.json
 a7e336749b5618a1efb26c4c99328a5f18fada5b assets/ccw/models/item/sugar_refinery.json
 b0551813b81a797c28536996108a93b59d6fc710 assets/ccw/models/item/sundering_gummy.json
+fc28dee45d145b6cb5dbf33bbb76dd21fb488e71 assets/ccw/models/item/sweet_harvest_soup.json
 78d29c715970bcebadc685f28fb60ee8df78a43d assets/ccw/models/item/sweet_melon_slice.json
 0c54a152bbce9ac0d0051d38c82edfb5d2e25f58 assets/ccw/models/item/taunting_gummy.json
 9919487007f7aa10316fe7d6c9a3ca9063900ca7 assets/ccw/models/item/tidal_gummy.json
