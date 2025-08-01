@@ -148,6 +148,11 @@ dependencies {
     implementation("curse.maven:apospaw-986583:6689771-sources")
     implementation("curse.maven:apotheosis-313970:6545942-sources")
 
+    // Youkais Homecoming
+    // No src to download
+    implementation("curse.maven:l2library-620203:6820079")
+    implementation("curse.maven:youkais-homecoming-957437:6491908")
+
 //    implementation "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 }
 
