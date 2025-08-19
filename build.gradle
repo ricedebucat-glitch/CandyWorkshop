@@ -28,6 +28,8 @@ repositories {
     maven { url = "https://modmaven.dev" }
     maven { url = "https://cursemaven.com" }
     maven { url = "https://maven.shedaniel.me/" }
+    // Registrate
+    maven { url = "https://maven.ithundxr.dev/snapshots" }
 
     flatDir {
         dir 'libs'
@@ -154,11 +156,12 @@ dependencies {
 
     // Youkais Homecoming
     // No src to download
-//    implementation("curse.maven:l2library-620203:6820079")
     implementation("l2core:l2core:3.0.8+3")
-//    implementation("registrate:registrate:1.3.0")
     implementation("youkaishomecoming:youkaishomecoming:3.0.8")
-//    implementation("curse.maven:youkais-homecoming-957437:6491908")
+
+    // FruitsDelight
+    implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+    implementation("fruitsdelight:fruitsdelight:1.2.9")
 
 //    implementation "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 }

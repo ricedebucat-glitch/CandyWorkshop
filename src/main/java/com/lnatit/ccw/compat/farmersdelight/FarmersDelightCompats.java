@@ -33,8 +33,6 @@ public class FarmersDelightCompats
                     .build()
     );
 
-    // TODO add compat recipe
-    // TODO include in #farmersdelight:meals
     public static final Supplier<Item> GLAZED_MEAT_RICE = registerWithTab(
             "glazed_meat_rice",
             () -> new ConsumableItem(

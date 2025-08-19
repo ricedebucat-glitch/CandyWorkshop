@@ -10,38 +10,38 @@ public class YoukaisHomecomingCompats
             Sugars.SUGARS.register("green_tea", () ->
                     new MultipleEffectSugar("green_tea", false, true,
                                             MultipleEffectSugar.Effect.simple(YHEffects.TEA, 600, 1),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER, 600, 0)
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
     public static final DeferredHolder<Sugar, MultipleEffectSugar> WHITE_TEA =
             Sugars.SUGARS.register("white_tea", () ->
                     new MultipleEffectSugar("white_tea", false, true,
-                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.REFRESHING, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER, 600, 0)
+                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.REFRESHING),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
     public static final DeferredHolder<Sugar, MultipleEffectSugar> BLACK_TEA =
             Sugars.SUGARS.register("black_tea", () ->
                     new MultipleEffectSugar("black_tea", false, true,
-                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.THICK, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER, 600, 0)
+                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.THICK),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
     public static final DeferredHolder<Sugar, MultipleEffectSugar> OOLONG_TEA =
             Sugars.SUGARS.register("oolong_tea", () ->
                     new MultipleEffectSugar("oolong_tea", false, true,
-                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SMOOTHING, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER, 600, 0)
+                                            MultipleEffectSugar.Effect.simple(YHEffects.TEA),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SMOOTHING),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
     public static final DeferredHolder<Sugar, MultipleEffectSugar> YOUKAI_COFFEE =
             Sugars.SUGARS.register("youkai_coffee", () ->
                     new MultipleEffectSugar("youkai_coffee", false, true,
-                                            MultipleEffectSugar.Effect.simple(YHEffects.CAFFEINATED, 600, 0),
-                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER, 600, 0)
+                                            MultipleEffectSugar.Effect.simple(YHEffects.CAFFEINATED),
+                                            MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
     public static final DeferredHolder<Sugar, SingleEffectSugar> UDUMBARA =

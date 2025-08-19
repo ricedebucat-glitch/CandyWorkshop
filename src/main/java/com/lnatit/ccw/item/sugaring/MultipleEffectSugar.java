@@ -93,6 +93,10 @@ public class MultipleEffectSugar extends Sugar
     public record Effect(Holder<MobEffect> effect, int baseDuration, int extendedDuration, int baseAmplifier,
                          int amplifiedAmplifier)
     {
+        public static Effect simple(Holder<MobEffect> effect) {
+            return simple(effect, 600, 0);
+        }
+
         public static Effect simple(Holder<MobEffect> effect, int duration, int amplifier) {
             return new Effect(effect, duration, duration * 2, amplifier, amplifier + 1);
         }
