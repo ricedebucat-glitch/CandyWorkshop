@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-25T12:01:45.243405	Recipes
+// 1.21.1	2025-08-19T17:31:49.5173217	Recipes
 386c59f43743ae60afa22a7c2e2f28319b402067 data/ccw/advancement/recipes/brewing/blessed_steak.json
 28eb0fe9f148abcc7116e23d2ddaa658c32001c1 data/ccw/advancement/recipes/brewing/calcium_rich_milk.json
 dbb8f1dfc996ab451a2f13b8854294a11dc5a0fa data/ccw/advancement/recipes/brewing/defiled_offering.json
@@ -20,6 +20,8 @@ fb163cd146fb3e31bead62c899f70e5ed6fdc819 data/ccw/advancement/recipes/brewing/ph
 491c81ae7e260d4e12291a1b316ca0ba02a1ec10 data/ccw/advancement/recipes/brewing/vitality_berry.json
 9820a7f22bdfa566554aa256ada3fb3bdb3e69fd data/ccw/advancement/recipes/brewing/void_carrot.json
 d658b658683f59ab9560ab884ccc13433913f17e data/ccw/advancement/recipes/brewing/weakness_powder.json
+04af267763b97c9d1cd686374458c0a24f75b1aa data/ccw/advancement/recipes/cooking/glazed_meat_rice.json
+e7c431b2af7824aa69eae3e407c138764e92431f data/ccw/advancement/recipes/cooking/sweet_harvest_soup.json
 f0cdc8f63a1419d790357f4790538e610171f57c data/ccw/advancement/recipes/misc/carton_milk.json
 afca80e5d39ce625a411d0733e40c359e0057c57 data/ccw/advancement/recipes/misc/drawer_table.json
 09c5211e31b54b96861717cf37fbbbbc9894f586 data/ccw/advancement/recipes/misc/milk_carton_from_single_milk_bucket.json
@@ -30,6 +32,8 @@ c7672250520d8400ff4284a689ececf3b7051666 data/ccw/advancement/recipes/misc/sugar
 c259732b4c156dbb56e3ae01f405d0c9d46f9276 data/ccw/recipe/blessed_steak.json
 8a15b573ab2ec10751d2a553b3ca0718a9991588 data/ccw/recipe/calcium_rich_milk.json
 390901982c7f61641900d1eb467a2616e60fe737 data/ccw/recipe/carton_milk.json
+ab50d56b93123afa46897a3ce8020bc3246173f7 data/ccw/recipe/cooking/glazed_meat_rice.json
+d3087e0a8c955e2b90a6beae27e2f82d01c5f19a data/ccw/recipe/cooking/sweet_harvest_soup.json
 8eade00158a5ed67acbb06fcc3f77fb6cd38116a data/ccw/recipe/defiled_offering.json
 cab20caf67ce1bf767637868bc18b1e01c7cc918 data/ccw/recipe/dolphin_cookie.json
 73793f31f747cb1325460a05e41812d641067148 data/ccw/recipe/drawer_table.json
@@ -56,7 +60,3 @@ c1ceb0bf8ddbddf0a8b9144059cdb984e85b4010 data/ccw/recipe/sweet_melon_slice.json
 bdd3ca884e254d974fd4b9b928b056c1ff721fb2 data/ccw/recipe/vitality_berry.json
 e57f0b83865e93459bba38616f4233aaebfe254b data/ccw/recipe/void_carrot.json
 213df90c896a6c6fff25d5a4c373c6ac87a459d3 data/ccw/recipe/weakness_powder.json
-a7563ace7e85ba06da88288068d74b1d273680af data/farmersdelight/advancement/recipes/cooking/glazed_meat_rice.json
-a01ffd988559344dd5582096431143a73f681254 data/farmersdelight/advancement/recipes/cooking/sweet_harvest_soup.json
-ab50d56b93123afa46897a3ce8020bc3246173f7 data/farmersdelight/recipe/cooking/glazed_meat_rice.json
-d3087e0a8c955e2b90a6beae27e2f82d01c5f19a data/farmersdelight/recipe/cooking/sweet_harvest_soup.json
