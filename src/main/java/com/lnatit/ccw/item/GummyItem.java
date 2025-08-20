@@ -2,7 +2,10 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.item.sugaring.SugarContents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
@@ -26,6 +29,20 @@ public class GummyItem extends Item {
             sugarContents.onConsume(livingEntity);
         }
         return super.finishUsingItem(stack, level, livingEntity);
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (usedHand == InteractionHand.MAIN_HAND && player.isCreative() && player.isShiftKeyDown()) {
+            ItemStack itemstack = player.getItemInHand(usedHand).copy();
+            SugarContents old = itemstack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
+            if (old != null) {
+                itemstack.set(ItemRegistry.SUGAR_CONTENTS_DCTYPE, old.cycle());
+                player.setItemInHand(usedHand, itemstack);
+                return InteractionResultHolder.consume(itemstack);
+            }
+        }
+        return super.use(level, player, usedHand);
     }
 
     @Override

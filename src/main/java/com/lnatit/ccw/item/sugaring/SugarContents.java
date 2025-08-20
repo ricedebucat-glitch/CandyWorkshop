@@ -13,17 +13,17 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public record SugarContents(Optional<Holder<Sugar>> sugar, Sugar.Flavor flavor)
-{
+public record SugarContents(Optional<Holder<Sugar>> sugar, Sugar.Flavor flavor) {
     public static final Codec<SugarContents> CODEC = RecordCodecBuilder.create(
             ins -> ins.group(
-                              Sugar.CODEC.optionalFieldOf("sugar").forGetter(SugarContents::sugar),
-                              SingleEffectSugar.Flavor.CODEC.fieldOf("flavor").forGetter(SugarContents::flavor)
-                      )
-                      .apply(ins, SugarContents::new));
+                            Sugar.CODEC.optionalFieldOf("sugar").forGetter(SugarContents::sugar),
+                            SingleEffectSugar.Flavor.CODEC.fieldOf("flavor").forGetter(SugarContents::flavor)
+                    )
+                    .apply(ins, SugarContents::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, SugarContents> STREAM_CODEC = StreamCodec.composite(
             Sugar.STREAM_CODEC.apply(ByteBufCodecs::optional),
             SugarContents::sugar,
@@ -69,5 +69,14 @@ public record SugarContents(Optional<Holder<Sugar>> sugar, Sugar.Flavor flavor)
                 player.getData(AttachmentRegistry.SUGAR_STAT).addHistory(holder, player);
             }
         }
+    }
+
+    public SugarContents cycle() {
+        if (this.sugar.isPresent()) {
+            List<Sugar.Flavor> flavors = this.sugar.get().value().getAvailableFlavors();
+            int index = (flavors.indexOf(this.flavor) + 1) % flavors.size();
+            return new SugarContents(this.sugar, flavors.get(index));
+        }
+        return this;
     }
 }

@@ -190,7 +190,7 @@ public class ItemRegistry {
         sugars.listElements()
                 // if FeatureElement implemented, we need to filter the map
 //                .filter()
-                .map(Sugar::createAllFlavors)
-                .forEach(result -> output.acceptAll(result, visibility));
+                .map(sugar -> Sugar.createSugar(sugar, Sugar.Flavor.ORIGINAL))
+                .forEach(result -> output.accept(result, visibility));
     }
 }

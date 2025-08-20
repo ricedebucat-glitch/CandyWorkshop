@@ -6,7 +6,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class MultipleEffectSugar extends Sugar
             case MILKY:
                 List<Holder<MobEffect>> toRemove = new ArrayList<>();
                 for (Holder<MobEffect> effect : entity.getActiveEffectsMap().keySet()) {
-                    if (effect != MobEffects.MOVEMENT_SLOWDOWN && effect != MobEffects.DAMAGE_RESISTANCE) {
+                    if (originalEffects.stream().noneMatch(inst -> inst.is(effect))) {
                         toRemove.add(effect);
                     }
                 }
