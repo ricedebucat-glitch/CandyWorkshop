@@ -1,7 +1,10 @@
 package com.lnatit.ccw.compat.youkaishomecoming;
 
 import com.lnatit.ccw.item.sugaring.*;
+import dev.xkmc.youkaishomecoming.init.food.YHCrops;
+import dev.xkmc.youkaishomecoming.init.food.YHTea;
 import dev.xkmc.youkaishomecoming.init.registrate.YHEffects;
+import dev.xkmc.youkaishomecoming.init.registrate.YHItems;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class YoukaisHomecomingCompats
@@ -56,5 +59,11 @@ public class YoukaisHomecomingCompats
     }
 
     private static void addBlends(SugarRefining.Builder builder) {
+        builder.addOverworldBlend(GREEN_TEA, YHTea.GREEN.leaves.get());
+        builder.addOverworldBlend(WHITE_TEA, YHTea.WHITE.leaves.get());
+        builder.addOverworldBlend(BLACK_TEA, YHTea.BLACK.leaves.get());
+        builder.addOverworldBlend(OOLONG_TEA, YHTea.OOLONG.leaves.get());
+        builder.addOverworldBlend(YOUKAI_COFFEE, YHItems.COFFEE_POWDER.get());
+        builder.addOverworldBlend(UDUMBARA, YHCrops.UDUMBARA.getFruits());
     }
 }
