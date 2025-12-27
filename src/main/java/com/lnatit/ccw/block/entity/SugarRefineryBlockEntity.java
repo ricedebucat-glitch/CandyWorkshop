@@ -47,7 +47,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
         if (level.isClientSide()) return;
 
         Optional<IItemHandler> drawer = level.getBlockEntity(pos.below(), BlockRegistry.DRAWER_TABLE_BETYPE.get())
-                .map(be -> be.accessInventory(Direction.UP));
+                .map(DrawerTableBlockEntity::getInventory);
         if (refinery.data.tick(drawer.orElse(null)))
             refinery.setChanged();
     }
