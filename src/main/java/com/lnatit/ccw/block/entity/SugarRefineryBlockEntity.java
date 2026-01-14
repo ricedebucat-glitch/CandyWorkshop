@@ -204,7 +204,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             ItemStack sugar = this.stacks.get(1);
             if (milk.isEmpty() || sugar.isEmpty())
                 return false;
-            if (!milk.is(ItemRegistry.MILK_TAG) || !SugarRefining.sugarRefining.isSugar(sugar))
+            if (!isMilk(milk) || !SugarRefining.sugarRefining.isSugar(sugar))
                 return false;
 
             int milkCount = getMilkConsumption(milk);
@@ -302,7 +302,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             return switch (slot) {
-                case 0 -> stack.is(ItemRegistry.MILK_TAG);
+                case 0 -> isMilk(stack);
                 case 1 -> SugarRefining.sugarRefining.isSugar(stack);
                 case 2 -> SugarRefining.sugarRefining.isMain(stack);
                 case 3 -> SugarRefining.sugarRefining.isExtra(stack);
@@ -335,6 +335,10 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
 
         private static int getMilkConsumption(ItemStack milk) {
             return milk.is(ItemRegistry.CARTON_MILK_TAG) ? CARTON_MILK_CONSUMPTION : COMMON_MILK_CONSUMPTION;
+        }
+
+        private static boolean isMilk(ItemStack stack) {
+            return stack.is(ItemRegistry.FOODS_MILK_TAG) || stack.is(ItemRegistry.DRINKS_MILK_TAG);
         }
     }
 }

@@ -39,7 +39,11 @@ public class ModTagProvider
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-            this.tag(ItemRegistry.MILK_TAG)
+            this.tag(ItemRegistry.FOODS_MILK_TAG)
+                .add(ItemRegistry.CARTON_MILK.get())
+                .add(ItemRegistry.CALCIUM_RICH_MILK.get());
+
+            this.tag(ItemRegistry.DRINKS_MILK_TAG)
                 .add(ItemRegistry.CARTON_MILK.get())
                 .add(ItemRegistry.CALCIUM_RICH_MILK.get());
 

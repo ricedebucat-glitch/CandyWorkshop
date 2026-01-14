@@ -1,4 +1,5 @@
-// 1.21.1	2025-07-25T12:01:45.2494054	Tags for minecraft:item mod id ccw
+// 1.21.1	2026-01-14T19:06:34.4255744	Tags for minecraft:item mod id ccw
 ef6b9fcd21308d450c6e04b364c521694db6d21f data/ccw/tags/item/carton_milk.json
 ef6b9fcd21308d450c6e04b364c521694db6d21f data/c/tags/item/drinks/milk.json
+ef6b9fcd21308d450c6e04b364c521694db6d21f data/c/tags/item/foods/milk.json
 7b449885227a46ca99e0997ed4ea770678b113c2 data/farmersdelight/tags/item/meals.json

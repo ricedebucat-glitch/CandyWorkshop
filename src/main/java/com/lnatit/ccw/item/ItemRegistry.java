@@ -19,7 +19,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public class ItemRegistry {
-    public static final TagKey<Item> MILK_TAG = tag("c", "drinks/milk");
+    public static final TagKey<Item> FOODS_MILK_TAG = tag("c", "foods/milk");
+    public static final TagKey<Item> DRINKS_MILK_TAG = tag("c", "drinks/milk");
     public static final TagKey<Item> CARTON_MILK_TAG = tag("carton_milk");
 
     public static final DeferredRegister.DataComponents DATA_COMPONENTS =

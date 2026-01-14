@@ -53,12 +53,23 @@ public class RefiningRecipe
 
     private static List<ItemStack> milk() {
         List<ItemStack> milk = new ArrayList<>();
-        for (Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(ItemRegistry.MILK_TAG)) {
+        List<Holder<Item>> items = new ArrayList<>();
+
+        BuiltInRegistries.ITEM.getTagOrEmpty(ItemRegistry.FOODS_MILK_TAG).forEach(items::add);
+        BuiltInRegistries.ITEM.getTagOrEmpty(ItemRegistry.DRINKS_MILK_TAG).forEach(i -> {
+            if (!items.contains(i)) {
+                items.add(i);
+            }
+        });
+
+        items.forEach(holder -> {
             ItemStack stack = new ItemStack(holder);
-            if (holder.is(ItemRegistry.CARTON_MILK_TAG))
+            if (holder.is(ItemRegistry.CARTON_MILK_TAG)) {
                 stack.setCount(8);
+            }
             milk.add(stack);
-        }
+        });
+
         return milk;
     }
 }
