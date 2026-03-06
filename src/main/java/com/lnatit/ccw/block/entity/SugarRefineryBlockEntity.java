@@ -3,8 +3,8 @@ package com.lnatit.ccw.block.entity;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.SingleEffectSugar;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
+import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import net.minecraft.core.BlockPos;
@@ -228,8 +228,8 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             main.shrink(1);
 
             ItemStack extra = this.stacks.get(3);
-            SingleEffectSugar.Flavor flavor = SingleEffectSugar.Flavor.fromExtra(extra);
-            if (flavor != SingleEffectSugar.Flavor.ORIGINAL) {
+            Flavor flavor = Flavor.fromExtra(extra);
+            if (flavor != Flavor.ORIGINAL) {
                 acceptRemainder(extra.getCraftingRemainingItem(), 1, drawer);
                 extra.shrink(1);
                 SugarRefineryBlockEntity.this.refineFlavoredCallback();
@@ -248,6 +248,10 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
 
         private void acceptRemainder(ItemStack remainder, int count, @Nullable IItemHandler drawer) {
             remainder.setCount(count);
+            acceptRemainder(remainder, drawer);
+        }
+
+        private void acceptRemainder(ItemStack remainder, @Nullable IItemHandler drawer) {
             remainder = drain(remainder, drawer);
             for (int i = 5; i < 8; i++) {
                 ItemStack stack = this.stacks.get(i);
@@ -255,7 +259,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
                     this.stacks.set(i, remainder);
                     return;
                 } else if (ItemStack.isSameItemSameComponents(stack, remainder)) {
-                    int consume = Math.min(stack.getMaxStackSize() - stack.getCount(), count);
+                    int consume = Math.min(stack.getMaxStackSize() - stack.getCount(), remainder.getCount());
                     stack.grow(consume);
                     this.stacks.set(i, stack);
                     remainder.shrink(consume);

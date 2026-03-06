@@ -65,7 +65,7 @@ public class SugarRefining
 
         for (Blend blend : sugarBlends) {
             if (sugar.is(blend.sugar) && blend.main.test(main)) {
-                return Sugar.createSugar(blend.output, SingleEffectSugar.Flavor.fromExtra(extra));
+                return Sugar.createSugar(blend.output, Flavor.fromExtra(extra));
             }
         }
         return ItemStack.EMPTY;
@@ -120,7 +120,7 @@ public class SugarRefining
     }
 
     @SubscribeEvent()
-    public static void bootstrap(ServerAboutToStartEvent event) {
+    public static void init(ServerAboutToStartEvent event) {
         Builder builder = new Builder();
         addModBlends(builder);
         customBlendProviders.forEach(p -> p.accept(builder));

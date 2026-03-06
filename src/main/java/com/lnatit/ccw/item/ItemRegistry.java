@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
@@ -191,7 +192,7 @@ public class ItemRegistry {
         sugars.listElements()
                 // if FeatureElement implemented, we need to filter the map
 //                .filter()
-                .map(sugar -> Sugar.createSugar(sugar, Sugar.Flavor.ORIGINAL))
+                .map(sugar -> Sugar.createSugar(sugar, Flavor.ORIGINAL))
                 .forEach(result -> output.accept(result, visibility));
     }
 }

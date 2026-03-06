@@ -282,4 +282,8 @@ public class Sugars
     public static DeferredHolder<Sugar, SingleEffectSugar> registerSingle(String id, Function<SingleEffectSugar.IEffectAcceptor, SingleEffectSugar> props) {
         return SUGARS.register(id, () -> props.apply(SingleEffectSugar.builder(id)));
     }
+
+    public static DeferredHolder<Sugar, UniSugar> register(String id, Function<UniSugar.Builder, UniSugar> props) {
+        return SUGARS.register(id, () -> props.apply(UniSugar.builder(id)));
+    }
 }

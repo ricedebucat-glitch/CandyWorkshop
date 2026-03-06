@@ -5,6 +5,7 @@ import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
+import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import com.lnatit.ccw.misc.critereon.NumericTrigger;
 import com.lnatit.ccw.misc.critereon.SimpleTrigger;
@@ -162,7 +163,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.MYFICA.parent())
                 .display(
-                        Sugar.createSugar(Sugars.RED_HEART, Sugar.Flavor.ORIGINAL),
+                        Sugar.createSugar(Sugars.RED_HEART, Flavor.ORIGINAL),
                         AdvancementResources.MYFICA.name(),
                         AdvancementResources.MYFICA.desc(),
                         null,
@@ -180,7 +181,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.ADCAMA.parent())
                 .display(
-                        Sugar.createSugar(Sugars.GOLDEN_HEART, Sugar.Flavor.ORIGINAL),
+                        Sugar.createSugar(Sugars.GOLDEN_HEART, Flavor.ORIGINAL),
                         AdvancementResources.ADCAMA.name(),
                         AdvancementResources.ADCAMA.desc(),
                         null,
@@ -242,7 +243,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.RAICOL.parent())
                 .display(
-                        Sugar.createSugar(Sugars.RECOVERY, Sugar.Flavor.ORIGINAL),
+                        Sugar.createSugar(Sugars.RECOVERY, Flavor.ORIGINAL),
                         AdvancementResources.RAICOL.name(),
                         AdvancementResources.RAICOL.desc(),
                         null,
@@ -264,7 +265,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.DIABET.parent())
                 .display(
-                        Sugar.createSugar(Sugars.STINGER, Sugar.Flavor.ORIGINAL),
+                        Sugar.createSugar(Sugars.STINGER, Flavor.ORIGINAL),
                         AdvancementResources.DIABET.name(),
                         AdvancementResources.DIABET.desc(),
                         null,

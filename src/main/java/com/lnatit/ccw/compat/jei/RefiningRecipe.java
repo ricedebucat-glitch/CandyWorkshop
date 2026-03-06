@@ -3,6 +3,7 @@ package com.lnatit.ccw.compat.jei;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
+import com.lnatit.ccw.item.sugaring.Flavor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
@@ -26,7 +27,7 @@ public class RefiningRecipe
         this.sugar = new ItemStack(blend.sugar());
         this.sugar.setCount(8);
         blend.output().value().getAvailableFlavors().forEach(flavor -> {
-            extra.add(Sugar.Flavor.toExtra(flavor));
+            extra.add(Flavor.toExtra(flavor));
             output.add(Sugar.createSugar(blend.output(), flavor));
         });
     }
