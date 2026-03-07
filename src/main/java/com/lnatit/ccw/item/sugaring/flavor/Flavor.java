@@ -2,7 +2,6 @@ package com.lnatit.ccw.item.sugaring.flavor;
 
 import com.lnatit.ccw.item.sugaring.Effect;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.formula.Modifier;
 import com.lnatit.ccw.misc.RegRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
@@ -19,7 +18,7 @@ import net.minecraft.world.level.ItemLike;
 
 import java.util.List;
 
-public class Flavor<T extends Modifier> implements ItemLike
+public class Flavor implements ItemLike
 {
     public static final Codec<Holder<Flavor>> CODEC = RegRegistry.FLAVOR.holderByNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
