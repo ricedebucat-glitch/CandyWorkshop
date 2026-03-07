@@ -1,6 +1,8 @@
 package com.lnatit.ccw.compat.youkaishomecoming;
 
 import com.lnatit.ccw.item.sugaring.*;
+import com.lnatit.ccw.item.sugaring.legacy.MultipleEffectSugar;
+import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import dev.xkmc.youkaishomecoming.init.food.YHCrops;
 import dev.xkmc.youkaishomecoming.init.food.YHTea;
 import dev.xkmc.youkaishomecoming.init.registrate.YHEffects;

@@ -22,7 +22,6 @@ import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
@@ -53,23 +52,24 @@ public abstract class ModDataProviders extends DatapackBuiltinEntriesProvider
         }
 
         private static void register(BootstrapContext<Flavor> bootstrap) {
-            bootstrap.register(ORIGINAL, new Flavor(ORIGINAL.location(), 0xFFFFFF, Ingredient.EMPTY, Optional.empty()));
+            bootstrap.register(ORIGINAL,
+                               Flavor.explicit(ORIGINAL.location(), 0xFFFFFF, Ingredient.EMPTY, Modifiers.EMPTY));
 
             bootstrap.register(EXCITED,
-                               new Flavor(EXCITED.location(),
-                                          43520,
-                                          Ingredient.of(Items.COCOA_BEANS),
-                                          Optional.empty()));
+                               Flavor.auto(EXCITED.location(),
+                                           43520,
+                                           Ingredient.of(Items.COCOA_BEANS),
+                                           Modifiers.EMPTY));
             bootstrap.register(BOLD,
-                               new Flavor(BOLD.location(),
-                                          16755200,
-                                          Ingredient.of(Items.HONEY_BOTTLE),
-                                          Optional.empty()));
+                               Flavor.auto(BOLD.location(),
+                                           16755200,
+                                           Ingredient.of(Items.HONEY_BOTTLE),
+                                           Modifiers.EMPTY));
             bootstrap.register(MILKY,
-                               new Flavor(MILKY.location(),
-                                          16777215,
-                                          Ingredient.of(ItemRegistry.MILK_GELATIN.get()),
-                                          Optional.of(Modifiers.MILKY.getId())));
+                               Flavor.auto(MILKY.location(),
+                                           16777215,
+                                           Ingredient.of(ItemRegistry.MILK_GELATIN.get()),
+                                           Modifiers.MILKY));
         }
 
         private static ResourceKey<Flavor> of(String name) {

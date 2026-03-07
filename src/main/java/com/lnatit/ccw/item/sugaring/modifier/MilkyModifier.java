@@ -1,6 +1,6 @@
 package com.lnatit.ccw.item.sugaring.modifier;
 
-import com.lnatit.ccw.item.sugaring.Effect;
+import com.lnatit.ccw.datapack.Effect;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;

@@ -3,20 +3,17 @@ package com.lnatit.ccw.datapack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.Mth;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 
 public record Effect(Holder<MobEffect> mobEffect, int duration, int amplifier)
 {
-    public static final Codec<Holder<MobEffect>> MOB_EFFECT_CODEC = ResourceLocation.CODEC.xmap(
-            rl -> BuiltInRegistries.MOB_EFFECT.getHolder(rl).orElseThrow(
-                    () -> new IllegalStateException("MobEffect not found: " + rl)),
-            holder -> holder.getKey().location()
-    );
     public static final Codec<Effect> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    MOB_EFFECT_CODEC.fieldOf("mob_effect").forGetter(Effect::mobEffect),
+                    MobEffect.CODEC.fieldOf("mob_effect").forGetter(Effect::mobEffect),
                     Codec.INT.fieldOf("duration").forGetter(Effect::duration),
                     Codec.INT.fieldOf("amplifier").forGetter(Effect::amplifier)
             ).apply(instance, Effect::new));
@@ -30,7 +27,7 @@ public record Effect(Holder<MobEffect> mobEffect, int duration, int amplifier)
 
     public static Effect instant(Holder<MobEffect> mobEffect) {
         if (!mobEffect.value().isInstantenous()) {
-            throw new IllegalArgumentException("MobEffect is not instantenous: " + mobEffect.value());
+            throw new IllegalArgumentException("MobEffect is not instant: " + mobEffect.value());
         }
         return new Effect(mobEffect, 1, DEFAULT_AMPLIFIER);
     }
@@ -52,5 +49,32 @@ public record Effect(Holder<MobEffect> mobEffect, int duration, int amplifier)
             return this;
         }
         return this.withDuration(this.duration * 2);
+    }
+
+    public boolean is(Holder<MobEffect> effect) {
+        return this.mobEffect.is(effect);
+    }
+
+    public Component getDescription(float ticksPerSecond)
+    {
+        MutableComponent mutablecomponent = Component.translatable(mobEffect.value().getDescriptionId());
+
+        if (amplifier > 0) {
+            mutablecomponent = Component.translatable(
+                    "potion.withAmplifier", mutablecomponent,
+                    Component.translatable("potion.potency." + amplifier)
+            );
+        }
+
+        if (duration > 20) {
+            int i = Mth.floor((float) duration);
+            Component result = Component.literal(StringUtil.formatTickDuration(i, ticksPerSecond));
+            mutablecomponent = Component.translatable(
+                    "sugar.withDuration", mutablecomponent,
+                    result
+            );
+        }
+
+        return mutablecomponent.withStyle(mobEffect.value().getCategory().getTooltipFormatting());
     }
 }

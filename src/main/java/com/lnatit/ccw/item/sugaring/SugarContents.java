@@ -1,9 +1,11 @@
 package com.lnatit.ccw.item.sugaring;
 
+import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.misc.data.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -12,6 +14,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.vehicle.Minecart;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +24,7 @@ import java.util.function.Consumer;
 //  只写入不符合统一口味转换规则的项（如即时效果药水的浓郁效果注册为InvalidContent、神龟药水的口味单独注册对应Effect列表等）
 //  以减少注册项的数量，并精简代码；在物品数据中，将原始值修改为Holder包装值，参考原版Instrument注册项
 //  命名：Formula？
-public record SugarContents(Optional<Holder<Sugar>> sugar, Flavor flavor)
+public record SugarContents(Optional<Holder<Sugar>> sugar, Holder<Flavor> flavor)
 {
     public static final Codec<SugarContents> CODEC = RecordCodecBuilder.create(
             ins -> ins.group(
@@ -36,8 +39,6 @@ public record SugarContents(Optional<Holder<Sugar>> sugar, Flavor flavor)
             SugarContents::flavor,
             SugarContents::new
     );
-
-    public static final SugarContents VANILLA = new SugarContents(Optional.empty(), Flavor.ORIGINAL);
 
     public boolean is(Holder<Sugar> holder) {
         return this.sugar.isPresent() && holder.equals(this.sugar.get());
@@ -83,5 +84,9 @@ public record SugarContents(Optional<Holder<Sugar>> sugar, Flavor flavor)
             return new SugarContents(this.sugar, flavors.get(index));
         }
         return this;
+    }
+
+    public static SugarContents vanilla() {
+        return new SugarContents(Optional.empty(), Minecraft.getInstance().);
     }
 }

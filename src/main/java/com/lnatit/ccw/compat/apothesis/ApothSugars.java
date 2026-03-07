@@ -1,6 +1,6 @@
 package com.lnatit.ccw.compat.apothesis;
 
-import com.lnatit.ccw.item.sugaring.SingleEffectSugar;
+import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import dev.shadowsoffire.apothic_attributes.api.ALObjects;

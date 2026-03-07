@@ -1,7 +1,7 @@
 package com.lnatit.ccw.compat.farmersdelight;
 
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.SingleEffectSugar;
+import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.item.sugaring.Sugars;

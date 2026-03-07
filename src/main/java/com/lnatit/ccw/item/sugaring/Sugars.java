@@ -2,6 +2,7 @@ package com.lnatit.ccw.item.sugaring;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;

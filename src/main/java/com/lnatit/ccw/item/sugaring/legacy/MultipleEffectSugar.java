@@ -1,5 +1,6 @@
-package com.lnatit.ccw.item.sugaring;
+package com.lnatit.ccw.item.sugaring.legacy;
 
+import com.lnatit.ccw.item.sugaring.Sugar;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -18,6 +19,8 @@ public class MultipleEffectSugar extends Sugar
     public final List<MobEffectInstance> originalEffects;
     public final List<MobEffectInstance> excitedEffects;
     public final List<MobEffectInstance> boldEffects;
+    protected final boolean hasExcited;
+    protected final boolean hasBold;
 
     public MultipleEffectSugar(String name, boolean hasExcited, boolean hasBold, Effect... effects) {
         super(name, hasExcited, hasBold);
@@ -87,6 +90,19 @@ public class MultipleEffectSugar extends Sugar
             duration += exist.getDuration();
         }
         entity.addEffect(new MobEffectInstance(effectInstance.getEffect(), duration, amplifier));
+    }
+
+    public List<Flavor> getAvailableFlavors() {
+        List<Flavor> flavors = new ArrayList<>();
+        flavors.add(Flavor.ORIGINAL);
+        if (hasExcited) {
+            flavors.add(Flavor.EXCITED);
+        }
+        if (hasBold) {
+            flavors.add(Flavor.BOLD);
+        }
+        flavors.add(Flavor.MILKY);
+        return flavors;
     }
 
     public record Effect(Holder<MobEffect> effect, int baseDuration, int extendedDuration, int baseAmplifier,

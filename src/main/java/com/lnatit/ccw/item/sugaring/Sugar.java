@@ -1,6 +1,7 @@
 package com.lnatit.ccw.item.sugaring;
 
 import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.misc.RegRegistry;
 import com.mojang.serialization.Codec;
@@ -23,13 +24,9 @@ public abstract class Sugar
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Sugar>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
             RegRegistry.SUGAR_KEY);
     protected final String name;
-    protected final boolean hasExcited;
-    protected final boolean hasBold;
 
-    public Sugar(String name, boolean hasExcited, boolean hasBold) {
+    public Sugar(String name) {
         this.name = name;
-        this.hasExcited = hasExcited;
-        this.hasBold = hasBold;
     }
 
     public static ItemStack createSugar(@Nullable Holder<Sugar> sugar, Flavor flavor) {
@@ -70,19 +67,6 @@ public abstract class Sugar
 
     // TODO move to SugarContents
     public void addSugarTooltip(Consumer<Component> tooltipAdder, Flavor flavor, float ticksPerSecond) {
-    }
-
-    public List<Flavor> getAvailableFlavors() {
-        List<Flavor> flavors = new ArrayList<>();
-        flavors.add(Flavor.ORIGINAL);
-        if (hasExcited) {
-            flavors.add(Flavor.EXCITED);
-        }
-        if (hasBold) {
-            flavors.add(Flavor.BOLD);
-        }
-        flavors.add(Flavor.MILKY);
-        return flavors;
     }
 
     public ResourceLocation getItemModel() {

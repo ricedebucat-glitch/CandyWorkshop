@@ -4,7 +4,6 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarContents;
-import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
@@ -17,6 +16,7 @@ import net.minecraft.world.item.*;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ItemRegistry {
@@ -45,7 +45,7 @@ public class ItemRegistry {
                     key -> new GummyItem(
                             new Item.Properties()
                                     .food(FoodsAndConsumables.GUMMY_FOOD)
-                                    .component(SUGAR_CONTENTS_DCTYPE, SugarContents.VANILLA)
+                                    .component(SUGAR_CONTENTS_DCTYPE, SugarContents.vanilla())
                     )
             );
     public static final DeferredItem<BlockItem> SUGAR_REFINERY = ITEMS.registerSimpleBlockItem(BlockRegistry.SUGAR_REFINERY);

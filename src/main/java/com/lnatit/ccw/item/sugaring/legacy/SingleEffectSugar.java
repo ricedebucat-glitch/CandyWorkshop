@@ -1,5 +1,6 @@
-package com.lnatit.ccw.item.sugaring;
+package com.lnatit.ccw.item.sugaring.legacy;
 
+import com.lnatit.ccw.item.sugaring.Sugar;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -17,6 +18,8 @@ import java.util.function.Consumer;
 
 public class SingleEffectSugar extends Sugar
 {
+    protected final boolean hasExcited;
+    protected final boolean hasBold;
     private final Holder<MobEffect> effect;
     private final int duration;
 
@@ -90,6 +93,19 @@ public class SingleEffectSugar extends Sugar
 
     public static IEffectAcceptor builder(String name) {
         return new Builder(name);
+    }
+
+    public List<Flavor> getAvailableFlavors() {
+        List<Flavor> flavors = new ArrayList<>();
+        flavors.add(Flavor.ORIGINAL);
+        if (hasExcited) {
+            flavors.add(Flavor.EXCITED);
+        }
+        if (hasBold) {
+            flavors.add(Flavor.BOLD);
+        }
+        flavors.add(Flavor.MILKY);
+        return flavors;
     }
 
     public static class Builder implements IEffectAcceptor, IOptionalAcceptor

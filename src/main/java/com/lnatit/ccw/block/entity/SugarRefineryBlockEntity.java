@@ -4,7 +4,6 @@ import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
-import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import net.minecraft.core.BlockPos;

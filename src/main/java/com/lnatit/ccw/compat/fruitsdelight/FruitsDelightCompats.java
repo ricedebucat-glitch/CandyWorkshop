@@ -1,6 +1,8 @@
 package com.lnatit.ccw.compat.fruitsdelight;
 
 import com.lnatit.ccw.item.sugaring.*;
+import com.lnatit.ccw.item.sugaring.legacy.MultipleEffectSugar;
+import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import dev.xkmc.fruitsdelight.init.food.FruitType;
 import dev.xkmc.fruitsdelight.init.registrate.FDEffects;
 import dev.xkmc.fruitsdelight.init.registrate.FDItems;
