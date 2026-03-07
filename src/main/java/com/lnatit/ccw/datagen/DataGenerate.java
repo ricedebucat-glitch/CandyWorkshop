@@ -61,5 +61,14 @@ public class DataGenerate
                 new ModTagProvider.Items(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper)
         );
 
+        generator.addProvider(
+                event.includeServer(),
+                new ModDataProviders.Flavors(output, lookupProvider)
+        );
+        generator.addProvider(
+                event.includeServer(),
+                new ModDataProviders.Formulas(output, lookupProvider)
+        );
+
     }
 }

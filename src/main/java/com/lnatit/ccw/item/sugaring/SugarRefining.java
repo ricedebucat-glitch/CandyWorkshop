@@ -14,6 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -24,6 +25,20 @@ public class SugarRefining
     public static final int REFINE_TIME = 160;
     private static final List<Consumer<Builder>> customBlendProviders = new ArrayList<>();
     public static SugarRefining sugarRefining = EMPTY;
+
+    public static ItemStack createSugar(@Nullable Holder<Sugar> sugar, Holder<Flavor> flavor) {
+        if (sugar == null) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack itemStack = ItemRegistry.GUMMY_ITEM.toStack();
+        flavor.value().modifier().value().onApply(itemStack);
+        itemStack.set(ItemRegistry.SUGAR_CONTENTS_DCTYPE, new SugarContents(sugar, flavor));
+        return itemStack;
+    }
+
+    public static ItemStack createOriginalSugar(Holder<Sugar> sugar) {
+        return createSugar(sugar, Flavor.getFlavor(Flavor.ORIGINAL.location()));
+    }
 
     public List<Blend> getAllBlends() {
         return sugarBlends;
@@ -63,7 +78,7 @@ public class SugarRefining
 
         for (Blend blend : sugarBlends) {
             if (sugar.is(blend.sugar) && blend.main.test(main)) {
-                return Sugar.createSugar(blend.output, Flavor.fromExtra(extra));
+                return createSugar(blend.output, Flavor.fromExtra(extra));
             }
         }
         return ItemStack.EMPTY;

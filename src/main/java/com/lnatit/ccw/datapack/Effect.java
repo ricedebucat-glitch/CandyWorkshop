@@ -8,6 +8,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 
 public record Effect(Holder<MobEffect> mobEffect, int duration, int amplifier)
 {
@@ -30,6 +32,23 @@ public record Effect(Holder<MobEffect> mobEffect, int duration, int amplifier)
             throw new IllegalArgumentException("MobEffect is not instant: " + mobEffect.value());
         }
         return new Effect(mobEffect, 1, DEFAULT_AMPLIFIER);
+    }
+
+    public void extendEffect(LivingEntity entity) {
+        int duration = this.duration;
+        int amplifier = this.amplifier;
+
+        // Instantenous effect behaves differently
+        if (this.mobEffect.value().isInstantenous()) {
+            this.mobEffect.value().applyInstantenousEffect(entity, entity, entity, amplifier, 0.5);
+        }
+        else {
+            MobEffectInstance exist = entity.getEffect(this.mobEffect);
+            if (exist != null && !exist.isAmbient() && exist.getAmplifier() >= amplifier) {
+                duration += exist.getDuration();
+            }
+            entity.addEffect(new MobEffectInstance(this.mobEffect, duration, amplifier));
+        }
     }
 
     public Effect withAmplifier(int amplifier) {

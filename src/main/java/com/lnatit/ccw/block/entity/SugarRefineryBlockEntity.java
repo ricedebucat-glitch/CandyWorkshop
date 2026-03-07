@@ -2,12 +2,14 @@ package com.lnatit.ccw.block.entity;
 
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
+import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -227,8 +229,8 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             main.shrink(1);
 
             ItemStack extra = this.stacks.get(3);
-            Flavor flavor = Flavor.fromExtra(extra);
-            if (flavor != Flavor.ORIGINAL) {
+            Holder<Flavor> flavor = Flavor.fromExtra(extra);
+            if (!flavor.is(Flavor.ORIGINAL)) {
                 acceptRemainder(extra.getCraftingRemainingItem(), 1, drawer);
                 extra.shrink(1);
                 SugarRefineryBlockEntity.this.refineFlavoredCallback();

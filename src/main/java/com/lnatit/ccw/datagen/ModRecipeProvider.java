@@ -1,8 +1,8 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.compat.apothesis.ApothBlends;
-import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
+//import com.lnatit.ccw.compat.apothesis.ApothBlends;
+//import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.crafting.RepairExtractorRecipe;
 import dev.shadowsoffire.apotheosis.Apoth;
@@ -253,53 +253,53 @@ public class ModRecipeProvider extends RecipeProvider
 
         // Compats below
         // Apotheosis
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.KNOWLEDGE_BOTTLE)
-                .requires(Apoth.Items.GEM_DUST.value())
-                .requires(Items.EXPERIENCE_BOTTLE)
-                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                .save(output);
-
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.VITALITY_BERRY)
-                .requires(Apoth.Items.GEM_DUST.value())
-                .requires(Items.SWEET_BERRIES)
-                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                .save(output);
-
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.MALIGNANT_BERRY)
-                .requires(Apoth.Items.GEM_DUST.value())
-                .requires(Items.FERMENTED_SPIDER_EYE)
-                .requires(Items.SWEET_BERRIES)
-                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                .save(output);
-
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.EROSION_SHELL)
-                .requires(Apoth.Items.GEM_DUST.value())
-                .requires(Items.FERMENTED_SPIDER_EYE)
-                .requires(Items.SHULKER_SHELL)
-                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                .save(output);
-
-        // FarmersDelight
-        CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), 1, 200, 1.0F)
-                .addIngredient(ItemRegistry.GUMMY_ITEM)
-                .addIngredient(Ingredient.fromValues(Stream.of(
-                        new Ingredient.TagValue(CommonTags.FOODS_RAW_CHICKEN),
-                        new Ingredient.TagValue(CommonTags.FOODS_RAW_PORK),
-                        new Ingredient.TagValue(CommonTags.FOODS_RAW_BEEF)
-                )))
-                .addIngredient(CommonTags.CROPS_RICE)
-                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
-                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
-                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
-                .build(output);
-
-        CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.SWEET_HARVEST_SOUP.get(), 1, 200, 1.0F)
-                .addIngredient(ItemRegistry.GUMMY_ITEM)
-                .addIngredient(ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "foods/fruit")))
-                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
-                .addIngredient(CommonTags.FOODS_MILK)
-                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
-                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
-                .build(output);
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.KNOWLEDGE_BOTTLE)
+//                .requires(Apoth.Items.GEM_DUST.value())
+//                .requires(Items.EXPERIENCE_BOTTLE)
+//                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+//                .save(output);
+//
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.VITALITY_BERRY)
+//                .requires(Apoth.Items.GEM_DUST.value())
+//                .requires(Items.SWEET_BERRIES)
+//                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+//                .save(output);
+//
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.MALIGNANT_BERRY)
+//                .requires(Apoth.Items.GEM_DUST.value())
+//                .requires(Items.FERMENTED_SPIDER_EYE)
+//                .requires(Items.SWEET_BERRIES)
+//                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+//                .save(output);
+//
+//        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.EROSION_SHELL)
+//                .requires(Apoth.Items.GEM_DUST.value())
+//                .requires(Items.FERMENTED_SPIDER_EYE)
+//                .requires(Items.SHULKER_SHELL)
+//                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+//                .save(output);
+//
+//        // FarmersDelight
+//        CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), 1, 200, 1.0F)
+//                .addIngredient(ItemRegistry.GUMMY_ITEM)
+//                .addIngredient(Ingredient.fromValues(Stream.of(
+//                        new Ingredient.TagValue(CommonTags.FOODS_RAW_CHICKEN),
+//                        new Ingredient.TagValue(CommonTags.FOODS_RAW_PORK),
+//                        new Ingredient.TagValue(CommonTags.FOODS_RAW_BEEF)
+//                )))
+//                .addIngredient(CommonTags.CROPS_RICE)
+//                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
+//                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
+//                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+//                .build(output);
+//
+//        CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.SWEET_HARVEST_SOUP.get(), 1, 200, 1.0F)
+//                .addIngredient(ItemRegistry.GUMMY_ITEM)
+//                .addIngredient(ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "foods/fruit")))
+//                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
+//                .addIngredient(CommonTags.FOODS_MILK)
+//                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
+//                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+//                .build(output);
     }
 }

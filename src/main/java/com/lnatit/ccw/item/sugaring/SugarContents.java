@@ -1,27 +1,27 @@
 package com.lnatit.ccw.item.sugaring;
 
+import com.lnatit.ccw.datapack.Effect;
 import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.datapack.Formula;
+import com.lnatit.ccw.item.sugaring.modifier.IModifier;
 import com.lnatit.ccw.misc.data.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-// TODO 修改为注册项，使用RegistryFileCodec进行双路径序列化，在注册表中，
-//  只写入不符合统一口味转换规则的项（如即时效果药水的浓郁效果注册为InvalidContent、神龟药水的口味单独注册对应Effect列表等）
-//  以减少注册项的数量，并精简代码；在物品数据中，将原始值修改为Holder包装值，参考原版Instrument注册项
-//  命名：Formula？
 public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
 {
     public static final Codec<SugarContents> CODEC = RecordCodecBuilder.create(ins -> ins
@@ -51,43 +51,58 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
     }
 
     public void addSugarTooltip(Consumer<Component> tooltipAdder, float ticksPerSecond) {
-        // TODO 糖果文本从Formula注册表读
-        this.sugar.value().addSugarTooltip(tooltipAdder, this.flavor, ticksPerSecond);
-        if (this.flavor.is(Flavor.ORIGINAL)) {
-            tooltipAdder.accept(this.flavor.value().description());
-        }
+        Formula
+                .getFormulaOptional(this.sugar, this.flavor)
+                .map(f -> f.value().effects())
+                .orElse(List.of())
+                .forEach(effect -> tooltipAdder.accept(effect.getDescription(ticksPerSecond)));
+        
+        tooltipAdder.accept(this.flavor.value().description());
     }
 
     public void onConsume(LivingEntity entity) {
-        sugar.value().applyOn(entity, this.flavor);
-
-
-
         if (entity instanceof ServerPlayer player) {
+            Optional<? extends Holder<Formula>> f = Formula.getFormulaOptional(this.sugar, this.flavor);
+            f.ifPresent(holder -> applyOn(holder.value(), entity));
             player.getData(AttachmentRegistry.SUGAR_STAT).addHistory(this.sugar, player);
         }
     }
 
     public SugarContents cycle() {
-        if (this.sugar.isPresent()) {
-            List<Flavor> flavors = this.sugar.get().value().getAvailableFlavors();
-            int index = (flavors.indexOf(this.flavor) + 1) % flavors.size();
-            return new SugarContents(this.sugar, flavors.get(index));
+        Registry<Flavor> R = Flavor.REGISTRIES();
+        if (R == null) {
+            return this;
         }
-        return this;
-    }
+        Optional<ResourceKey<Flavor>> key = this.flavor.unwrapKey();
 
-    private void applyOn(LivingEntity entity) {
-        boolean explicit = this.flavor.value().explicit();
-        Optional<Holder.Reference<Formula>> optional = entity.level().registryAccess().registryOrThrow(Formula.KEY).getHolder(
-                Formula.formulaOf(this.sugar, this.flavor));
-        if (explicit && !optional.isPresent()) {
-            Formula formula = optional.get().value().applyOn(entity);
+        boolean after = false;
+        SugarContents pending = this;
+        for (Map.Entry<ResourceKey<Flavor>, Flavor> entry : R.entrySet()) {
+            if (!after && key.isPresent() && entry.getKey().location().equals(key.get().location())) {
+                after = true;
+                continue;
+            }
+
+            var newFlavor = R.getHolder(entry.getKey()).get();
+            Optional<? extends Holder<Formula>> f = Formula.getFormulaOptional(this.sugar, newFlavor);
+            if (f.isPresent()) {
+                if (after) {
+                    return new SugarContents(this.sugar, newFlavor);
+                }
+                else {
+                    pending = new SugarContents(this.sugar, newFlavor);
+                }
+            }
         }
+        return pending;
     }
 
-    public static SugarContents vanilla() {
-        return new SugarContents(Optional.empty(), Minecraft.getInstance().);
-    }
+    private static void applyOn(Formula formula, LivingEntity entity) {
+        List<IModifier> modifiers = List.of(Flavor.getFlavor(formula.flavor()).value().modifier().value());
+        List<Effect> effects = formula.effects();
 
+        modifiers.forEach(m -> m.preConsume(entity, effects));
+        effects.forEach(e -> e.extendEffect(entity));
+        modifiers.forEach(m -> m.postConsume(entity, effects));
+    }
 }

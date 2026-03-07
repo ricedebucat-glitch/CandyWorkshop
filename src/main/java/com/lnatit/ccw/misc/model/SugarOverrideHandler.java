@@ -26,7 +26,7 @@ public class SugarOverrideHandler extends ItemOverrides {
     public @Nullable BakedModel resolve(BakedModel model, ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (stack.is(ItemRegistry.GUMMY_ITEM)) {
             SugarContents sugar = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE.get());
-            if (sugar != null && sugar.sugar().isPresent()) {
+            if (sugar != null) {
                 BakedModel bakedModel =
                         Minecraft.getInstance()
                                 .getModelManager()
@@ -35,7 +35,6 @@ public class SugarOverrideHandler extends ItemOverrides {
                                 .get(
                                         ModelResourceLocation.standalone(
                                                 sugar.sugar()
-                                                        .get()
                                                         .value()
                                                         .getModelId()
                                         )

@@ -2,7 +2,6 @@ package com.lnatit.ccw.misc;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.lnatit.ccw.item.sugaring.modifier.IModifier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

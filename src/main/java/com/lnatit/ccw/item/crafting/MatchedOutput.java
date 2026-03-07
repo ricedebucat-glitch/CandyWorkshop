@@ -58,8 +58,8 @@ public class MatchedOutput implements INBTSerializable<CompoundTag>
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
         this.output = ItemStack.parseOptional(provider, nbt.getCompound("output"));
-        if (nbt.contains("recipe", Tag.TAG_STRING)) {
-            this.recipe = ;
-        }
+//        if (nbt.contains("recipe", Tag.TAG_STRING)) {
+//            this.recipe = ;
+//        }
     }
 }

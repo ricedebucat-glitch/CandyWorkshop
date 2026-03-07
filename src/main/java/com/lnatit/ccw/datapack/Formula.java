@@ -59,7 +59,7 @@ public record Formula(Holder<Sugar> sugar, ResourceLocation flavor, List<Effect>
     }
 
     // 虽然目前的设计会导致不同Modid path相同的Flavor搜索Formula出现问题，但我不想为了修这一个小问题增加方法的复杂度了
-    public static Optional<? extends Holder<Formula>> getFormula(Holder<Sugar> sugar, Holder<Flavor> flavor) {
+    public static Optional<? extends Holder<Formula>> getFormulaOptional(Holder<Sugar> sugar, Holder<Flavor> flavor) {
         boolean explicit = flavor.value().explicit();
         Optional<? extends Holder<Formula>> unsafe = getFormulaUnsafe(sugar, flavor.value().name());
         if (explicit) {

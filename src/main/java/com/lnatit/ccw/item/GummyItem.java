@@ -35,9 +35,13 @@ public class GummyItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (usedHand == InteractionHand.MAIN_HAND && player.isCreative() && player.isShiftKeyDown()) {
             ItemStack itemstack = player.getItemInHand(usedHand).copy();
-            SugarContents old = itemstack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
-            if (old != null) {
-                itemstack.set(ItemRegistry.SUGAR_CONTENTS_DCTYPE, old.cycle());
+            SugarContents contents = itemstack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
+            if (contents != null) {
+                contents.flavor().value().modifier().value().onRemove(itemstack);
+                contents = contents.cycle();
+                contents.flavor().value().modifier().value().onApply(itemstack);
+                itemstack.set(ItemRegistry.SUGAR_CONTENTS_DCTYPE, contents);
+
                 player.setItemInHand(usedHand, itemstack);
                 return InteractionResultHolder.consume(itemstack);
             }

@@ -17,6 +17,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.Nullable;
@@ -61,6 +62,24 @@ public record Flavor(ResourceLocation name, int color, Ingredient ingredient, Ho
 
     public static Flavor auto(ResourceLocation name, int color, Ingredient ingredient, Holder<IModifier> modifier) {
         return new Flavor(name, color, ingredient, modifier, modifier == Modifiers.EMPTY);
+    }
+
+    public static Holder<Flavor> fromExtra(ItemStack extra) {
+        var registry = REGISTRIES();
+        if (registry == null) {
+            throw new IllegalStateException("Flavor registry not found!");
+        }
+
+        if (!extra.isEmpty()) {
+            Optional<Holder.Reference<Flavor>> match = registry.holders()
+                                                               .filter(holder -> holder.value().ingredient().test(extra))
+                                                               .findFirst();
+            if (match.isPresent()) {
+                return match.get();
+            }
+        }
+
+        return getFlavor(ORIGINAL.location());
     }
 
     public MutableComponent prefix() {
