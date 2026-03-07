@@ -45,7 +45,7 @@ public class ItemRegistry {
                     key -> new GummyItem(
                             new Item.Properties()
                                     .food(FoodsAndConsumables.GUMMY_FOOD)
-                                    .component(SUGAR_CONTENTS_DCTYPE, SugarContents.vanilla())
+//                                    .component(SUGAR_CONTENTS_DCTYPE, SugarContents.vanilla())
                     )
             );
     public static final DeferredItem<BlockItem> SUGAR_REFINERY = ITEMS.registerSimpleBlockItem(BlockRegistry.SUGAR_REFINERY);

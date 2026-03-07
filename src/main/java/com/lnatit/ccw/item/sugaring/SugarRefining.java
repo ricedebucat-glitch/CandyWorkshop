@@ -2,6 +2,7 @@ package com.lnatit.ccw.item.sugaring;
 
 import com.google.common.collect.ImmutableList;
 import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.item.ItemRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
@@ -13,10 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID)
@@ -161,4 +159,7 @@ public class SugarRefining
     public record Blend(Item sugar, Ingredient main, Holder<Sugar> output)
     {
     }
+
+//    public static Optional<Holder<Flavor>>
+
 }
