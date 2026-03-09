@@ -21,6 +21,17 @@ public class DataGenerate
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+
+        generator.addProvider(
+                event.includeServer(),
+                new ModDataProviders.Flavors(output, lookupProvider)
+        );
+        generator.addProvider(
+                event.includeServer(),
+                new ModDataProviders.Formulas(output, lookupProvider)
+        );
+
+
         generator.addProvider(
                 event.includeClient(),
                 new ModModelProvider.Block(output, existingFileHelper)
@@ -60,15 +71,5 @@ public class DataGenerate
                 event.includeServer(),
                 new ModTagProvider.Items(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper)
         );
-
-        generator.addProvider(
-                event.includeServer(),
-                new ModDataProviders.Flavors(output, lookupProvider)
-        );
-        generator.addProvider(
-                event.includeServer(),
-                new ModDataProviders.Formulas(output, lookupProvider)
-        );
-
     }
 }

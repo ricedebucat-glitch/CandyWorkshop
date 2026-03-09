@@ -35,7 +35,7 @@ public class ModelHandler
     @SubscribeEvent
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
         for (Holder<Sugar> sugarHolder : Sugars.SUGARS.getEntries()) {
-            event.register(ModelResourceLocation.standalone(sugarHolder.value().getModelId()));
+            event.register(ModelResourceLocation.standalone(Sugar.getModelId(sugarHolder)));
         }
     }
 

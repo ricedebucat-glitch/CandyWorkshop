@@ -35,11 +35,11 @@ public record Formula(Holder<Sugar> sugar, ResourceLocation flavor, List<Effect>
     }
 
     public static ResourceLocation formulaOf(Holder<Sugar> sugar, Holder<Flavor> flavor) {
-        return formulaOf(sugar.getRegisteredName(), flavor.getRegisteredName());
+        return formulaOf(CandyWorkshop.getName(sugar), CandyWorkshop.getName(flavor));
     }
 
     public static ResourceLocation formulaOf(Holder<Sugar> sugar, ResourceLocation flavor) {
-        return formulaOf(sugar.getRegisteredName(), flavor.getPath());
+        return formulaOf(CandyWorkshop.getName(sugar), flavor.getPath());
     }
 
     public static ResourceLocation formulaOf(String sugarName, String flavorName) {

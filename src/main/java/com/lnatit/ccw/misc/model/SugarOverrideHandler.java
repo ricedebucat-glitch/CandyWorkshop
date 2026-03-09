@@ -1,6 +1,7 @@
 package com.lnatit.ccw.misc.model;
 
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarContents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,9 +35,8 @@ public class SugarOverrideHandler extends ItemOverrides {
                                 .getBakedTopLevelModels()
                                 .get(
                                         ModelResourceLocation.standalone(
-                                                sugar.sugar()
-                                                        .value()
-                                                        .getModelId()
+                                                Sugar
+                                                        .getModelId(sugar.sugar())
                                         )
                                 );
                 return bakedModel.getOverrides().resolve(bakedModel, stack,  level, entity, seed);

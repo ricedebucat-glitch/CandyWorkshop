@@ -73,7 +73,7 @@ public class ModModelProvider
             basicItem(ItemRegistry.MILK_GELATIN.getId());
 
             for (DeferredHolder<Sugar, ?> sugar : Sugars.SUGARS.getEntries()) {
-                basicItem(sugar.get().getItemModel());
+                basicItem(Sugar.getItemModel(sugar));
             }
 
             ResourceLocation id = ItemRegistry.MILK_EXTRACTOR.getId();

@@ -16,6 +16,7 @@ import com.lnatit.ccw.misc.StatRegistry;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import com.lnatit.ccw.misc.data.AttachmentRegistry;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -46,5 +47,9 @@ public class CandyWorkshop {
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    }
+
+    public static String getName(Holder<?> holder) {
+        return holder.unwrapKey().orElseThrow().location().getPath();
     }
 }

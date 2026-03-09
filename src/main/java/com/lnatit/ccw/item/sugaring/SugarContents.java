@@ -1,5 +1,6 @@
 package com.lnatit.ccw.item.sugaring;
 
+import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.datapack.Effect;
 import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.datapack.Formula;
@@ -45,7 +46,7 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
     public Component getName(String descriptionId) {
         // temporary fix
         Component name = Component
-                .translatable(descriptionId + "." + this.sugar.value().name())
+                .translatable(descriptionId + "." + CandyWorkshop.getName(this.sugar))
                 .withStyle(ChatFormatting.WHITE);
         return this.flavor.is(Flavor.ORIGINAL) ? name : this.flavor.value().prefix().append(" ").append(name);
     }

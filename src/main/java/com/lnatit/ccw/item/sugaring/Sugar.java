@@ -10,20 +10,20 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public record Sugar(String name, Type type, Ingredient ingredient)
+public record Sugar(Type type, Ingredient ingredient)
 {
     public static final Codec<Holder<Sugar>> CODEC = RegRegistry.SUGAR.holderByNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Sugar>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
             RegRegistry.SUGAR_KEY);
 
-    public ResourceLocation getItemModel() {
-        return ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, this.name)
+    public static ResourceLocation getItemModel(Holder<Sugar> sugar) {
+        return ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, CandyWorkshop.getName(sugar))
                                .withSuffix("_gummy");
 
     }
 
-    public ResourceLocation getModelId() {
-        return getItemModel().withPrefix("item/");
+    public static ResourceLocation getModelId(Holder<Sugar> sugar) {
+        return getItemModel(sugar).withPrefix("item/");
     }
 
     public enum Type

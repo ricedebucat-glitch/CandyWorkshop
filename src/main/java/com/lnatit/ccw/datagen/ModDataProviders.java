@@ -182,16 +182,16 @@ public abstract class ModDataProviders extends DatapackBuiltinEntriesProvider
                 Effect... effects
         ) {
             List<Effect> effectList = List.of(effects);
-            bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.ORIGINAL.location().getPath())),
+            bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.ORIGINAL.location().getPath())),
                                new Formula(sugarHolder, Flavors.ORIGINAL.location(), effectList));
             if (!hasNoExcited) {
-                bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.EXCITED.location().getPath())),
+                bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.EXCITED.location().getPath())),
                                    new Formula(sugarHolder,
                                                Flavors.EXCITED.location(),
                                                effectList.stream().map(Effect::enhanceAmplifier).toList()));
             }
             if (!hasNoBold) {
-                bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.BOLD.location().getPath())),
+                bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.BOLD.location().getPath())),
                                    new Formula(sugarHolder,
                                                Flavors.BOLD.location(),
                                                effectList.stream().map(Effect::doubleDuration).toList()));
@@ -253,14 +253,14 @@ public abstract class ModDataProviders extends DatapackBuiltinEntriesProvider
 
             @Override
             public void run() {
-                bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.ORIGINAL.location().getPath())),
+                bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.ORIGINAL.location().getPath())),
                                    new Formula(sugarHolder, Flavors.ORIGINAL.location(), originalEffects));
                 if (excitedEffects != null) {
-                    bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.EXCITED.location().getPath())),
+                    bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.EXCITED.location().getPath())),
                                        new Formula(sugarHolder, Flavors.EXCITED.location(), excitedEffects));
                 }
                 if (boldEffects != null) {
-                    bootstrap.register(of(Formula.formulaNameOf(sugarHolder.getRegisteredName(), Flavors.BOLD.location().getPath())),
+                    bootstrap.register(of(Formula.formulaNameOf(CandyWorkshop.getName(sugarHolder), Flavors.BOLD.location().getPath())),
                                        new Formula(sugarHolder, Flavors.BOLD.location(), boldEffects));
                 }
             }

@@ -75,7 +75,7 @@ public class ModEN_USProvider extends LanguageProvider {
         this.add("item.ccw.gummy.milky.desc", "Milky desc");
 
         for (DeferredHolder<Sugar, ? extends Sugar> sugar : Sugars.SUGARS.getEntries()) {
-            this.add("item." + CandyWorkshop.MODID + ".gummy." + sugar.get().name(), "placeholder:" + sugar.get().name());
+            this.add("item." + CandyWorkshop.MODID + ".gummy." + CandyWorkshop.getName(sugar), "placeholder:" + CandyWorkshop.getName(sugar));
         }
 
         for (ModAdvcmtProvider.AdvancementResources res : ModAdvcmtProvider.AdvancementResources.ALL_RESOURCES) {
