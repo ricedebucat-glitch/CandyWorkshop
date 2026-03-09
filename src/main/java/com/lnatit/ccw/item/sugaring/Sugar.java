@@ -1,6 +1,5 @@
 package com.lnatit.ccw.item.sugaring;
 
-import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.misc.RegRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
@@ -17,9 +16,7 @@ public record Sugar(Type type, Ingredient ingredient)
             RegRegistry.SUGAR_KEY);
 
     public static ResourceLocation getItemModel(Holder<Sugar> sugar) {
-        return ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, CandyWorkshop.getName(sugar))
-                               .withSuffix("_gummy");
-
+        return sugar.getKey().location().withSuffix("_gummy");
     }
 
     public static ResourceLocation getModelId(Holder<Sugar> sugar) {

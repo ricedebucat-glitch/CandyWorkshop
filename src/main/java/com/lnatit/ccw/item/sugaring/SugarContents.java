@@ -48,7 +48,7 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
         Component name = Component
                 .translatable(descriptionId + "." + CandyWorkshop.getName(this.sugar))
                 .withStyle(ChatFormatting.WHITE);
-        return this.flavor.is(Flavor.ORIGINAL) ? name : this.flavor.value().prefix().append(" ").append(name);
+        return this.flavor.is(Flavor.ORIGINAL) ? name : Flavor.prefix(this.flavor).append(" ").append(name);
     }
 
     public void addSugarTooltip(Consumer<Component> tooltipAdder, float ticksPerSecond) {
@@ -58,7 +58,7 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
                 .orElse(List.of())
                 .forEach(effect -> tooltipAdder.accept(effect.getDescription(ticksPerSecond)));
         
-        tooltipAdder.accept(this.flavor.value().description());
+        tooltipAdder.accept(Flavor.description(this.flavor));
     }
 
     public void onConsume(LivingEntity entity) {

@@ -24,18 +24,18 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 // TODO impl explicit flavor definitions
-public record Flavor(ResourceLocation name, int color, Ingredient ingredient, Holder<IModifier> modifier, boolean explicit)
+public record Flavor(int color, Ingredient ingredient, Holder<IModifier> modifier, boolean explicit)
 {
     public static final ResourceKey<Registry<Flavor>> KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("flavor"));
 
-    public static final Codec<Flavor> DIRECT_CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(ResourceLocation.CODEC.fieldOf("name").forGetter(Flavor::name),
-                                       Codec.INT.fieldOf("color").forGetter(Flavor::color),
-                                       Ingredient.CODEC.fieldOf("ingredient").forGetter(Flavor::ingredient),
-                                       IModifier.CODEC.fieldOf("modifier").forGetter(Flavor::modifier)
-            ).apply(instance, Flavor::auto));
+    public static final Codec<Flavor> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance
+            .group(Codec.INT.fieldOf("color").forGetter(Flavor::color),
+                   Ingredient.CODEC.fieldOf("ingredient").forGetter(Flavor::ingredient),
+                   IModifier.CODEC.fieldOf("modifier").forGetter(Flavor::modifier))
+            .apply(instance, Flavor::auto));
     public static final Codec<Holder<Flavor>> CODEC = RegistryFileCodec.create(KEY, DIRECT_CODEC);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(KEY);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
+            KEY);
 
     public static final ResourceKey<Flavor> ORIGINAL = DataPackRegistry.of(KEY, "original");
 
@@ -56,12 +56,12 @@ public record Flavor(ResourceLocation name, int color, Ingredient ingredient, Ho
         return getFlavorUnsafe(name).orElse(getFlavorUnsafe(ORIGINAL.location()).get());
     }
 
-    public static Flavor explicit(ResourceLocation name, int color, Ingredient ingredient, Holder<IModifier> modifier) {
-        return new Flavor(name, color, ingredient, modifier, true);
+    public static Flavor explicit(int color, Ingredient ingredient, Holder<IModifier> modifier) {
+        return new Flavor(color, ingredient, modifier, true);
     }
 
-    public static Flavor auto(ResourceLocation name, int color, Ingredient ingredient, Holder<IModifier> modifier) {
-        return new Flavor(name, color, ingredient, modifier, modifier == Modifiers.EMPTY);
+    public static Flavor auto(int color, Ingredient ingredient, Holder<IModifier> modifier) {
+        return new Flavor(color, ingredient, modifier, modifier == Modifiers.EMPTY);
     }
 
     public static Holder<Flavor> fromExtra(ItemStack extra) {
@@ -71,9 +71,10 @@ public record Flavor(ResourceLocation name, int color, Ingredient ingredient, Ho
         }
 
         if (!extra.isEmpty()) {
-            Optional<Holder.Reference<Flavor>> match = registry.holders()
-                                                               .filter(holder -> holder.value().ingredient().test(extra))
-                                                               .findFirst();
+            Optional<Holder.Reference<Flavor>> match = registry
+                    .holders()
+                    .filter(holder -> holder.value().ingredient().test(extra))
+                    .findFirst();
             if (match.isPresent()) {
                 return match.get();
             }
@@ -82,11 +83,15 @@ public record Flavor(ResourceLocation name, int color, Ingredient ingredient, Ho
         return getFlavor(ORIGINAL.location());
     }
 
-    public MutableComponent prefix() {
-        return Component.translatable("item.ccw.gummy." + name.getPath() + ".prefix").withStyle(Style.EMPTY.withColor(color));
+    public static MutableComponent prefix(Holder<Flavor> flavor) {
+        return Component
+                .translatable("item.ccw.gummy." + flavor.getKey().location() + ".prefix")
+                .withStyle(Style.EMPTY.withColor(flavor.value().color()));
     }
 
-    public MutableComponent description() {
-        return Component.translatable("item.ccw.gummy." + name.getPath() + ".desc").withStyle(Style.EMPTY.withColor(color));
+    public static MutableComponent description(Holder<Flavor> flavor) {
+        return Component
+                .translatable("item.ccw.gummy." + flavor.getKey().location() + ".desc")
+                .withStyle(Style.EMPTY.withColor(flavor.value().color()));
     }
 }

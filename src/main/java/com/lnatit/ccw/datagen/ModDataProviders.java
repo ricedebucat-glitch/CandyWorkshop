@@ -53,21 +53,18 @@ public abstract class ModDataProviders extends DatapackBuiltinEntriesProvider
 
         private static void register(BootstrapContext<Flavor> bootstrap) {
             bootstrap.register(ORIGINAL,
-                               Flavor.explicit(ORIGINAL.location(), 0xFFFFFF, Ingredient.EMPTY, Modifiers.EMPTY));
+                               Flavor.explicit(0xFFFFFF, Ingredient.EMPTY, Modifiers.EMPTY));
 
             bootstrap.register(EXCITED,
-                               Flavor.auto(EXCITED.location(),
-                                           43520,
+                               Flavor.auto(43520,
                                            Ingredient.of(Items.COCOA_BEANS),
                                            Modifiers.EMPTY));
             bootstrap.register(BOLD,
-                               Flavor.auto(BOLD.location(),
-                                           16755200,
+                               Flavor.auto(16755200,
                                            Ingredient.of(Items.HONEY_BOTTLE),
                                            Modifiers.EMPTY));
             bootstrap.register(MILKY,
-                               Flavor.auto(MILKY.location(),
-                                           16777215,
+                               Flavor.auto(16777215,
                                            Ingredient.of(ItemRegistry.MILK_GELATIN.get()),
                                            Modifiers.MILKY));
         }
