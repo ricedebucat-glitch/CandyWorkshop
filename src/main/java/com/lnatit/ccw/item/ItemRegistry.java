@@ -2,11 +2,9 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarContents;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.misc.RegRegistry;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -167,10 +165,11 @@ public class ItemRegistry {
                                         parameters.holders()
                                                 .lookup(RegRegistry.SUGAR_KEY)
                                                 .ifPresent(
-                                                        lookups -> generateSugarTypes(output,
-                                                                lookups,
-                                                                CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
-                                                        )
+                                                        lookups -> lookups.listElements()
+                                                                // if FeatureElement implemented, we need to filter the map
+                                                //                .filter()
+                                                                .map(ref -> SugarRefining.createOriginalSugar(parameters.holders(), ref))
+                                                                .forEach(result -> output.accept(result, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS))
                                                 );
                                     }
                             ).build()
@@ -184,15 +183,4 @@ public class ItemRegistry {
         return tag(CandyWorkshop.MODID, name);
     }
 
-    private static void generateSugarTypes(
-            CreativeModeTab.Output output,
-            HolderLookup<Sugar> sugars,
-            CreativeModeTab.TabVisibility visibility
-    ) {
-        sugars.listElements()
-                // if FeatureElement implemented, we need to filter the map
-//                .filter()
-                .map(SugarRefining::createOriginalSugar)
-                .forEach(result -> output.accept(result, visibility));
-    }
 }

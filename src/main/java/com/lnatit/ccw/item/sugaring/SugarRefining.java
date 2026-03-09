@@ -5,6 +5,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.item.ItemRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,8 +37,8 @@ public class SugarRefining
         return itemStack;
     }
 
-    public static ItemStack createOriginalSugar(Holder<Sugar> sugar) {
-        return createSugar(sugar, Flavor.getFlavor(Flavor.ORIGINAL.location()));
+    public static ItemStack createOriginalSugar(HolderLookup.Provider registries, Holder<Sugar> sugar) {
+        return createSugar(sugar, registries.holderOrThrow(Flavor.ORIGINAL));
     }
 
     public List<Blend> getAllBlends() {

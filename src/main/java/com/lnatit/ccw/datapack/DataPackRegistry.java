@@ -12,8 +12,8 @@ public interface DataPackRegistry
 {
     @SubscribeEvent
     static void onDataPackRegister(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(Flavor.KEY, Flavor.DIRECT_CODEC, Flavor.DIRECT_CODEC, builder -> builder.sync(true));
-        event.dataPackRegistry(Formula.KEY, Formula.CODEC, Formula.CODEC, builder -> builder.sync(true));
+        event.dataPackRegistry(Flavor.KEY, Flavor.DIRECT_CODEC, Flavor.DIRECT_CODEC, builder -> builder.defaultKey(Flavor.ORIGINAL));
+        event.dataPackRegistry(Formula.KEY, Formula.CODEC, Formula.CODEC);
     }
 
     static <T> ResourceKey<T> of(ResourceKey<Registry<T>> registry, String name) {
