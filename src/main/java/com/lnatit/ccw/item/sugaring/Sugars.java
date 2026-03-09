@@ -6,7 +6,6 @@ import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -172,10 +171,6 @@ public class Sugars
     public static final DeferredHolder<Sugar, Sugar> DISCOUNT = SUGARS.register("discount",
                                                                                 () -> new Sugar(Sugar.Type.END,
                                                                                                 Ingredient.of(Items.EMERALD_BLOCK)));
-
-    public static void register(IEventBus eventBus) {
-        SUGARS.register(eventBus);
-    }
 
     public static DeferredHolder<Sugar, Sugar> registerUni(String name, Sugar.Type type, Ingredient ingredient) {
         return SUGARS.register(name, () -> new Sugar(type, ingredient));

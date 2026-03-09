@@ -16,7 +16,7 @@ public class RegRegistry
 {
     public static final ResourceKey<Registry<Sugar>> SUGAR_KEY = ResourceKey.createRegistryKey(
             ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "sugar"));
-    public static final ResourceKey<Registry<IModifier>> MODIFIER_KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("flavor"));
+    public static final ResourceKey<Registry<IModifier>> MODIFIER_KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("modifier"));
 
     public static final Registry<Sugar> SUGAR = new RegistryBuilder<>(SUGAR_KEY)
             .sync(true)

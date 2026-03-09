@@ -10,6 +10,7 @@ import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.crafting.RecipeRegistry;
 import com.lnatit.ccw.item.sugaring.Sugars;
+import com.lnatit.ccw.item.sugaring.modifier.Modifiers;
 import com.lnatit.ccw.menu.MenuRegistry;
 import com.lnatit.ccw.misc.SoundRegistry;
 import com.lnatit.ccw.misc.StatRegistry;
@@ -29,7 +30,6 @@ public class CandyWorkshop {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public CandyWorkshop(IEventBus modEventBus, ModContainer modContainer) {
-        Sugars.register(modEventBus);
         StatRegistry.STATS.register(modEventBus);
         CriteriaRegistry.TRIGGERS.register(modEventBus);
         SoundRegistry.SOUND_EVENTS.register(modEventBus);
@@ -37,6 +37,8 @@ public class CandyWorkshop {
         ItemRegistry.DATA_COMPONENTS.register(modEventBus);
         ItemRegistry.ITEMS.register(modEventBus);
         ItemRegistry.TABS.register(modEventBus);
+        Sugars.SUGARS.register(modEventBus);
+        Modifiers.MODIFIERS.register(modEventBus);
         RecipeRegistry.RECIPE_SERIALIZERS.register(modEventBus);
         MenuRegistry.MENUS.register(modEventBus);
         BlockRegistry.BLOCKS.register(modEventBus);
