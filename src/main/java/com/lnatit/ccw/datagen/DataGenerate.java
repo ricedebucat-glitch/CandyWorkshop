@@ -23,7 +23,7 @@ public class DataGenerate
 
         generator.addProvider(
                 event.includeServer(),
-                new ModDataProviders.Formulas(output, lookupProvider)
+                new ModDataProviders(output, lookupProvider)
         );
 
         generator.addProvider(

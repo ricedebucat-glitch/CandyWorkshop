@@ -6,6 +6,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -75,7 +76,10 @@ public class ModEN_USProvider extends LanguageProvider {
         this.add("item.ccw.gummy.milky.desc", "Milky desc");
 
         for (DeferredHolder<Sugar, ? extends Sugar> sugar : Sugars.SUGARS.getEntries()) {
-            this.add("item." + CandyWorkshop.MODID + ".gummy." + CandyWorkshop.getName(sugar), "placeholder:" + CandyWorkshop.getName(sugar));
+            this.add("item." + CandyWorkshop.MODID + ".gummy." + ((Holder<?>) sugar).getKey().location().getPath(), "placeholder:" + ((Holder<?>) sugar)
+                    .getKey()
+                    .location()
+                    .getPath());
         }
 
         for (ModAdvcmtProvider.AdvancementResources res : ModAdvcmtProvider.AdvancementResources.ALL_RESOURCES) {

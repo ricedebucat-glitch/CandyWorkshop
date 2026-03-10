@@ -168,7 +168,7 @@ public class ItemRegistry {
                                                         lookups -> lookups.listElements()
                                                                 // if FeatureElement implemented, we need to filter the map
                                                 //                .filter()
-                                                                .map(ref -> SugarRefining.createOriginalSugar(parameters.holders(), ref))
+                                                                .map(SugarRefining::createOriginalSugar)
                                                                 .forEach(result -> output.accept(result, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS))
                                                 );
                                     }

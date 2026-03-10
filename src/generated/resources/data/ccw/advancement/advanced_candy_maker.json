@@ -12,7 +12,7 @@
         "icon": {
             "components": {
                 "ccw:sugar_contents": {
-                    "flavor": "original",
+                    "flavor": "ccw:original",
                     "sugar": "ccw:golden_heart"
                 }
             },

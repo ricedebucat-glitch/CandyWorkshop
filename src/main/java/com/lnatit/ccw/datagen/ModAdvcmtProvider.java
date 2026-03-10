@@ -3,7 +3,6 @@ package com.lnatit.ccw.datagen;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
@@ -11,7 +10,6 @@ import com.lnatit.ccw.misc.critereon.NumericTrigger;
 import com.lnatit.ccw.misc.critereon.SimpleTrigger;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementProvider;
@@ -164,7 +162,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.MYFICA.parent())
                 .display(
-                        SugarRefining.createOriginalSugar(registries, Sugars.RED_HEART),
+                        SugarRefining.createOriginalSugar(Sugars.RED_HEART),
                         AdvancementResources.MYFICA.name(),
                         AdvancementResources.MYFICA.desc(),
                         null,
@@ -182,7 +180,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.ADCAMA.parent())
                 .display(
-                        SugarRefining.createOriginalSugar(registries, Sugars.GOLDEN_HEART),
+                        SugarRefining.createOriginalSugar(Sugars.GOLDEN_HEART),
                         AdvancementResources.ADCAMA.name(),
                         AdvancementResources.ADCAMA.desc(),
                         null,
@@ -244,7 +242,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.RAICOL.parent())
                 .display(
-                        SugarRefining.createOriginalSugar(registries, Sugars.RECOVERY),
+                        SugarRefining.createOriginalSugar(Sugars.RECOVERY),
                         AdvancementResources.RAICOL.name(),
                         AdvancementResources.RAICOL.desc(),
                         null,
@@ -266,7 +264,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
         Advancement.Builder builder = Advancement.Builder.advancement();
         builder.parent(AdvancementResources.DIABET.parent())
                 .display(
-                        SugarRefining.createOriginalSugar(registries, Sugars.STINGER),
+                        SugarRefining.createOriginalSugar(Sugars.STINGER),
                         AdvancementResources.DIABET.name(),
                         AdvancementResources.DIABET.desc(),
                         null,

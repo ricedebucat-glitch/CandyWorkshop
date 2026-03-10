@@ -1,17 +1,16 @@
 package com.lnatit.ccw.item.sugaring.flavor;
 
-import com.lnatit.ccw.datapack.DataPackRegistry;
 import com.lnatit.ccw.datapack.Effect;
 import com.lnatit.ccw.misc.RegRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -23,7 +22,6 @@ public class Flavor {
     public static final Codec<Holder<Flavor>> CODEC = RegRegistry.FLAVOR.holderByNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
             RegRegistry.FLAVOR_KEY);
-    public static final ResourceKey<Flavor> ORIGINAL = DataPackRegistry.of(RegRegistry.FLAVOR_KEY, "original");
 
     private final Ingredient ingredient;
 
@@ -80,5 +78,35 @@ public class Flavor {
         return Component
                 .translatable("item.ccw.gummy." + flavor.getKey().location().getPath() + ".desc")
                 .withStyle(flavor.value().style());
+    }
+
+    @Nullable
+    private static List<? extends Holder<Flavor>> CACHE;
+
+    public static void rebuildCache(Registry<Flavor> registry) {
+        CACHE = registry.holders().toList();
+    }
+
+    public static Holder<Flavor> next(Holder<Flavor> flavor) {
+        if (CACHE == null) {
+            return flavor;
+        }
+        int index = CACHE.indexOf(flavor);
+        if (index == -1) {
+            return flavor;
+        }
+        return CACHE.get((index + 1) % CACHE.size());
+    }
+
+    public static Holder<Flavor> from(ItemStack stack) {
+        if (CACHE == null) {
+            return Flavors.ORIGINAL;
+        }
+        for (Holder<Flavor> flavor : CACHE) {
+            if (flavor.value().ingredient().test(stack)) {
+                return flavor;
+            }
+        }
+        return Flavors.ORIGINAL;
     }
 }

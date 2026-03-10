@@ -7,7 +7,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import javax.annotation.Nullable;
 
 public record Sugar(Type type, Ingredient ingredient)
 {
@@ -28,5 +31,10 @@ public record Sugar(Type type, Ingredient ingredient)
         OVERWORLD,
         NETHER,
         END
+    }
+
+    @Nullable
+    public static Holder<Sugar> from(ItemStack stack) {
+        return RegRegistry.SUGAR.holders().filter(sugar -> sugar.value().ingredient.test(stack)).findFirst().orElse(null);
     }
 }

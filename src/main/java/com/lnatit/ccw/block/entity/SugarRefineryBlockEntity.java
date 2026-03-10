@@ -2,11 +2,13 @@ package com.lnatit.ccw.block.entity;
 
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
-import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
+import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.item.sugaring.flavor.Flavors;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
+import com.lnatit.ccw.misc.RegRegistry;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,6 +26,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -186,7 +189,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
                 return false;
             }
 
-            ItemStack newOutput = SugarRefining.sugarRefining.makeSugar(this.stacks.get(1), this.stacks.get(2), this.stacks.get(3));
+            ItemStack newOutput = matchSugar(this.stacks.get(1), this.stacks.get(2), this.stacks.get(3));
             ItemStack output = this.stacks.get(4);
 
             if (!output.isEmpty() && (!ItemStack.isSameItemSameComponents(output, newOutput) ||
@@ -201,12 +204,25 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             return false;
         }
 
+        private ItemStack matchSugar(ItemStack sugar, ItemStack main, ItemStack extra) {
+            if (sugar.isEmpty() || main.isEmpty()) {
+                return ItemStack.EMPTY;
+            }
+
+            Holder<Sugar> sugarHolder = Sugar.from(sugar);
+            if (sugarHolder != null) {
+                Holder<Flavor> flavorHolder = Flavor.from(extra);
+                return SugarRefining.createSugar(sugarHolder, flavorHolder);
+            }
+            return ItemStack.EMPTY;
+        }
+
         private boolean hasEnoughMilkAndSugar() {
             ItemStack milk = this.stacks.get(0);
             ItemStack sugar = this.stacks.get(1);
             if (milk.isEmpty() || sugar.isEmpty())
                 return false;
-            if (!isMilk(milk) || !SugarRefining.sugarRefining.isSugar(sugar))
+            if (!isMilk(milk) || !isSugar(sugar))
                 return false;
 
             int milkCount = getMilkConsumption(milk);
@@ -230,8 +246,8 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             main.shrink(1);
 
             ItemStack extra = this.stacks.get(3);
-            Holder<SimpleFlavor> flavor = SimpleFlavor.fromExtra(extra);
-            if (!flavor.is(Flavor.ORIGINAL)) {
+            Holder<Flavor> flavor = Flavor.from(extra);
+            if (!flavor.is(Flavors.ORIGINAL)) {
                 acceptRemainder(extra.getCraftingRemainingItem(), 1, drawer);
                 extra.shrink(1);
                 SugarRefineryBlockEntity.this.refineFlavoredCallback();
@@ -309,9 +325,9 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
         public boolean isItemValid(int slot, ItemStack stack) {
             return switch (slot) {
                 case 0 -> isMilk(stack);
-                case 1 -> SugarRefining.sugarRefining.isSugar(stack);
-                case 2 -> SugarRefining.sugarRefining.isMain(stack);
-                case 3 -> SugarRefining.sugarRefining.isExtra(stack);
+                case 1 -> isSugar(stack);
+                case 2 -> isMain(stack);
+                case 3 -> isExtra(stack);
                 default -> false;
             };
         }
@@ -345,6 +361,18 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
 
         private static boolean isMilk(ItemStack stack) {
             return stack.is(ItemRegistry.FOODS_MILK_TAG) || stack.is(ItemRegistry.DRINKS_MILK_TAG);
+        }
+
+        private static boolean isSugar(ItemStack stack) {
+            return stack.is(Items.SUGAR) || stack.is(ItemRegistry.NETHER_SUGAR) || stack.is(ItemRegistry.ENDER_SUGAR);
+        }
+
+        private static boolean isMain(ItemStack stack) {
+            return RegRegistry.SUGAR.holders().anyMatch(ref -> ref.value().ingredient().test(stack));
+        }
+
+        private static boolean isExtra(ItemStack stack) {
+            return RegRegistry.FLAVOR.holders().anyMatch(ref -> ref.value().ingredient().test(stack));
         }
     }
 }

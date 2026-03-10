@@ -19,7 +19,7 @@
         "icon": {
             "components": {
                 "ccw:sugar_contents": {
-                    "flavor": "original",
+                    "flavor": "ccw:original",
                     "sugar": "ccw:red_heart"
                 }
             },

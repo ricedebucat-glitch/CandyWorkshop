@@ -1,25 +1,21 @@
 package com.lnatit.ccw.item.sugaring;
 
-import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.datapack.Effect;
-import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
 import com.lnatit.ccw.datapack.Formula;
 import com.lnatit.ccw.item.sugaring.flavor.Flavor;
+import com.lnatit.ccw.item.sugaring.flavor.Flavors;
 import com.lnatit.ccw.misc.data.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -46,56 +42,31 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
     public Component getName(String descriptionId) {
         // temporary fix
         Component name = Component
-                .translatable(descriptionId + "." + CandyWorkshop.getName(this.sugar))
+                .translatable(descriptionId + "." + this.sugar.getKey().location().getPath())
                 .withStyle(ChatFormatting.WHITE);
-        return this.flavor.is(Flavor.ORIGINAL) ? name : Flavor.prefix(this.flavor).append(" ").append(name);
+        return this.flavor.is(Flavors.ORIGINAL) ? name : Flavor.prefix(this.flavor).append(" ").append(name);
     }
 
     public void addSugarTooltip(Consumer<Component> tooltipAdder, float ticksPerSecond) {
         Formula
                 .getFormulaOptional(this.sugar, this.flavor)
-                .map(f -> f.value().effects())
+                .map(Formula::effects)
                 .orElse(List.of())
                 .forEach(effect -> tooltipAdder.accept(effect.getDescription(ticksPerSecond)));
-        
+
         tooltipAdder.accept(Flavor.description(this.flavor));
     }
 
     public void onConsume(LivingEntity entity) {
         if (entity instanceof ServerPlayer player) {
-            Optional<? extends Holder<Formula>> f = Formula.getFormulaOptional(this.sugar, this.flavor);
-            f.ifPresent(holder -> applyOn(holder.value(), entity));
+            Optional<Formula> optional = Formula.getFormulaOptional(this.sugar, this.flavor);
+            optional.ifPresent(formula -> applyOn(formula, entity));
             player.getData(AttachmentRegistry.SUGAR_STAT).addHistory(this.sugar, player);
         }
     }
 
     public SugarContents cycle() {
-        Registry<SimpleFlavor> R = SimpleFlavor.REGISTRIES();
-        if (R == null) {
-            return this;
-        }
-        Optional<ResourceKey<SimpleFlavor>> key = this.flavor.unwrapKey();
-
-        boolean after = false;
-        SugarContents pending = this;
-        for (Map.Entry<ResourceKey<SimpleFlavor>, SimpleFlavor> entry : R.entrySet()) {
-            if (!after && key.isPresent() && entry.getKey().location().equals(key.get().location())) {
-                after = true;
-                continue;
-            }
-
-            var newFlavor = R.getHolder(entry.getKey()).get();
-            Optional<? extends Holder<Formula>> f = Formula.getFormulaOptional(this.sugar, newFlavor);
-            if (f.isPresent()) {
-                if (after) {
-                    return new SugarContents(this.sugar, newFlavor);
-                }
-                else {
-                    pending = new SugarContents(this.sugar, newFlavor);
-                }
-            }
-        }
-        return pending;
+        return new SugarContents(this.sugar, Flavor.next(this.flavor));
     }
 
     private static void applyOn(Formula formula, LivingEntity entity) {

@@ -1,79 +1,76 @@
 package com.lnatit.ccw.datapack;
 
+import com.google.common.collect.ImmutableMap;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
 import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> effects)
 {
     public static final ResourceKey<Registry<Formula>> KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("formula"));
 
-    public static final Codec<Formula> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(
-                    Sugar.CODEC.fieldOf("sugar").forGetter(Formula::sugar),
-                    Flavor.CODEC.fieldOf("flavor").forGetter(Formula::flavor),
-                    Effect.CODEC.listOf().fieldOf("effects").forGetter(Formula::effects)
-            ).apply(instance, Formula::new));
+    public static final Codec<Formula> CODEC = RecordCodecBuilder.create(instance -> instance
+            .group(Sugar.CODEC.fieldOf("sugar").forGetter(Formula::sugar),
+                   Flavor.CODEC.fieldOf("flavor").forGetter(Formula::flavor),
+                   Effect.CODEC.listOf().fieldOf("effects").forGetter(Formula::effects))
+            .apply(instance, Formula::new));
 
-    public Formula withFlavor(ResourceLocation flavor) {
-        return new Formula(this.sugar, flavor, this.effects);
+    private Key key() {
+        return new Key(sugar, flavor);
     }
 
     @Nullable
-    public static Registry<Formula> REGISTRIES() {
-        return (Registry<Formula>) BuiltInRegistries.REGISTRY.get(KEY.location());
-    }
+    private static Map<Key, Formula> CACHE;
 
-    public static ResourceLocation formulaOf(Holder<Sugar> sugar, Holder<Flavor> flavor) {
-        return formulaOf(CandyWorkshop.getName(sugar), CandyWorkshop.getName(flavor));
-    }
-
-    public static ResourceLocation formulaOf(Holder<Sugar> sugar, ResourceLocation flavor) {
-        return formulaOf(CandyWorkshop.getName(sugar), flavor.getPath());
-    }
-
-    public static ResourceLocation formulaOf(String sugarName, String flavorName) {
-        return CandyWorkshop.id(formulaNameOf(sugarName, flavorName));
-    }
-
-    public static String formulaNameOf(String sugarName, String flavorName) {
-        return sugarName + "_" + flavorName;
-    }
-
-    private static Optional<Holder.Reference<Formula>> getFormulaUnsafe(Holder<Sugar> sugar, ResourceLocation flavor) {
-        var r = REGISTRIES();
-        if (r == null) {
-            throw new IllegalStateException("Formula registry not found!");
+    public static void rebuildCache(Registry<Formula> registry) {
+        if (registry == null) {
+            CACHE = null;
         }
-        return r.getHolder(formulaOf(sugar, flavor));
+        else {
+            Map<Key, Formula> map = new HashMap<>();
+            for (var e : registry.entrySet()) {
+                Formula f = e.getValue();
+                map.put(f.key(), f);
+            }
+            CACHE = ImmutableMap.copyOf(map);
+        }
     }
 
     // 虽然目前的设计会导致不同Modid path相同的Flavor搜索Formula出现问题，但我不想为了修这一个小问题增加方法的复杂度了
-    public static Optional<? extends Holder<Formula>> getFormulaOptional(Holder<Sugar> sugar, Holder<SimpleFlavor> flavor) {
-        boolean explicit = flavor.value().explicit();
-        Optional<? extends Holder<Formula>> unsafe = getFormulaUnsafe(sugar, flavor.getKey().location());
-        if (explicit) {
-            return unsafe;
+    public static Optional<Formula> getFormulaOptional(Holder<Sugar> sugar, Holder<Flavor> flavor) {
+        if (CACHE == null) {
+            return Optional.empty();
         }
-        if (unsafe.isPresent()) {
-            return unsafe;
+        Key key = new Key(sugar, flavor);
+        Key proxy = new Key(sugar, flavor.value().proxy());
+        Formula formula = CACHE.getOrDefault(key, CACHE.get(proxy));
+        return Optional.of(formula);
+    }
+
+    private record Key(Holder<Sugar> sugar, @Nullable Holder<Flavor> flavor)
+    {
+        @Override
+        public boolean equals(Object obj) {
+            if (flavor == null) {
+                return false;
+            }
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Key other = (Key) obj;
+            return sugar.equals(other.sugar) && flavor.equals(other.flavor);
         }
-        unsafe = getFormulaUnsafe(sugar, Flavor.ORIGINAL.location())
-                .map(f -> Holder.direct(f
-                                                .value()
-                                                .withFlavor(flavor.getKey().location())));
-        return unsafe;
     }
 }

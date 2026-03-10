@@ -4,8 +4,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class SimpleFlavor implements Flavor {
-
+public class SimpleFlavor extends Flavor
+{
     private final int color;
     private final Ingredient ingredient;
 

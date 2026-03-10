@@ -12,7 +12,7 @@ public interface DataPackRegistry
 {
     @SubscribeEvent
     static void onDataPackRegister(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(Formula.KEY, Formula.CODEC, Formula.CODEC);
+        event.dataPackRegistry(Formula.KEY, Formula.CODEC, Formula.CODEC, builder -> builder.onBake(Formula::rebuildCache));
     }
 
     static <T> ResourceKey<T> of(ResourceKey<Registry<T>> registry, String name) {
