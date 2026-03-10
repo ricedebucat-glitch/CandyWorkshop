@@ -55,7 +55,7 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
         Key key = new Key(sugar, flavor);
         Key proxy = new Key(sugar, flavor.value().proxy());
         Formula formula = CACHE.getOrDefault(key, CACHE.get(proxy));
-        return Optional.of(formula);
+        return Optional.ofNullable(formula);
     }
 
     private record Key(Holder<Sugar> sugar, @Nullable Holder<Flavor> flavor)

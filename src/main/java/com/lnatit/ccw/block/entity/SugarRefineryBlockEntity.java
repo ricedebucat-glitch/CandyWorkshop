@@ -3,9 +3,9 @@ package com.lnatit.ccw.block.entity;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
 import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.item.sugaring.SugarContents;
 import com.lnatit.ccw.item.sugaring.flavor.Flavors;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import com.lnatit.ccw.misc.RegRegistry;
@@ -40,6 +40,7 @@ import java.util.Optional;
 
 public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvider, Nameable, IItemStackHandlerContainer {
     public static final Component DEFAULT_NAME = Component.translatable("container.sugar_refinery");
+    public static final int REFINE_TIME = 160;
     private final Data data = new Data();
     @Nullable
     private Component name;
@@ -168,7 +169,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
                 flag = true;
             }
 
-            if (progress >= SugarRefining.REFINE_TIME) {
+            if (progress >= REFINE_TIME) {
                 progress = 0;
                 // generate the outputs
                 generateOutputs(drawer);
@@ -212,7 +213,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             Holder<Sugar> sugarHolder = Sugar.from(sugar);
             if (sugarHolder != null) {
                 Holder<Flavor> flavorHolder = Flavor.from(extra);
-                return SugarRefining.createSugar(sugarHolder, flavorHolder);
+                return SugarContents.createSugar(sugarHolder, flavorHolder);
             }
             return ItemStack.EMPTY;
         }

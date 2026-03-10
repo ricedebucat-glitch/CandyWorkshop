@@ -1,7 +1,7 @@
 package com.lnatit.ccw.menu.client;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.item.sugaring.SugarRefining;
+import com.lnatit.ccw.block.entity.SugarRefineryBlockEntity;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -73,7 +73,7 @@ public class SugarRefineryScreen extends AbstractContainerScreen<SugarRefineryMe
             );
         else progress = 0;
 
-        progress = -15 * progress / SugarRefining.REFINE_TIME;
+        progress = -15 * progress / SugarRefineryBlockEntity.REFINE_TIME;
         guiGraphics.blitSprite(
                 PROGRESS_SPRITE,
                 this.leftPos + 72 - progress,

@@ -3,7 +3,6 @@ package com.lnatit.ccw.item;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.sugaring.SugarContents;
-import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -168,7 +167,7 @@ public class ItemRegistry {
                                                         lookups -> lookups.listElements()
                                                                 // if FeatureElement implemented, we need to filter the map
                                                 //                .filter()
-                                                                .map(SugarRefining::createOriginalSugar)
+                                                                .map(SugarContents::createOriginalSugar)
                                                                 .forEach(result -> output.accept(result, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS))
                                                 );
                                     }
