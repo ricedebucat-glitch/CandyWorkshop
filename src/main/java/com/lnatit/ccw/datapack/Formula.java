@@ -2,6 +2,8 @@ package com.lnatit.ccw.datapack;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
+import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -14,14 +16,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public record Formula(Holder<Sugar> sugar, ResourceLocation flavor, List<Effect> effects)
+public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> effects)
 {
     public static final ResourceKey<Registry<Formula>> KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("formula"));
 
     public static final Codec<Formula> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     Sugar.CODEC.fieldOf("sugar").forGetter(Formula::sugar),
-                    ResourceLocation.CODEC.fieldOf("flavor").forGetter(Formula::flavor),
+                    Flavor.CODEC.fieldOf("flavor").forGetter(Formula::flavor),
                     Effect.CODEC.listOf().fieldOf("effects").forGetter(Formula::effects)
             ).apply(instance, Formula::new));
 
@@ -59,7 +61,7 @@ public record Formula(Holder<Sugar> sugar, ResourceLocation flavor, List<Effect>
     }
 
     // 虽然目前的设计会导致不同Modid path相同的Flavor搜索Formula出现问题，但我不想为了修这一个小问题增加方法的复杂度了
-    public static Optional<? extends Holder<Formula>> getFormulaOptional(Holder<Sugar> sugar, Holder<Flavor> flavor) {
+    public static Optional<? extends Holder<Formula>> getFormulaOptional(Holder<Sugar> sugar, Holder<SimpleFlavor> flavor) {
         boolean explicit = flavor.value().explicit();
         Optional<? extends Holder<Formula>> unsafe = getFormulaUnsafe(sugar, flavor.getKey().location());
         if (explicit) {

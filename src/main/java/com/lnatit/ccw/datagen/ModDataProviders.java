@@ -3,12 +3,9 @@ package com.lnatit.ccw.datagen;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.datapack.DataPackRegistry;
 import com.lnatit.ccw.datapack.Effect;
-import com.lnatit.ccw.datapack.Flavor;
 import com.lnatit.ccw.datapack.Formula;
-import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
-import com.lnatit.ccw.item.sugaring.modifier.Modifiers;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -16,8 +13,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
 import javax.annotation.Nullable;
@@ -35,48 +30,48 @@ public abstract class ModDataProviders extends DatapackBuiltinEntriesProvider
         super(output, registries, datapackEntriesBuilder, Set.of(CandyWorkshop.MODID));
     }
 
-    public static class Flavors extends ModDataProviders
-    {
-        public static final ResourceKey<Flavor> ORIGINAL = Flavor.ORIGINAL;
-        public static final ResourceKey<Flavor> EXCITED = of("excited");
-        public static final ResourceKey<Flavor> BOLD = of("bold");
-        public static final ResourceKey<Flavor> MILKY = of("milky");
-
-        public Flavors(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-            super(output, registries, new RegistrySetBuilder().add(Flavor.KEY, Flavors::register));
-        }
-
-        @Override
-        public String getName() {
-            return "Candy Workshop - Flavors";
-        }
-
-        private static void register(BootstrapContext<Flavor> bootstrap) {
-            bootstrap.register(ORIGINAL,
-                               Flavor.explicit(0xFFFFFF, Ingredient.EMPTY, Modifiers.EMPTY));
-
-            bootstrap.register(EXCITED,
-                               Flavor.auto(43520,
-                                           Ingredient.of(Items.COCOA_BEANS),
-                                           Modifiers.EMPTY));
-            bootstrap.register(BOLD,
-                               Flavor.auto(16755200,
-                                           Ingredient.of(Items.HONEY_BOTTLE),
-                                           Modifiers.EMPTY));
-            bootstrap.register(MILKY,
-                               Flavor.auto(16777215,
-                                           Ingredient.of(ItemRegistry.MILK_GELATIN.get()),
-                                           Modifiers.MILKY));
-        }
-
-        private static ResourceKey<Flavor> of(String name) {
-            return DataPackRegistry.of(Flavor.KEY, name);
-        }
-
-        private static Set<ResourceKey<Flavor>> flavors() {
-            return Set.of(ORIGINAL, EXCITED, BOLD, MILKY);
-        }
-    }
+//    public static class Flavors extends ModDataProviders
+//    {
+//        public static final ResourceKey<SimpleFlavor> ORIGINAL = IFlavor.ORIGINAL;
+//        public static final ResourceKey<SimpleFlavor> EXCITED = of("excited");
+//        public static final ResourceKey<SimpleFlavor> BOLD = of("bold");
+//        public static final ResourceKey<SimpleFlavor> MILKY = of("milky");
+//
+//        public Flavors(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+//            super(output, registries, new RegistrySetBuilder().add(RegRegistry.KEY, Flavors::register));
+//        }
+//
+//        @Override
+//        public String getName() {
+//            return "Candy Workshop - Flavors";
+//        }
+//
+//        private static void register(BootstrapContext<SimpleFlavor> bootstrap) {
+//            bootstrap.register(ORIGINAL,
+//                               SimpleFlavor.explicit(0xFFFFFF, Ingredient.EMPTY, Modifiers.EMPTY));
+//
+//            bootstrap.register(EXCITED,
+//                               SimpleFlavor.auto(43520,
+//                                           Ingredient.of(Items.COCOA_BEANS),
+//                                           Modifiers.EMPTY));
+//            bootstrap.register(BOLD,
+//                               SimpleFlavor.auto(16755200,
+//                                           Ingredient.of(Items.HONEY_BOTTLE),
+//                                           Modifiers.EMPTY));
+//            bootstrap.register(MILKY,
+//                               SimpleFlavor.auto(16777215,
+//                                           Ingredient.of(ItemRegistry.MILK_GELATIN.get()),
+//                                           Modifiers.MILKY));
+//        }
+//
+//        private static ResourceKey<SimpleFlavor> of(String name) {
+//            return DataPackRegistry.of(RegRegistry.KEY, name);
+//        }
+//
+//        private static Set<ResourceKey<SimpleFlavor>> flavors() {
+//            return Set.of(ORIGINAL, EXCITED, BOLD, MILKY);
+//        }
+//    }
 
     public static class Formulas extends ModDataProviders
     {

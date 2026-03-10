@@ -2,9 +2,10 @@ package com.lnatit.ccw.block.entity;
 
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.block.SugarRefineryBlock;
-import com.lnatit.ccw.datapack.Flavor;
+import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.SugarRefining;
+import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.lnatit.ccw.menu.SugarRefineryMenu;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import net.minecraft.core.BlockPos;
@@ -229,7 +230,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             main.shrink(1);
 
             ItemStack extra = this.stacks.get(3);
-            Holder<Flavor> flavor = Flavor.fromExtra(extra);
+            Holder<SimpleFlavor> flavor = SimpleFlavor.fromExtra(extra);
             if (!flavor.is(Flavor.ORIGINAL)) {
                 acceptRemainder(extra.getCraftingRemainingItem(), 1, drawer);
                 extra.shrink(1);

@@ -2,9 +2,9 @@ package com.lnatit.ccw.item.sugaring;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.datapack.Effect;
-import com.lnatit.ccw.datapack.Flavor;
+import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
 import com.lnatit.ccw.datapack.Formula;
-import com.lnatit.ccw.item.sugaring.modifier.IModifier;
+import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import com.lnatit.ccw.misc.data.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -70,15 +70,15 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
     }
 
     public SugarContents cycle() {
-        Registry<Flavor> R = Flavor.REGISTRIES();
+        Registry<SimpleFlavor> R = SimpleFlavor.REGISTRIES();
         if (R == null) {
             return this;
         }
-        Optional<ResourceKey<Flavor>> key = this.flavor.unwrapKey();
+        Optional<ResourceKey<SimpleFlavor>> key = this.flavor.unwrapKey();
 
         boolean after = false;
         SugarContents pending = this;
-        for (Map.Entry<ResourceKey<Flavor>, Flavor> entry : R.entrySet()) {
+        for (Map.Entry<ResourceKey<SimpleFlavor>, SimpleFlavor> entry : R.entrySet()) {
             if (!after && key.isPresent() && entry.getKey().location().equals(key.get().location())) {
                 after = true;
                 continue;
@@ -99,11 +99,11 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
     }
 
     private static void applyOn(Formula formula, LivingEntity entity) {
-        List<IModifier> modifiers = List.of(Flavor.getFlavor(formula.flavor()).value().modifier().value());
+        List<Flavor> flavors = List.of(formula.flavor().value());
         List<Effect> effects = formula.effects();
 
-        modifiers.forEach(m -> m.preConsume(entity, effects));
+        flavors.forEach(m -> m.preConsume(entity, effects, effects));
         effects.forEach(e -> e.extendEffect(entity));
-        modifiers.forEach(m -> m.postConsume(entity, effects));
+        flavors.forEach(m -> m.postConsume(entity, effects, effects));
     }
 }

@@ -12,7 +12,6 @@ public interface DataPackRegistry
 {
     @SubscribeEvent
     static void onDataPackRegister(DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(Flavor.KEY, Flavor.DIRECT_CODEC, Flavor.DIRECT_CODEC, builder -> builder.defaultKey(Flavor.ORIGINAL));
         event.dataPackRegistry(Formula.KEY, Formula.CODEC, Formula.CODEC);
     }
 

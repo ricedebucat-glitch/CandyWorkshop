@@ -2,8 +2,9 @@ package com.lnatit.ccw.item.sugaring;
 
 import com.google.common.collect.ImmutableList;
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.datapack.Flavor;
+import com.lnatit.ccw.item.sugaring.flavor.SimpleFlavor;
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.sugaring.flavor.Flavor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Item;
@@ -27,7 +28,7 @@ public class SugarRefining
     private static final List<Consumer<Builder>> customBlendProviders = new ArrayList<>();
     public static SugarRefining sugarRefining = EMPTY;
 
-    public static ItemStack createSugar(@Nullable Holder<Sugar> sugar, Holder<Flavor> flavor) {
+    public static ItemStack createSugar(@Nullable Holder<Sugar> sugar, Holder<SimpleFlavor> flavor) {
         if (sugar == null) {
             return ItemStack.EMPTY;
         }
@@ -79,7 +80,7 @@ public class SugarRefining
 
         for (Blend blend : sugarBlends) {
             if (sugar.is(blend.sugar) && blend.main.test(main)) {
-                return createSugar(blend.output, Flavor.fromExtra(extra));
+                return createSugar(blend.output, SimpleFlavor.fromExtra(extra));
             }
         }
         return ItemStack.EMPTY;
