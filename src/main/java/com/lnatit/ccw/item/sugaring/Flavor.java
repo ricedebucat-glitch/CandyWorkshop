@@ -1,6 +1,6 @@
-package com.lnatit.ccw.item.sugaring.flavor;
+package com.lnatit.ccw.item.sugaring;
 
-import com.lnatit.ccw.datapack.Effect;
+import com.lnatit.ccw.data.Effect;
 import com.lnatit.ccw.misc.RegRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
@@ -18,20 +18,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Flavor {
+public abstract class Flavor
+{
     public static final Codec<Holder<Flavor>> CODEC = RegRegistry.FLAVOR.holderByNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
             RegRegistry.FLAVOR_KEY);
-
-    private final Ingredient ingredient;
-
-    public Flavor(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
-
-    public Flavor() {
-        this(Ingredient.EMPTY);
-    }
+    public static final Flavor ORIGINAL = new Flavor() {};
 
     public Style style() {
         return Style.EMPTY;
@@ -49,16 +41,14 @@ public class Flavor {
         return null;
     }
 
-    public ItemStack onApply(ItemStack stack) {
-        return stack;
+    public void onApply(ItemStack stack) {
     }
 
-    public ItemStack onRemove(ItemStack stack) {
-        return stack;
+    public void onRemove(ItemStack stack) {
     }
 
     /**
-     * @param entity
+     * @param entity the entity consuming the gummy
      * @param effectsToApply the effect list to apply
      * @param formulaEffects the effect corresponding to current formula
      */

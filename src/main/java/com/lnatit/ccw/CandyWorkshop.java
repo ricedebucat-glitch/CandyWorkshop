@@ -10,7 +10,7 @@ import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.crafting.RecipeRegistry;
 import com.lnatit.ccw.item.sugaring.Sugars;
-import com.lnatit.ccw.item.sugaring.flavor.Flavors;
+import com.lnatit.ccw.item.sugaring.Flavors;
 import com.lnatit.ccw.menu.MenuRegistry;
 import com.lnatit.ccw.misc.SoundRegistry;
 import com.lnatit.ccw.misc.StatRegistry;
@@ -38,6 +38,7 @@ public class CandyWorkshop {
         ItemRegistry.TABS.register(modEventBus);
         Sugars.SUGARS.register(modEventBus);
         Flavors.FLAVORS.register(modEventBus);
+        RecipeRegistry.RECIPE_TYPES.register(modEventBus);
         RecipeRegistry.RECIPE_SERIALIZERS.register(modEventBus);
         MenuRegistry.MENUS.register(modEventBus);
         BlockRegistry.BLOCKS.register(modEventBus);

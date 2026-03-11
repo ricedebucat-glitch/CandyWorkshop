@@ -1,8 +1,9 @@
-package com.lnatit.ccw.item.sugaring.flavor;
+package com.lnatit.ccw.item.sugaring;
 
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.Nullable;
 
 public class SimpleFlavor extends Flavor
 {
@@ -25,6 +26,7 @@ public class SimpleFlavor extends Flavor
     }
 
     @Override
+    @Nullable
     public Holder<Flavor> proxy() {
         return null;
     }

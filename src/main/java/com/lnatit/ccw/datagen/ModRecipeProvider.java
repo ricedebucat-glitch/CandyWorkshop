@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 //import com.lnatit.ccw.compat.apothesis.ApothBlends;
 //import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.crafting.RefiningRecipeBuilder;
 import com.lnatit.ccw.item.crafting.RepairExtractorRecipe;
 import dev.shadowsoffire.apotheosis.Apoth;
 import net.minecraft.core.HolderLookup;
@@ -15,10 +16,12 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import vectorwing.farmersdelight.client.recipebook.CookingPotRecipeBookTab;
 import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.data.builder.CookingPotRecipeBuilder;
@@ -251,6 +254,14 @@ public class ModRecipeProvider extends RecipeProvider
             .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
             .save(output, CandyWorkshop.MODID + ":milk_gelatin_from_milk_bucket");
 
+        RefiningRecipeBuilder.of(
+                SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
+                SizedIngredient.of(Items.SUGAR, 8),
+                Ingredient.of(Items.COPPER_BLOCK),
+                Ingredient.EMPTY,
+                new ItemStack(ItemRegistry.CARAMEL_ALLOY.asItem())
+        );
+
         // Compats below
         // Apotheosis
 //        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothBlends.KNOWLEDGE_BOTTLE)
@@ -302,4 +313,8 @@ public class ModRecipeProvider extends RecipeProvider
 //                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
 //                .build(output);
     }
+
+
+
+
 }

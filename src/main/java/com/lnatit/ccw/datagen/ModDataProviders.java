@@ -1,13 +1,13 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.datapack.DataPackRegistry;
-import com.lnatit.ccw.datapack.Effect;
-import com.lnatit.ccw.datapack.Formula;
+import com.lnatit.ccw.data.DataPackRegistry;
+import com.lnatit.ccw.data.Effect;
+import com.lnatit.ccw.data.Formula;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
-import com.lnatit.ccw.item.sugaring.flavor.Flavor;
-import com.lnatit.ccw.item.sugaring.flavor.Flavors;
+import com.lnatit.ccw.item.sugaring.Flavor;
+import com.lnatit.ccw.item.sugaring.Flavors;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;

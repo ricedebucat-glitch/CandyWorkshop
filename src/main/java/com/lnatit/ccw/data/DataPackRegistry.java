@@ -1,4 +1,4 @@
-package com.lnatit.ccw.datapack;
+package com.lnatit.ccw.data;
 
 import com.lnatit.ccw.CandyWorkshop;
 import net.minecraft.core.Registry;

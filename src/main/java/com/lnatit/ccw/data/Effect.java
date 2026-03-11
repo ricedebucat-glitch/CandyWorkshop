@@ -1,4 +1,4 @@
-package com.lnatit.ccw.datapack;
+package com.lnatit.ccw.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

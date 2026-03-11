@@ -1,5 +1,7 @@
 package com.lnatit.ccw.item.crafting;
 
+import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.data.IFormula;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -17,6 +19,7 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public record RefiningRecipe(
         SizedIngredient milk,
@@ -24,7 +27,7 @@ public record RefiningRecipe(
         Ingredient main,
         Ingredient extra,
         ItemStack result
-) implements Recipe<RefiningInput>
+) implements IFormula, Recipe<RefiningInput>
 {
     @Override
     public boolean matches(RefiningInput input, Level level) {
@@ -36,12 +39,31 @@ public record RefiningRecipe(
 
     @Override
     public ItemStack assemble(RefiningInput input, HolderLookup.Provider registries) {
-        return this.getResultItem(registries).copy();
+        CandyWorkshop.LOGGER.warn("assemble should not be called for refining recipe, use batch instead");
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack productionOf(RefiningInput input) {
+        return this.result.copy();
+    }
+
+    @Override
+    public ItemStack batch(RefiningInput input, Consumer<ItemStack> remainderHandler) {
+        IFormula.shrinkAndHandleRemainders(input.milk(), this.milk.count(), remainderHandler);
+        IFormula.shrinkAndHandleRemainders(input.sugar(), this.sugar.count(), remainderHandler);
+        if (!this.main.isEmpty()) {
+            IFormula.shrinkAndHandleRemainders(input.main(), remainderHandler);
+        }
+        if (!this.extra.isEmpty()) {
+            IFormula.shrinkAndHandleRemainders(input.extra(), remainderHandler);
+        }
+        return this.result.copy();
     }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width >= 4 && height >= 1;
+        return false;
     }
 
     @Override
@@ -54,24 +76,20 @@ public record RefiningRecipe(
         List<ItemStack> remainders = new ArrayList<>();
         ItemStack r;
 
-        if (input.milk().hasCraftingRemainingItem())
-        {
+        if (input.milk().hasCraftingRemainingItem()) {
             r = input.milk().getCraftingRemainingItem();
             r.setCount(this.milk.count());
             remainders.add(r);
         }
-        if (input.sugar().hasCraftingRemainingItem())
-        {
+        if (input.sugar().hasCraftingRemainingItem()) {
             r = input.sugar().getCraftingRemainingItem();
             r.setCount(this.sugar.count());
             remainders.add(r);
         }
-        if (input.main().hasCraftingRemainingItem())
-        {
+        if (input.main().hasCraftingRemainingItem()) {
             remainders.add(input.main().getCraftingRemainingItem());
         }
-        if (input.extra().hasCraftingRemainingItem())
-        {
+        if (input.extra().hasCraftingRemainingItem()) {
             remainders.add(input.extra().getCraftingRemainingItem());
         }
 
@@ -95,7 +113,8 @@ public record RefiningRecipe(
 
     public static class Serializer implements RecipeSerializer<RefiningRecipe>
     {
-        public static final Codec<SizedIngredient> ANY_SIZED = Codec.withAlternative(SizedIngredient.FLAT_CODEC, SizedIngredient.NESTED_CODEC);
+        public static final Codec<SizedIngredient> ANY_SIZED = Codec.withAlternative(SizedIngredient.FLAT_CODEC,
+                                                                                     SizedIngredient.NESTED_CODEC);
         public static final MapCodec<RefiningRecipe> CODEC = RecordCodecBuilder.mapCodec(
                 inst -> inst.group(
                                     ANY_SIZED.fieldOf("milk").forGetter(RefiningRecipe::milk),

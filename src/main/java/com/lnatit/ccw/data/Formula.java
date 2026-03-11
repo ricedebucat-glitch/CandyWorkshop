@@ -1,25 +1,29 @@
-package com.lnatit.ccw.datapack;
+package com.lnatit.ccw.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.item.crafting.RefiningInput;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.flavor.Flavor;
+import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.sugaring.Flavor;
+import com.lnatit.ccw.item.sugaring.Flavors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> effects)
+public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> effects) implements IFormula
 {
     public static final ResourceKey<Registry<Formula>> KEY = ResourceKey.createRegistryKey(CandyWorkshop.id("formula"));
-
     public static final Codec<Formula> CODEC = RecordCodecBuilder.create(instance -> instance
             .group(Sugar.CODEC.fieldOf("sugar").forGetter(Formula::sugar),
                    Flavor.CODEC.fieldOf("flavor").forGetter(Formula::flavor),
@@ -28,6 +32,34 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
 
     private Key key() {
         return new Key(sugar, flavor);
+    }
+
+    @Override
+    public ItemStack productionOf(RefiningInput input) {
+        if (!IFormula.hasEnoughMilkAndSugar(input))
+            return ItemStack.EMPTY;
+        return this.result();
+    }
+
+    @Override
+    public ItemStack batch(
+            RefiningInput input,
+            Consumer<ItemStack> remainderHandler
+    ) {
+        IFormula.shrinkAndHandleRemainders(input.milk(), IFormula.getMilkConsumption(input.milk()), remainderHandler);
+        IFormula.shrinkAndHandleRemainders(input.sugar(), SUGAR_CONSUMPTION, remainderHandler);
+        IFormula.shrinkAndHandleRemainders(input.main(), remainderHandler);
+        Holder<Flavor> flavor = Flavor.from(input.extra());
+        if (!flavor.is(Flavors.ORIGINAL)) {
+            IFormula.shrinkAndHandleRemainders(input.extra(), remainderHandler);
+        }
+        return this.result();
+    }
+
+    private ItemStack result() {
+        ItemStack result = SugarContents.createSugar(this.sugar, this.flavor);
+        result.setCount(SUGAR_PRODUCTION);
+        return result;
     }
 
     @Nullable

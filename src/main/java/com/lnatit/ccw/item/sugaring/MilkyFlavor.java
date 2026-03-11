@@ -1,6 +1,6 @@
-package com.lnatit.ccw.item.sugaring.flavor;
+package com.lnatit.ccw.item.sugaring;
 
-import com.lnatit.ccw.datapack.Effect;
+import com.lnatit.ccw.data.Effect;
 import com.lnatit.ccw.item.ItemRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Style;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MilkyFlavor extends Flavor {
+public class MilkyFlavor extends SimpleFlavor {
     public MilkyFlavor() {
-        super(Ingredient.of(ItemRegistry.MILK_GELATIN));
+        super(0xFFFFFF, Ingredient.of(ItemRegistry.MILK_GELATIN));
     }
 
     @Override
