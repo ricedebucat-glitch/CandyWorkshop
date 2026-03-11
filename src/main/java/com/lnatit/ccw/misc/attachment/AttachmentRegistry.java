@@ -1,4 +1,4 @@
-package com.lnatit.ccw.misc.data;
+package com.lnatit.ccw.misc.attachment;
 
 import com.lnatit.ccw.CandyWorkshop;
 import net.neoforged.bus.api.SubscribeEvent;

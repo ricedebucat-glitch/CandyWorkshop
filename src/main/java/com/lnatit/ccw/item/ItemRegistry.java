@@ -2,7 +2,9 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.component.BoxContents;
+import com.lnatit.ccw.item.component.PainterContents;
+import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -32,6 +34,16 @@ public class ItemRegistry {
                     "sugar_contents",
                     sugarBuilder -> sugarBuilder.persistent(SugarContents.CODEC).networkSynchronized(SugarContents.STREAM_CODEC).cacheEncoding()
             );
+//    public static final Supplier<DataComponentType<BoxContents>> BOX_CONTENTS_DCTYPE =
+//            DATA_COMPONENTS.registerComponentType(
+//                    "box_contents",
+//                    boxBuilder -> boxBuilder.persistent(BoxContents.CODEC).networkSynchronized(BoxContents.STREAM_CODEC).cacheEncoding()
+//            );
+//    public static final Supplier<DataComponentType<PainterContents>> PAINTER_CONTENTS_DCTYPE =
+//            DATA_COMPONENTS.registerComponentType(
+//                    "painter_contents",
+//                    painterBuilder -> painterBuilder.persistent(PainterContents.CODEC).networkSynchronized(PainterContents.STREAM_CODEC).cacheEncoding()
+//            );
 
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(CandyWorkshop.MODID);
@@ -42,7 +54,6 @@ public class ItemRegistry {
                     key -> new GummyItem(
                             new Item.Properties()
                                     .food(FoodsAndConsumables.GUMMY_FOOD)
-//                                    .component(SUGAR_CONTENTS_DCTYPE, SugarContents.vanilla())
                     )
             );
     public static final DeferredItem<BlockItem> SUGAR_REFINERY = ITEMS.registerSimpleBlockItem(BlockRegistry.SUGAR_REFINERY);

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.crafting.RefiningInput;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.item.sugaring.Flavors;
 import com.mojang.serialization.Codec;

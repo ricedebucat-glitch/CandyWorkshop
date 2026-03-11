@@ -1,9 +1,12 @@
-package com.lnatit.ccw.item.sugaring;
+package com.lnatit.ccw.item.component;
 
 import com.lnatit.ccw.data.Effect;
 import com.lnatit.ccw.data.Formula;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.misc.data.AttachmentRegistry;
+import com.lnatit.ccw.item.sugaring.Flavor;
+import com.lnatit.ccw.item.sugaring.Flavors;
+import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.misc.attachment.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;

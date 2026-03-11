@@ -3,7 +3,7 @@ package com.lnatit.ccw.datagen;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
 import com.lnatit.ccw.misc.critereon.NumericTrigger;

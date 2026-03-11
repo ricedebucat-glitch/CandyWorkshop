@@ -1,8 +1,6 @@
 package com.lnatit.ccw.compat.fruitsdelight;
 
 import com.lnatit.ccw.item.sugaring.*;
-import com.lnatit.ccw.item.sugaring.legacy.MultipleEffectSugar;
-import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import dev.xkmc.fruitsdelight.init.food.FruitType;
 import dev.xkmc.fruitsdelight.init.registrate.FDEffects;
 import dev.xkmc.fruitsdelight.init.registrate.FDItems;
@@ -11,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FruitsDelightCompats
 {
-    public static final DeferredHolder<Sugar, SingleEffectSugar> BLUEBERRY =
+    public static final DeferredHolder<Sugar, Sugar> BLUEBERRY =
             Sugars.registerSingle("blueberry",
                                   builder -> builder
                                           .withEffect(FDEffects.BRIGHTENING)
@@ -19,7 +17,7 @@ public class FruitsDelightCompats
                                           .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> HAWBERRY =
+    public static final DeferredHolder<Sugar, Sugar> HAWBERRY =
             Sugars.registerSingle("hawthorn",
                                   builder -> builder
                                           .withEffect(FDEffects.APPETIZING)
@@ -27,7 +25,7 @@ public class FruitsDelightCompats
                                           .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> MANGO =
+    public static final DeferredHolder<Sugar, Sugar> MANGO =
             Sugars.registerSingle(
                     "mango",
                     builder -> builder
@@ -36,7 +34,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> ORANGE =
+    public static final DeferredHolder<Sugar, Sugar> ORANGE =
             Sugars.registerSingle(
                     "orange",
                     builder -> builder
@@ -45,7 +43,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> PEACH =
+    public static final DeferredHolder<Sugar, Sugar> PEACH =
             Sugars.registerSingle(
                     "peach",
                     builder -> builder
@@ -54,7 +52,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> PEAR =
+    public static final DeferredHolder<Sugar, Sugar> PEAR =
             Sugars.registerSingle(
                     "snow_pear",
                     builder -> builder
@@ -63,7 +61,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> PERSIMMON =
+    public static final DeferredHolder<Sugar, Sugar> PERSIMMON =
             Sugars.registerSingle(
                     "persimmon",
                     builder -> builder
@@ -72,7 +70,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> PINEAPPLE =
+    public static final DeferredHolder<Sugar, Sugar> PINEAPPLE =
             Sugars.registerSingle(
                     "pineapple",
                     builder -> builder
@@ -81,7 +79,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> LEMON =
+    public static final DeferredHolder<Sugar, Sugar> LEMON =
             Sugars.registerSingle(
                     "lemon",
                     builder -> builder
@@ -90,7 +88,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> CRANBERRY =
+    public static final DeferredHolder<Sugar, Sugar> CRANBERRY =
             Sugars.registerSingle(
                     "cranberry",
                     builder -> builder
@@ -99,7 +97,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> MANGOSTEEN =
+    public static final DeferredHolder<Sugar, Sugar> MANGOSTEEN =
             Sugars.registerSingle(
                     "mangosteen",
                     builder -> builder
@@ -108,7 +106,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> CHORUS =
+    public static final DeferredHolder<Sugar, Sugar> CHORUS =
             Sugars.registerSingle(
                     "chorus",
                     builder -> builder
@@ -117,7 +115,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> BAYBERRY =
+    public static final DeferredHolder<Sugar, Sugar> BAYBERRY =
             Sugars.registerSingle(
                     "bayberry",
                     builder -> builder
@@ -126,7 +124,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> KIWI =
+    public static final DeferredHolder<Sugar, Sugar> KIWI =
             Sugars.registerSingle(
                     "kiwi",
                     builder -> builder
@@ -135,7 +133,7 @@ public class FruitsDelightCompats
                             .build()
             );
 
-    public static final DeferredHolder<Sugar, SingleEffectSugar> FIG =
+    public static final DeferredHolder<Sugar, Sugar> FIG =
             Sugars.registerSingle(
                     "fig",
                     builder -> builder

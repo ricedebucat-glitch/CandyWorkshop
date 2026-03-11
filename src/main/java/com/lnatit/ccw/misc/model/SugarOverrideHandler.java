@@ -2,7 +2,7 @@ package com.lnatit.ccw.misc.model;
 
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.component.SugarContents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;

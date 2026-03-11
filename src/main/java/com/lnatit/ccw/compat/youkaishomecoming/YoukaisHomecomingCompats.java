@@ -1,8 +1,6 @@
 package com.lnatit.ccw.compat.youkaishomecoming;
 
 import com.lnatit.ccw.item.sugaring.*;
-import com.lnatit.ccw.item.sugaring.legacy.MultipleEffectSugar;
-import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import dev.xkmc.youkaishomecoming.init.food.YHCrops;
 import dev.xkmc.youkaishomecoming.init.food.YHTea;
 import dev.xkmc.youkaishomecoming.init.registrate.YHEffects;
@@ -49,7 +47,7 @@ public class YoukaisHomecomingCompats
                                             MultipleEffectSugar.Effect.simple(YHEffects.SOBER)
                     )
             );
-    public static final DeferredHolder<Sugar, SingleEffectSugar> UDUMBARA =
+    public static final DeferredHolder<Sugar, Sugar> UDUMBARA =
             Sugars.registerSingle("udumbara",
                                   builder -> builder.withEffect(YHEffects.UDUMBARA)
                                                     .withNoExcited()

@@ -1,9 +1,7 @@
 package com.lnatit.ccw.compat.farmersdelight;
 
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.sugaring.legacy.SingleEffectSugar;
 import com.lnatit.ccw.item.sugaring.Sugar;
-import com.lnatit.ccw.item.sugaring.SugarRefining;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.world.food.FoodConstants;
 import net.minecraft.world.food.FoodProperties;
@@ -18,14 +16,14 @@ import java.util.function.Supplier;
 
 public class FarmersDelightCompats
 {
-    public static final DeferredHolder<Sugar, SingleEffectSugar> NOURISHED = Sugars.registerSingle(
+    public static final DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.registerSingle(
             "nourished",
             builder -> builder
                     .withEffect(ModEffects.NOURISHMENT)
                     .withNoExcited()
                     .build()
     );
-    public static final DeferredHolder<Sugar, SingleEffectSugar> COMFORT = Sugars.registerSingle(
+    public static final DeferredHolder<Sugar, Sugar> COMFORT = Sugars.registerSingle(
             "comfort",
             builder -> builder
                     .withEffect(ModEffects.COMFORT)

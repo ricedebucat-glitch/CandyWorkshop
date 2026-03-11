@@ -1,6 +1,6 @@
 package com.lnatit.ccw.item;
 
-import com.lnatit.ccw.item.sugaring.SugarContents;
+import com.lnatit.ccw.item.component.SugarContents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

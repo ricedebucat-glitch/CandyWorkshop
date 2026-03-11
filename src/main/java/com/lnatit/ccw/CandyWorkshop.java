@@ -15,7 +15,7 @@ import com.lnatit.ccw.menu.MenuRegistry;
 import com.lnatit.ccw.misc.SoundRegistry;
 import com.lnatit.ccw.misc.StatRegistry;
 import com.lnatit.ccw.misc.critereon.CriteriaRegistry;
-import com.lnatit.ccw.misc.data.AttachmentRegistry;
+import com.lnatit.ccw.misc.attachment.AttachmentRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
