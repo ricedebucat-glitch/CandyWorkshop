@@ -4,7 +4,6 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.crafting.RefiningRecipeBuilder;
 import com.lnatit.ccw.item.crafting.RepairExtractorRecipe;
 import dev.shadowsoffire.apotheosis.Apoth;
 import net.minecraft.core.HolderLookup;
@@ -15,13 +14,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.raid.Raid;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import vectorwing.farmersdelight.client.recipebook.CookingPotRecipeBookTab;
 import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.data.builder.CookingPotRecipeBuilder;
@@ -296,7 +293,7 @@ public class ModRecipeProvider extends RecipeProvider
         // FarmersDelight
         conditional = output.withConditions(new ModLoadedCondition("farmersdelight"));
         CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), 1, 200, 1.0F)
-                               .addIngredient(ItemRegistry.GUMMY_ITEM)
+                               .addIngredient(ItemRegistry.GUMMY)
                                .addIngredient(Ingredient.fromValues(Stream.of(
                                        new Ingredient.TagValue(CommonTags.FOODS_RAW_CHICKEN),
                                        new Ingredient.TagValue(CommonTags.FOODS_RAW_PORK),
@@ -304,18 +301,18 @@ public class ModRecipeProvider extends RecipeProvider
                                )))
                                .addIngredient(CommonTags.CROPS_RICE)
                                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
-                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
+                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
                                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
                                .build(conditional);
 
         CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.SWEET_HARVEST_SOUP.get(), 1, 200, 1.0F)
-                               .addIngredient(ItemRegistry.GUMMY_ITEM)
+                               .addIngredient(ItemRegistry.GUMMY)
                                .addIngredient(net.minecraft.tags.ItemTags.create(ResourceLocation.fromNamespaceAndPath(
                                        "c",
                                        "foods/fruit")))
                                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
                                .addIngredient(CommonTags.FOODS_MILK)
-                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY_ITEM))
+                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
                                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
                                .build(conditional);
     }

@@ -13,7 +13,7 @@ public class CriteriaEventHandler
 {
     @SubscribeEvent
     public static void onStatAward(StatAwardEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player && event.getStat().getType() == Stats.ITEM_USED && event.getStat().getValue() == ItemRegistry.GUMMY_ITEM.get()) {
+        if (event.getEntity() instanceof ServerPlayer player && event.getStat().getType() == Stats.ITEM_USED && event.getStat().getValue() == ItemRegistry.GUMMY.get()) {
             // The entity in is always ServerPlayer
             CriteriaRegistry.DEVELOP_DIABETES.get().trigger(player, event.getValue());
         }

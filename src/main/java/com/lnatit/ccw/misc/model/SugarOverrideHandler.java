@@ -25,7 +25,7 @@ public class SugarOverrideHandler extends ItemOverrides {
 
     @Override
     public @Nullable BakedModel resolve(BakedModel model, ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
-        if (stack.is(ItemRegistry.GUMMY_ITEM)) {
+        if (stack.is(ItemRegistry.GUMMY)) {
             SugarContents sugar = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE.get());
             if (sugar != null) {
                 BakedModel bakedModel =

@@ -171,7 +171,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
                         true,
                         false
                 )
-                .addCriterion("get_gummy", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.GUMMY_ITEM))
+                .addCriterion("get_gummy", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.GUMMY))
                 .requirements(AdvancementRequirements.allOf(List.of("get_gummy")))
                 .save(writer, AdvancementResources.MYFICA.id());
     }

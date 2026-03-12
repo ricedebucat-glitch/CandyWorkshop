@@ -49,7 +49,7 @@ public class ItemRegistry {
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(CandyWorkshop.MODID);
 
-    public static final DeferredItem<GummyItem> GUMMY_ITEM =
+    public static final DeferredItem<GummyItem> GUMMY =
             ITEMS.register(
                     "gummy",
                     key -> new GummyItem(
@@ -170,7 +170,7 @@ public class ItemRegistry {
                                         output.accept(Items.SUGAR);
                                         output.accept(NETHER_SUGAR.get());
                                         output.accept(ENDER_SUGAR.get());
-                                        output.accept(GUMMY_ITEM.get());
+                                        output.accept(GUMMY.get());
                                         ITEMS.getEntries().forEach(
                                                 holder -> output.accept(holder.get())
                                         );

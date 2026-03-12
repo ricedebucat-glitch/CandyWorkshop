@@ -50,7 +50,7 @@ public class ModModelProvider
             simpleBlockItem(BlockRegistry.PLAIN_DRAWER_TABLE.get());
             simpleBlockItem(BlockRegistry.DRAWER_TABLE.get());
 
-            basicItem(ItemRegistry.GUMMY_ITEM.getId());
+            basicItem(ItemRegistry.GUMMY.getId());
 
             basicItem(ItemRegistry.MILK_PACKAGING.getId());
             basicItem(ItemRegistry.CARTON_MILK.getId());

@@ -52,7 +52,7 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
                                   SugarContents::new);
 
     public static ItemStack createSugar(Holder<Sugar> sugar, Holder<Flavor> flavor) {
-        ItemStack itemStack = ItemRegistry.GUMMY_ITEM.toStack();
+        ItemStack itemStack = ItemRegistry.GUMMY.toStack();
         flavor.value().onApply(itemStack);
         itemStack.set(ItemRegistry.SUGAR_CONTENTS_DCTYPE, new SugarContents(sugar, flavor));
         return itemStack;

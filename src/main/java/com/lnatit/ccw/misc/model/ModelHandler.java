@@ -42,7 +42,7 @@ public class ModelHandler
     @SubscribeEvent
     public static void onModelBake(ModelEvent.ModifyBakingResult event) {
         Map<ModelResourceLocation, BakedModel> modelMap = event.getModels();
-        ModelResourceLocation gummy = ModelResourceLocation.inventory(ItemRegistry.GUMMY_ITEM.getId());
+        ModelResourceLocation gummy = ModelResourceLocation.inventory(ItemRegistry.GUMMY.getId());
         modelMap.compute(gummy, (k, original) -> SugarOverrideHandler.getModel(original));
     }
 }

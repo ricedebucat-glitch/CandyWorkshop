@@ -141,6 +141,11 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             super(8);
         }
 
+        @Override
+        public void setSize(int size) {
+            throw new RuntimeException("Resize is not allowed!");
+        }
+
         private DataSlot getDataAccess() {
             return new DataSlot()
             {
