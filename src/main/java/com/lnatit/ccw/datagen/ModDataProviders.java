@@ -1,6 +1,11 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
+import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
+import com.lnatit.ccw.compat.fruitsdelight.FruitsDelightCompats;
+import com.lnatit.ccw.compat.neapolitan.NeapolitanCompats;
+import com.lnatit.ccw.compat.youkaishomecoming.YoukaisHomecomingCompats;
 import com.lnatit.ccw.data.DataPackRegistry;
 import com.lnatit.ccw.data.Effect;
 import com.lnatit.ccw.data.Formula;
@@ -8,6 +13,10 @@ import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.item.sugaring.Flavors;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
+import com.teamabnormals.neapolitan.core.registry.NeapolitanMobEffects;
+import dev.shadowsoffire.apothic_attributes.api.ALObjects;
+import dev.xkmc.fruitsdelight.init.registrate.FDEffects;
+import dev.xkmc.youkaishomecoming.init.registrate.YHEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -18,6 +27,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import vectorwing.farmersdelight.common.registry.ModEffects;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -163,8 +173,8 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
                 .defaultExcited()
                 .defaultBold()
 
-                .register(Sugars.SATIATING, Effect.simple(MobEffects.SATURATION))
-                .defaultBold()
+                .register(Sugars.SATIATING, new Effect(MobEffects.SATURATION, 20, 0))
+                .bold(new Effect(MobEffects.SATURATION, 40, 0))
 
                 .register(Sugars.LUCKY, Effect.simple(MobEffects.LUCK))
                 .defaultBold()
@@ -186,15 +196,134 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
                 .defaultBold()
 
                 .loaded("apotheosis")
+                .register(ApothesisCompats.GRIEVOUS, Effect.simple(ALObjects.MobEffects.GRIEVOUS))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(ApothesisCompats.KNOWLEDGE, Effect.simple(ALObjects.MobEffects.KNOWLEDGE))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(ApothesisCompats.SUNDERING, Effect.simple(ALObjects.MobEffects.SUNDERING))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(ApothesisCompats.VITALITY, Effect.simple(ALObjects.MobEffects.VITALITY))
+                .defaultExcited()
+                .defaultBold()
                 .clearConditions()
+
                 .loaded("farmersdelight")
+                .register(FarmersDelightCompats.NOURISHED, Effect.simple(ModEffects.NOURISHMENT))
+                .defaultBold()
+
+                .register(FarmersDelightCompats.COMFORT, Effect.simple(ModEffects.COMFORT))
+                .defaultBold()
                 .clearConditions()
+
                 .loaded("fruitsdelight")
+                .register(FruitsDelightCompats.BLUEBERRY, Effect.simple(FDEffects.BRIGHTENING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.HAWTHORN, Effect.simple(FDEffects.APPETIZING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.MANGO, Effect.simple(FDEffects.RAGE_AURA))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.ORANGE, Effect.simple(FDEffects.RECOVERING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.PEACH, Effect.simple(FDEffects.HEAL_AURA))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.PEAR, Effect.simple(FDEffects.LOZENGE))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.PERSIMMON, Effect.simple(FDEffects.ASTRINGENT))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.PINEAPPLE, Effect.simple(FDEffects.SWEETENING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.LEMON, Effect.simple(FDEffects.REFRESHING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.CRANBERRY, Effect.simple(FDEffects.SHRINKING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.MANGOSTEEN, Effect.simple(FDEffects.SLIDING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.CHORUS, Effect.simple(FDEffects.CHORUS))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.BAYBERRY, Effect.simple(FDEffects.LEAF_PIERCING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.KIWI, Effect.simple(FDEffects.CYCLING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.FIG, Effect.simple(FDEffects.DIGESTING))
+                .defaultBold()
+
+                .register(FruitsDelightCompats.DURIAN,
+                          Effect.simple(FDEffects.ALIENATING),
+                          Effect.simple(FDEffects.SUSPICIOUS_SMELL))
+                .defaultBold()
                 .clearConditions()
-                .loaded("youkaishomecoming")
-                .clearConditions()
+
                 .loaded("neapolitan")
-                .clearConditions();
+                .register(NeapolitanCompats.HOOHOO_HAHA, Effect.simple(NeapolitanMobEffects.AGILITY))
+                .defaultBold()
+
+                .register(NeapolitanCompats.HOOHOO_SMOOTH, Effect.simple(NeapolitanMobEffects.SLIPPING))
+                .defaultBold()
+
+                .register(NeapolitanCompats.MINT, Effect.simple(NeapolitanMobEffects.BERSERKING))
+                .defaultBold()
+
+                .register(NeapolitanCompats.RED_BEAN, Effect.simple(NeapolitanMobEffects.HARMONY))
+                .defaultBold()
+
+                .register(NeapolitanCompats.VANILLA, Effect.simple(NeapolitanMobEffects.VANILLA_SCENT))
+                .defaultBold()
+                .clearConditions()
+
+                .loaded("youkaishomecoming")
+                .register(YoukaisHomecomingCompats.GREEN_TEA,
+                          new Effect(YHEffects.TEA, 600, 1),
+                          Effect.simple(YHEffects.SOBER))
+                .defaultBold()
+
+                .register(YoukaisHomecomingCompats.WHITE_TEA,
+                          Effect.simple(YHEffects.TEA),
+                          Effect.simple(YHEffects.REFRESHING),
+                          Effect.simple(YHEffects.SOBER))
+                .defaultBold()
+
+                .register(YoukaisHomecomingCompats.BLACK_TEA,
+                          Effect.simple(YHEffects.TEA),
+                          Effect.simple(YHEffects.THICK),
+                          Effect.simple(YHEffects.SOBER))
+                .defaultBold()
+
+                .register(YoukaisHomecomingCompats.OOLONG_TEA,
+                          Effect.simple(YHEffects.TEA),
+                          Effect.simple(YHEffects.SMOOTHING),
+                          Effect.simple(YHEffects.SOBER))
+                .defaultBold()
+
+                .register(YoukaisHomecomingCompats.YOUKAI_COFFEE,
+                          Effect.simple(YHEffects.CAFFEINATED),
+                          Effect.simple(YHEffects.SOBER))
+                .defaultBold()
+
+                .register(YoukaisHomecomingCompats.UDUMBARA, Effect.simple(YHEffects.UDUMBARA))
+                .defaultBold()
+                .clearConditions()
+
+        ;
     }
 
 
@@ -205,6 +334,7 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
         }
     }
 
+    // TODO maybe we should push it further?
     private static class Formulas
     {
         private static final List<Context<Formula>> CONTEXTS = new ArrayList<>();
@@ -274,7 +404,7 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
         private void append(Holder<Flavor> flavor, List<Effect> effects) {
             if (!this.effects.isEmpty()) {
                 ResourceKey<Formula> key = of(flavor);
-                CONTEXTS.add(new Context<>(key, new Formula(this.sugar, Flavors.ORIGINAL, effects)));
+                CONTEXTS.add(new Context<>(key, new Formula(this.sugar, flavor, effects)));
                 if (!conditions.isEmpty()) {
                     CONDITIONS.put(key, conditions);
                 }

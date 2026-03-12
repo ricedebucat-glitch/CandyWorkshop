@@ -6,68 +6,52 @@ import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.world.food.FoodConstants;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import vectorwing.farmersdelight.common.FoodValues;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
-import vectorwing.farmersdelight.common.registry.ModEffects;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.function.Supplier;
 
 public class FarmersDelightCompats
 {
-    public static final DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.registerSingle(
-            "nourished",
-            builder -> builder
-                    .withEffect(ModEffects.NOURISHMENT)
-                    .withNoExcited()
-                    .build()
-    );
-    public static final DeferredHolder<Sugar, Sugar> COMFORT = Sugars.registerSingle(
-            "comfort",
-            builder -> builder
-                    .withEffect(ModEffects.COMFORT)
-                    .withNoExcited()
-                    .build()
-    );
+    public static final Supplier<Item> GLAZED_MEAT_RICE = registerWithTab("glazed_meat_rice",
+                                                                          () -> new ConsumableItem(ModItems.bowlFoodItem(
+                                                                                  new FoodProperties.Builder().nutrition(
+                                                                                                                      12)
+                                                                                                              .saturationModifier(
+                                                                                                                      FoodConstants.FOOD_SATURATION_NORMAL)
+                                                                                                              .effect(() -> FoodValues.nourishment(
+                                                                                                                              3600),
+                                                                                                                      1.0F)
+                                                                                                              .build())));
+    public static final Supplier<Item> SWEET_HARVEST_SOUP = registerWithTab("sweet_harvest_soup",
+                                                                            () -> new ConsumableItem(ModItems.bowlFoodItem(
+                                                                                    new FoodProperties.Builder().nutrition(
+                                                                                                                        8)
+                                                                                                                .saturationModifier(
+                                                                                                                        FoodConstants.FOOD_SATURATION_NORMAL)
+                                                                                                                .effect(() -> FoodValues.comfort(
+                                                                                                                                6000),
+                                                                                                                        1.0F)
+                                                                                                                .build())));
 
-    public static final Supplier<Item> GLAZED_MEAT_RICE = registerWithTab(
-            "glazed_meat_rice",
-            () -> new ConsumableItem(
-                    ModItems.bowlFoodItem(
-                            new FoodProperties.Builder()
-                                    .nutrition(12)
-                                    .saturationModifier(FoodConstants.FOOD_SATURATION_NORMAL)
-                                    .effect(() -> FoodValues.nourishment(3600), 1.0F)
-                                    .build()
-                    )
-            )
-    );
-    public static final Supplier<Item> SWEET_HARVEST_SOUP = registerWithTab(
-            "sweet_harvest_soup",
-            () -> new ConsumableItem(
-                    ModItems.bowlFoodItem(
-                            new FoodProperties.Builder()
-                                    .nutrition(8)
-                                    .saturationModifier(FoodConstants.FOOD_SATURATION_NORMAL)
-                                    .effect(() -> FoodValues.comfort(6000), 1.0F)
-                                    .build()
-                    )
-            )
-    );
+    public static final DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.SUGARS.register("nourished",
+                                                                                        () -> new Sugar(Sugar.Type.OVERWORLD,
+                                                                                                        Ingredient.of(
+                                                                                                                GLAZED_MEAT_RICE.get())));
+    public static final DeferredHolder<Sugar, Sugar> COMFORT = Sugars.SUGARS.register("comfort",
+                                                                                      () -> new Sugar(Sugar.Type.OVERWORLD,
+                                                                                                      Ingredient.of(
+                                                                                                              SWEET_HARVEST_SOUP.get())));
 
     public static void init() {
-        SugarRefining.addCustomBlendProviders(FarmersDelightCompats::addBlends);
     }
 
     private static Supplier<Item> registerWithTab(String name, Supplier<Item> supplier) {
         Supplier<Item> item = ItemRegistry.ITEMS.register(name, supplier);
         ModItems.CREATIVE_TAB_ITEMS.add(item);
         return item;
-    }
-
-    private static void addBlends(SugarRefining.Builder builder) {
-        builder.addOverworldBlend(NOURISHED, GLAZED_MEAT_RICE.get());
-        builder.addOverworldBlend(COMFORT, SWEET_HARVEST_SOUP.get());
     }
 }

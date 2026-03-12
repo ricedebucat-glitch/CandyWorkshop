@@ -202,7 +202,7 @@ public class SugarRefineryBlockEntity extends BlockEntity implements MenuProvide
             Optional<? extends IFormula> newFormula = Optional.empty();
 
             // Refining Match first
-            Holder<Sugar> sugar = Sugar.from(input.main());
+            Holder<Sugar> sugar = Sugar.from(input);
             if (sugar != null) {
                 newFormula = Formula.getFormulaOptional(sugar, Flavor.from(input.extra()));
             }

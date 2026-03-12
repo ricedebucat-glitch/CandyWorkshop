@@ -15,6 +15,8 @@ public interface IFormula
     int SUGAR_CONSUMPTION = 8;
     int SUGAR_PRODUCTION = 8;
 
+    ItemStack result();
+
     ItemStack productionOf(RefiningInput input);
 
     ItemStack batch(RefiningInput input, Consumer<ItemStack> remainderHandler);

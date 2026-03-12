@@ -2,11 +2,11 @@ package com.lnatit.ccw.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.item.crafting.RefiningInput;
-import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.component.SugarContents;
+import com.lnatit.ccw.item.crafting.RefiningInput;
 import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.item.sugaring.Flavors;
+import com.lnatit.ccw.item.sugaring.Sugar;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -34,10 +34,15 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
         return new Key(sugar, flavor);
     }
 
+    private Formula of(Holder<Flavor> flavor) {
+        return new Formula(this.sugar, flavor, this.effects);
+    }
+
     @Override
     public ItemStack productionOf(RefiningInput input) {
-        if (!IFormula.hasEnoughMilkAndSugar(input))
+        if (!IFormula.hasEnoughMilkAndSugar(input)) {
             return ItemStack.EMPTY;
+        }
         return this.result();
     }
 
@@ -56,7 +61,7 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
         return this.result();
     }
 
-    private ItemStack result() {
+    public ItemStack result() {
         ItemStack result = SugarContents.createSugar(this.sugar, this.flavor);
         result.setCount(SUGAR_PRODUCTION);
         return result;
@@ -85,8 +90,14 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
             return Optional.empty();
         }
         Key key = new Key(sugar, flavor);
-        Key proxy = new Key(sugar, flavor.value().proxy());
-        Formula formula = CACHE.getOrDefault(key, CACHE.get(proxy));
+        Formula formula = CACHE.get(key);
+        if (formula == null) {
+            Key proxy = new Key(sugar, flavor.value().proxy());
+            formula = CACHE.get(proxy);
+            if (formula != null) {
+                formula = formula.of(flavor);
+            }
+        }
         return Optional.ofNullable(formula);
     }
 

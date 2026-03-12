@@ -55,7 +55,7 @@ public class DataGenerate
                 event.includeServer(),
                 new ModLootProvider(output, lookupProvider)
         );
-        var blockTags = new ModTagProvider.Blocks(output, lookupProvider, existingFileHelper);
+        var blockTags = new ModTagProvider.BlockTags(output, lookupProvider, existingFileHelper);
         generator.addProvider(
                 event.includeServer(),
                 blockTags
@@ -63,7 +63,7 @@ public class DataGenerate
         );
         generator.addProvider(
                 event.includeServer(),
-                new ModTagProvider.Items(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper)
+                new ModTagProvider.ItemTags(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper)
         );
     }
 }

@@ -2,8 +2,6 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.item.component.BoxContents;
-import com.lnatit.ccw.item.component.PainterContents;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
@@ -22,6 +20,9 @@ public class ItemRegistry {
     public static final TagKey<Item> FOODS_MILK_TAG = tag("c", "foods/milk");
     public static final TagKey<Item> DRINKS_MILK_TAG = tag("c", "drinks/milk");
     public static final TagKey<Item> CARTON_MILK_TAG = tag("carton_milk");
+    public static final TagKey<Item> OVERWORLD_SUGAR_TAG = tag("overworld_sugar");
+    public static final TagKey<Item> NETHER_SUGAR_TAG = tag("nether_sugar");
+    public static final TagKey<Item> ENDER_SUGAR_TAG = tag("ender_sugar");
 
     public static final DeferredRegister.DataComponents DATA_COMPONENTS =
             DeferredRegister.createDataComponents(
