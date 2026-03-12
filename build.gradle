@@ -172,7 +172,7 @@ dependencies {
     implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
     // Nether
     // https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-nether/files
-    implementation("curse.maven:kaleidoscope-nether-1417862:7732247")
+//    implementation("curse.maven:kaleidoscope-nether-1417862:7732247")
     // End
     // https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-end/files
 //    implementation()

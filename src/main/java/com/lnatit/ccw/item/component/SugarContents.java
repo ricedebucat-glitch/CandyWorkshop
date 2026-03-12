@@ -6,6 +6,7 @@ import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Flavor;
 import com.lnatit.ccw.item.sugaring.Flavors;
 import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.item.sugaring.Sugars;
 import com.lnatit.ccw.misc.attachment.AttachmentRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -24,15 +25,31 @@ import java.util.function.Consumer;
 
 public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
 {
-    public static final Codec<SugarContents> CODEC = RecordCodecBuilder.create(ins -> ins
-            .group(Sugar.CODEC.fieldOf("sugar").forGetter(SugarContents::sugar),
-                   Flavor.CODEC.fieldOf("flavor").forGetter(SugarContents::flavor))
-            .apply(ins, SugarContents::new));
-    public static final StreamCodec<RegistryFriendlyByteBuf, SugarContents> STREAM_CODEC = StreamCodec.composite(Sugar.STREAM_CODEC,
-                                                                                                                 SugarContents::sugar,
-                                                                                                                 Flavor.STREAM_CODEC,
-                                                                                                                 SugarContents::flavor,
-                                                                                                                 SugarContents::new);
+    public static final Codec<SugarContents> CODEC =
+            Codec.withAlternative(RecordCodecBuilder.create(ins -> ins.group(Sugar.CODEC.fieldOf("sugar")
+                                                                                        .forGetter(SugarContents::sugar),
+                                                                             Flavor.CODEC.fieldOf("flavor")
+                                                                                         .forGetter(SugarContents::flavor))
+                                                                      .apply(ins, SugarContents::new)),
+                                  RecordCodecBuilder.create(ins -> ins.group(Sugar.CODEC.optionalFieldOf("sugar")
+                                                                                        .xmap(o -> o.orElse(Sugars.SPEED),
+                                                                                              Optional::of)
+                                                                                        .forGetter(SugarContents::sugar),
+                                                                             Codec.STRING.fieldOf("flavor")
+                                                                                         .xmap(Flavors::byName,
+                                                                                               f -> f.getKey()
+                                                                                                     .location()
+                                                                                                     .getPath())
+                                                                                         .forGetter(SugarContents::flavor))
+                                                                      .apply(ins, SugarContents::new))
+
+            );
+    public static final StreamCodec<RegistryFriendlyByteBuf, SugarContents> STREAM_CODEC =
+            StreamCodec.composite(Sugar.STREAM_CODEC,
+                                  SugarContents::sugar,
+                                  Flavor.STREAM_CODEC,
+                                  SugarContents::flavor,
+                                  SugarContents::new);
 
     public static ItemStack createSugar(Holder<Sugar> sugar, Holder<Flavor> flavor) {
         ItemStack itemStack = ItemRegistry.GUMMY_ITEM.toStack();
@@ -55,18 +72,16 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
 
     public Component getName(String descriptionId) {
         // temporary fix
-        Component name = Component
-                .translatable(descriptionId + "." + this.sugar.getKey().location().getPath())
-                .withStyle(ChatFormatting.WHITE);
+        Component name = Component.translatable(descriptionId + "." + this.sugar.getKey().location().getPath())
+                                  .withStyle(ChatFormatting.WHITE);
         return this.flavor.is(Flavors.ORIGINAL) ? name : Flavor.prefix(this.flavor).append(" ").append(name);
     }
 
     public void addSugarTooltip(Consumer<Component> tooltipAdder, float ticksPerSecond) {
-        Formula
-                .getFormulaOptional(this.sugar, this.flavor)
-                .map(Formula::effects)
-                .orElse(List.of())
-                .forEach(effect -> tooltipAdder.accept(effect.getDescription(ticksPerSecond)));
+        Formula.getFormulaOptional(this.sugar, this.flavor)
+               .map(Formula::effects)
+               .orElse(List.of())
+               .forEach(effect -> tooltipAdder.accept(effect.getDescription(ticksPerSecond)));
 
         if (!flavor.is(Flavors.ORIGINAL)) {
             tooltipAdder.accept(Flavor.description(this.flavor));
