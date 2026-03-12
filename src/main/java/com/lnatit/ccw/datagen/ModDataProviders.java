@@ -20,15 +20,12 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class ModDataProviders extends DatapackBuiltinEntriesProvider
 {
-    public static final Map<ResourceKey<?>, List<ICondition>> CONDITIONS = new HashMap<>();
+    private static final Map<ResourceKey<?>, List<ICondition>> CONDITIONS = new HashMap<>();
 
     public ModDataProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output,
@@ -39,7 +36,7 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
     }
 
     private static void register(BootstrapContext<Formula> bootstrap) {
-        Builtin.INSTANCE.register(bootstrap);
+        Formulas.CONTEXTS.forEach(context -> context.register(bootstrap));
     }
 
     @Override
@@ -47,335 +44,241 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
         return "Candy Workshop - Datapacks";
     }
 
-    private interface Entry
-    {
-        default HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return new RegisterContext(bootstrap, sugarHolder, effects);
-        }
+    static {
+        Formulas.of()
+                // Overworld blends
+                .register(Sugars.SPEED, Effect.simple(MobEffects.MOVEMENT_SPEED))
+                .defaultExcited()
+                .defaultBold()
 
-        void register(BootstrapContext<Formula> bootstrap);
-    }
+                .register(Sugars.BUNNY, Effect.simple(MobEffects.JUMP))
+                .defaultExcited()
+                .defaultBold()
 
-    private enum Builtin implements Entry
-    {
-        INSTANCE;
+                .register(Sugars.HEALING, Effect.instant(MobEffects.HEAL))
+                .defaultExcited()
 
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-            // Overworld blends
-            this.registerSugar(bootstrap, Sugars.SPEED, Effect.simple(MobEffects.MOVEMENT_SPEED))
+                .register(Sugars.POISON, Effect.simple(MobEffects.POISON))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.BUNNY, Effect.simple(MobEffects.JUMP))
+
+                .register(Sugars.PUFFERFISH, Effect.simple(MobEffects.WATER_BREATHING))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.HEALING, Effect.instant(MobEffects.HEAL)).defaultExcited().run();
-            this.registerSugar(bootstrap, Sugars.POISON, Effect.simple(MobEffects.POISON))
+
+                .register(Sugars.NIGHT_VISION, Effect.simple(MobEffects.NIGHT_VISION))
+                .defaultBold()
+
+                .register(Sugars.STRENGTH, Effect.simple(MobEffects.DAMAGE_BOOST))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.PUFFERFISH, Effect.simple(MobEffects.WATER_BREATHING))
+
+                .register(Sugars.RECOVERY, Effect.simple(MobEffects.REGENERATION))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.NIGHT_VISION, Effect.simple(MobEffects.NIGHT_VISION))
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.STRENGTH, Effect.simple(MobEffects.DAMAGE_BOOST))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.RECOVERY, Effect.simple(MobEffects.REGENERATION))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap,
-                               Sugars.TURTLE,
-                               new Effect(MobEffects.MOVEMENT_SLOWDOWN, 100, 3),
-                               new Effect(MobEffects.DAMAGE_RESISTANCE, 100, 2))
+
+                .register(Sugars.TURTLE,
+                          new Effect(MobEffects.MOVEMENT_SLOWDOWN, 100, 3),
+                          new Effect(MobEffects.DAMAGE_RESISTANCE, 100, 2))
                 .excited(new Effect(MobEffects.MOVEMENT_SLOWDOWN, 100, 5),
                          new Effect(MobEffects.DAMAGE_RESISTANCE, 100, 3))
                 .bold(new Effect(MobEffects.MOVEMENT_SLOWDOWN, 200, 3),
                       new Effect(MobEffects.DAMAGE_RESISTANCE, 200, 2))
-                .run();
-            this.registerSugar(bootstrap, Sugars.FLUTTER, Effect.simple(MobEffects.SLOW_FALLING))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.SNAIL, Effect.simple(MobEffects.MOVEMENT_SLOWDOWN))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.STINKY, Effect.simple(MobEffects.CONFUSION)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.BLINDING, Effect.simple(MobEffects.BLINDNESS)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.WEAKNESS, Effect.simple(MobEffects.WEAKNESS))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.BRIGHTNESS, Effect.simple(MobEffects.GLOWING)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.DARKNESS, Effect.simple(MobEffects.DARKNESS)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.HUNGER, Effect.simple(MobEffects.HUNGER))
-                .defaultExcited()
-                .defaultBold()
-                .run();
 
-            // Nether blends
-            this.registerSugar(bootstrap, Sugars.INVISIBILITY, Effect.simple(MobEffects.INVISIBILITY))
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.STINGER, Effect.instant(MobEffects.HARM)).defaultExcited().run();
-            this.registerSugar(bootstrap, Sugars.BUG, Effect.simple(MobEffects.INFESTED)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.STICKY, Effect.simple(MobEffects.OOZING)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.BINDING, Effect.simple(MobEffects.WEAVING)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.GALE, Effect.simple(MobEffects.WIND_CHARGED)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.REFRESHING, Effect.simple(MobEffects.DIG_SPEED))
+                .register(Sugars.FLUTTER, Effect.simple(MobEffects.SLOW_FALLING))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.LAZY, Effect.simple(MobEffects.DIG_SLOWDOWN))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.SOLID, Effect.simple(MobEffects.DAMAGE_RESISTANCE))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.FIREPROOF, Effect.simple(MobEffects.FIRE_RESISTANCE))
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.WITHERING, Effect.simple(MobEffects.WITHER))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.RED_HEART, Effect.simple(MobEffects.HEALTH_BOOST))
-                .defaultExcited()
-                .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.FLOATING, Effect.simple(MobEffects.LEVITATION)).defaultBold().run();
 
-            // End blends
-            this.registerSugar(bootstrap, Sugars.GOLDEN_HEART, Effect.simple(MobEffects.ABSORPTION))
+                .register(Sugars.SNAIL, Effect.simple(MobEffects.MOVEMENT_SLOWDOWN))
                 .defaultExcited()
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.SATIATING, Effect.simple(MobEffects.SATURATION)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.LUCKY, Effect.simple(MobEffects.LUCK)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.UNLUCKY, Effect.simple(MobEffects.UNLUCK)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.TIDAL, Effect.simple(MobEffects.CONDUIT_POWER)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.FISH_SWIM, Effect.simple(MobEffects.DOLPHINS_GRACE))
+
+                .register(Sugars.STINKY, Effect.simple(MobEffects.CONFUSION))
                 .defaultBold()
-                .run();
-            this.registerSugar(bootstrap, Sugars.TAUNTING, Effect.simple(MobEffects.BAD_OMEN)).defaultBold().run();
-            this.registerSugar(bootstrap, Sugars.DISCOUNT, Effect.simple(MobEffects.HERO_OF_THE_VILLAGE))
+
+                .register(Sugars.BLINDING, Effect.simple(MobEffects.BLINDNESS))
+                .defaultBold()
+
+                .register(Sugars.WEAKNESS, Effect.simple(MobEffects.WEAKNESS))
                 .defaultExcited()
                 .defaultBold()
-                .run();
+
+                .register(Sugars.BRIGHTNESS, Effect.simple(MobEffects.GLOWING))
+                .defaultBold()
+
+                .register(Sugars.DARKNESS, Effect.simple(MobEffects.DARKNESS))
+                .defaultBold()
+
+                .register(Sugars.HUNGER, Effect.simple(MobEffects.HUNGER))
+                .defaultExcited()
+                .defaultBold()
+
+                // Nether blends
+                .register(Sugars.INVISIBILITY, Effect.simple(MobEffects.INVISIBILITY))
+                .defaultBold()
+
+                .register(Sugars.STINGER, Effect.instant(MobEffects.HARM))
+                .defaultExcited()
+
+                .register(Sugars.BUG, Effect.simple(MobEffects.INFESTED))
+                .defaultBold()
+
+                .register(Sugars.STICKY, Effect.simple(MobEffects.OOZING))
+                .defaultBold()
+
+                .register(Sugars.BINDING, Effect.simple(MobEffects.WEAVING))
+                .defaultBold()
+
+                .register(Sugars.GALE, Effect.simple(MobEffects.WIND_CHARGED))
+                .defaultBold()
+
+                .register(Sugars.REFRESHING, Effect.simple(MobEffects.DIG_SPEED))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.LAZY, Effect.simple(MobEffects.DIG_SLOWDOWN))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.SOLID, Effect.simple(MobEffects.DAMAGE_RESISTANCE))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.FIREPROOF, Effect.simple(MobEffects.FIRE_RESISTANCE))
+                .defaultBold()
+
+                .register(Sugars.WITHERING, Effect.simple(MobEffects.WITHER))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.RED_HEART, Effect.simple(MobEffects.HEALTH_BOOST))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.FLOATING, Effect.simple(MobEffects.LEVITATION))
+                .defaultBold()
+
+                // End blends
+                .register(Sugars.GOLDEN_HEART, Effect.simple(MobEffects.ABSORPTION))
+                .defaultExcited()
+                .defaultBold()
+
+                .register(Sugars.SATIATING, Effect.simple(MobEffects.SATURATION))
+                .defaultBold()
+
+                .register(Sugars.LUCKY, Effect.simple(MobEffects.LUCK))
+                .defaultBold()
+
+                .register(Sugars.UNLUCKY, Effect.simple(MobEffects.UNLUCK))
+                .defaultBold()
+
+                .register(Sugars.TIDAL, Effect.simple(MobEffects.CONDUIT_POWER))
+                .defaultBold()
+
+                .register(Sugars.FISH_SWIM, Effect.simple(MobEffects.DOLPHINS_GRACE))
+                .defaultBold()
+
+                .register(Sugars.TAUNTING, Effect.simple(MobEffects.BAD_OMEN))
+                .defaultBold()
+
+                .register(Sugars.DISCOUNT, Effect.simple(MobEffects.HERO_OF_THE_VILLAGE))
+                .defaultExcited()
+                .defaultBold()
+
+                .loaded("apotheosis")
+                .clearConditions()
+                .loaded("farmersdelight")
+                .clearConditions()
+                .loaded("fruitsdelight")
+                .clearConditions()
+                .loaded("youkaishomecoming")
+                .clearConditions()
+                .loaded("neapolitan")
+                .clearConditions();
+    }
+
+
+    private record Context<V>(ResourceKey<V> key, V value)
+    {
+        public void register(BootstrapContext<V> context) {
+            context.register(key, value);
         }
     }
 
-    private enum Apotheosis implements Entry
+    private static class Formulas
     {
-        INSTANCE;
-
-        @Override
-        public HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return Entry.super.registerSugar(bootstrap, sugarHolder, effects)
-                              .loaded("apotheosis");
-        }
-
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-
-        }
-    }
-
-    private enum FarmersDelight implements Entry
-    {
-        INSTANCE;
-
-        @Override
-        public HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return Entry.super.registerSugar(bootstrap, sugarHolder, effects)
-                              .loaded("farmersdelight");
-        }
-
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-
-        }
-    }
-
-    private enum FruitsDelight implements Entry
-    {
-        INSTANCE;
-
-        @Override
-        public HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return Entry.super.registerSugar(bootstrap, sugarHolder, effects)
-                              .loaded("fruitsdelight");
-        }
-
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-
-        }
-    }
-
-    private enum YoukaisHomecoming implements Entry
-    {
-        INSTANCE;
-
-        @Override
-        public HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return Entry.super.registerSugar(bootstrap, sugarHolder, effects)
-                              .loaded("youkaishomecoming");
-        }
-
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-
-        }
-    }
-
-    private enum Neapolitan implements Entry
-    {
-        INSTANCE;
-
-        @Override
-        public HalfContext registerSugar(
-                BootstrapContext<Formula> bootstrap,
-                Holder<Sugar> sugarHolder,
-                Effect... effects
-        ) {
-            return Entry.super.registerSugar(bootstrap, sugarHolder, effects)
-                              .loaded("neapolitan");
-        }
-
-        @Override
-        public void register(BootstrapContext<Formula> bootstrap) {
-
-        }
-    }
-
-    // Helper methods & classes below...
-    private interface HalfContext extends Runnable
-    {
-        HalfContext addConditions(List<ICondition> conditions);
-
-        default HalfContext loaded(String modid) {
-            return addConditions(List.of(new ModLoadedCondition(modid)));
-        }
-
-        List<Effect> getOriginalEffects();
-
-        HalfContext excited(Effect... effects);
-
-        default HalfContext defaultExcited() {
-            return excited(getOriginalEffects().stream().map(Effect::enhanceAmplifier).toArray(Effect[]::new));
-        }
-
-        HalfContext bold(Effect... effects);
-
-        default HalfContext defaultBold() {
-            return bold(getOriginalEffects().stream().map(Effect::doubleDuration).toArray(Effect[]::new));
-        }
-    }
-
-    private static class RegisterContext implements HalfContext
-    {
-        BootstrapContext<Formula> bootstrap;
-        Holder<Sugar> sugarHolder;
-        List<Effect> originalEffects;
+        private static final List<Context<Formula>> CONTEXTS = new ArrayList<>();
+        private List<ICondition> conditions = List.of();
         @Nullable
-        List<ICondition> conditions = null;
-        @Nullable
-        List<Effect> excitedEffects = null;
-        @Nullable
-        List<Effect> boldEffects = null;
+        private Holder<Sugar> sugar;
+        private List<Effect> effects = List.of();
 
-        private RegisterContext(BootstrapContext<Formula> bootstrap, Holder<Sugar> sugarHolder, Effect... effects) {
-            this.bootstrap = bootstrap;
-            this.sugarHolder = sugarHolder;
-            this.originalEffects = List.of(effects);
+        public static Formulas of() {
+            return new Formulas();
         }
 
-        @Override
-        public HalfContext addConditions(List<ICondition> conditions) {
-            if (this.conditions == null) {
-                this.conditions = conditions;
-            }
-            else {
-                this.conditions.addAll(conditions);
-            }
+        public Formulas with(ICondition... conditions) {
+            this.conditions = List.of(conditions);
             return this;
         }
 
-        @Override
-        public List<Effect> getOriginalEffects() {
-            return this.originalEffects;
+        public Formulas loaded(String modid) {
+            return with(new ModLoadedCondition(modid));
         }
 
-        @Override
-        public HalfContext excited(Effect... effects) {
-            this.excitedEffects = List.of(effects);
+        public Formulas clearConditions() {
+            this.conditions = List.of();
             return this;
         }
 
-        @Override
-        public HalfContext bold(Effect... effects) {
-            this.boldEffects = List.of(effects);
+        public Formulas register(Holder<Sugar> sugar, Effect... effects) {
+            this.sugar = sugar;
+            this.effects = List.of(effects);
+            append(Flavors.ORIGINAL);
             return this;
         }
 
-        @Override
-        public void run() {
-            if (this.conditions != null) {
-                CONDITIONS.put(of(sugarHolder, Flavors.ORIGINAL), this.conditions);
-                if (excitedEffects != null) {
-                    CONDITIONS.put(of(sugarHolder, Flavors.EXCITED), this.conditions);
-                }
-                if (boldEffects != null) {
-                    CONDITIONS.put(of(sugarHolder, Flavors.BOLD), this.conditions);
-                }
-            }
-
-            bootstrap.register(of(sugarHolder, Flavors.ORIGINAL),
-                               new Formula(sugarHolder, Flavors.ORIGINAL, originalEffects));
-            if (excitedEffects != null) {
-                bootstrap.register(of(sugarHolder, Flavors.EXCITED),
-                                   new Formula(sugarHolder, Flavors.EXCITED, excitedEffects));
-            }
-            if (boldEffects != null) {
-                bootstrap.register(of(sugarHolder, Flavors.BOLD), new Formula(sugarHolder, Flavors.BOLD, boldEffects));
-            }
+        public Formulas excited(Effect... effects) {
+            append(Flavors.EXCITED, List.of(effects));
+            return this;
         }
 
-        public static ResourceKey<Formula> of(Holder<Sugar> sugar, Holder<Flavor> flavor) {
-            String sugarName = ((Holder<?>) sugar).getKey().location().getPath();
+        public Formulas defaultExcited() {
+            return this.excited(this.effects.stream().map(Effect::enhanceAmplifier).toArray(Effect[]::new));
+        }
+
+        public Formulas bold(Effect... effects) {
+            append(Flavors.BOLD, List.of(effects));
+            return this;
+        }
+
+        public Formulas defaultBold() {
+            return this.bold(this.effects.stream().map(Effect::doubleDuration).toArray(Effect[]::new));
+        }
+
+        public Formulas add(Holder<Flavor> flavor, Effect... effects) {
+            append(flavor, List.of(effects));
+            return this;
+        }
+
+        private ResourceKey<Formula> of(Holder<Flavor> flavor) {
+            String sugarName = ((Holder<?>) this.sugar).getKey().location().getPath();
             String flavorName = ((Holder<?>) flavor).getKey().location().getPath();
             return DataPackRegistry.of(Formula.KEY, sugarName + "_" + flavorName);
+        }
+
+        private void append(Holder<Flavor> flavor) {
+            this.append(flavor, this.effects);
+        }
+
+        private void append(Holder<Flavor> flavor, List<Effect> effects) {
+            if (!this.effects.isEmpty()) {
+                ResourceKey<Formula> key = of(flavor);
+                CONTEXTS.add(new Context<>(key, new Formula(this.sugar, Flavors.ORIGINAL, effects)));
+                if (!conditions.isEmpty()) {
+                    CONDITIONS.put(key, conditions);
+                }
+            }
         }
     }
 }
