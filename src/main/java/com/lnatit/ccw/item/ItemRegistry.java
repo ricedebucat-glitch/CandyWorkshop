@@ -148,7 +148,7 @@ public class ItemRegistry {
     );
     public static final DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
     public static final DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
-    public static final DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
+//    public static final DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
 
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(

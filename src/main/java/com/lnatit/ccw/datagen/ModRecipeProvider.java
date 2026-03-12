@@ -254,14 +254,14 @@ public class ModRecipeProvider extends RecipeProvider
                               .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
                               .save(output, CandyWorkshop.MODID + ":milk_gelatin_from_milk_bucket");
 
-        RefiningRecipeBuilder.of(
-                                     SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
-                                     SizedIngredient.of(Items.SUGAR, 8),
-                                     Ingredient.of(Items.COPPER_BLOCK),
-                                     Ingredient.EMPTY,
-                                     new ItemStack(ItemRegistry.CARAMEL_ALLOY.asItem())
-                             )
-                             .save(output);
+//        RefiningRecipeBuilder.of(
+//                                     SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
+//                                     SizedIngredient.of(Items.SUGAR, 8),
+//                                     Ingredient.of(Items.COPPER_BLOCK),
+//                                     Ingredient.EMPTY,
+//                                     new ItemStack(ItemRegistry.CARAMEL_ALLOY.asItem())
+//                             )
+//                             .save(output);
 
         RecipeOutput conditional;
         // Compats below
