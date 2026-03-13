@@ -18,12 +18,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class Flavor
-{
+public abstract class Flavor {
     public static final Codec<Holder<Flavor>> CODEC = RegRegistry.FLAVOR.holderByNameCodec();
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Flavor>> STREAM_CODEC = ByteBufCodecs.holderRegistry(
             RegRegistry.FLAVOR_KEY);
     public static final Flavor ORIGINAL = new Flavor() {};
+    public static final int SUGAR_PRODUCTION = 8;
 
     public Style style() {
         return Style.EMPTY;
@@ -48,7 +48,7 @@ public abstract class Flavor
     }
 
     /**
-     * @param entity the entity consuming the gummy
+     * @param entity         the entity consuming the gummy
      * @param effectsToApply the effect list to apply
      * @param formulaEffects the effect corresponding to current formula
      */
@@ -56,6 +56,10 @@ public abstract class Flavor
     }
 
     public void postConsume(LivingEntity entity, List<Effect> appliedEffects, List<Effect> formulaEffects) {
+    }
+
+    public int craftCount() {
+        return SUGAR_PRODUCTION;
     }
 
     public static MutableComponent prefix(Holder<Flavor> flavor) {

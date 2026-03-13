@@ -63,7 +63,7 @@ public record Formula(Holder<Sugar> sugar, Holder<Flavor> flavor, List<Effect> e
 
     public ItemStack result() {
         ItemStack result = SugarContents.createSugar(this.sugar, this.flavor);
-        result.setCount(SUGAR_PRODUCTION);
+        result.setCount(this.flavor.value().craftCount());
         return result;
     }
 

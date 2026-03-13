@@ -2,6 +2,7 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
+import com.lnatit.ccw.item.component.Magazine;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
@@ -35,11 +36,11 @@ public class ItemRegistry {
                     "sugar_contents",
                     sugarBuilder -> sugarBuilder.persistent(SugarContents.CODEC).networkSynchronized(SugarContents.STREAM_CODEC).cacheEncoding()
             );
-//    public static final Supplier<DataComponentType<BoxContents>> BOX_CONTENTS_DCTYPE =
-//            DATA_COMPONENTS.registerComponentType(
-//                    "box_contents",
-//                    boxBuilder -> boxBuilder.persistent(BoxContents.CODEC).networkSynchronized(BoxContents.STREAM_CODEC).cacheEncoding()
-//            );
+    public static final Supplier<DataComponentType<Magazine>> MAGAZINE_CONTENTS_DCTYPE =
+            DATA_COMPONENTS.registerComponentType(
+                    "magazine_contents",
+                    mBuilder -> mBuilder.persistent(Magazine.CODEC).networkSynchronized(Magazine.STREAM_CODEC).cacheEncoding()
+            );
 //    public static final Supplier<DataComponentType<PainterContents>> PAINTER_CONTENTS_DCTYPE =
 //            DATA_COMPONENTS.registerComponentType(
 //                    "painter_contents",
