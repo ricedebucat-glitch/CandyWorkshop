@@ -149,7 +149,13 @@ public class ItemRegistry {
     );
     public static final DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
     public static final DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
-//    public static final DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
+    public static final DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
+    public static final DeferredItem<Item> GUMMY_MAGAZINE = ITEMS.register("gummy_magazine",
+            key -> new GummyMagazineItem(
+                    new Item.Properties()
+                            .component(MAGAZINE_CONTENTS_DCTYPE, new Magazine())
+            )
+    );
 
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(
@@ -180,7 +186,7 @@ public class ItemRegistry {
                                                 .ifPresent(
                                                         lookups -> lookups.listElements()
                                                                 // if FeatureElement implemented, we need to filter the map
-                                                //                .filter()
+                                                                //                .filter()
                                                                 .map(SugarContents::createOriginalSugar)
                                                                 .forEach(result -> output.accept(result, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS))
                                                 );

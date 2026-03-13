@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +26,8 @@ public abstract class GummyContents extends ItemStackHandler {
         super(NonNullList.copyOf(stacks));
         this.tier = tier;
     }
+
+    public Tier tier() { return this.tier; }
 
     public List<ItemStack> activeSlots() {
         int length = Math.min(this.stacks.size(), this.getTierMarch() * this.tier.ordinal());
@@ -54,15 +57,26 @@ public abstract class GummyContents extends ItemStackHandler {
 
     protected abstract int getTierMarch();
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public static <S extends GummyContents> Codec<S> codec(BiFunction<NonNullList<ItemStack>, Tier, S> factory) {
-        return RecordCodecBuilder.create(inst -> inst.group(NonNullList.codecOf(ItemStack.CODEC).fieldOf("stacks").forGetter(c -> c.stacks),
+        return RecordCodecBuilder.create(inst -> inst.group(
+                (NonNullList.codecOf(ItemStack.CODEC)).fieldOf("stacks").forGetter(c -> c.stacks),
                 Tier.CODEC.fieldOf("tier").forGetter(c -> c.tier)
         ).apply(inst, factory));
     }
 
-    public static <S extends GummyContents> StreamCodec<FriendlyByteBuf, S> streamCodec(BiFunction<NonNullList<ItemStack>, Tier, S> factory) {
+    public static <S extends GummyContents> StreamCodec<RegistryFriendlyByteBuf, S> streamCodec(BiFunction<List<ItemStack>, Tier, S> factory) {
         return StreamCodec.composite(
-                (StreamCodec<FriendlyByteBuf, NonNullList<ItemStack>>) (StreamCodec<?, ?>) ItemStack.LIST_STREAM_CODEC,
+                ItemStack.LIST_STREAM_CODEC,
                 c -> c.stacks,
                 Tier.STREAM_CODEC,
                 c -> c.tier,

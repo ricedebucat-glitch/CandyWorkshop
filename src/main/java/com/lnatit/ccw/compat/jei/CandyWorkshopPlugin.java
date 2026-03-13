@@ -40,7 +40,7 @@ public class CandyWorkshopPlugin implements IModPlugin
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.registerSubtypeInterpreter(ItemRegistry.GUMMY_ITEM.get(), GummySubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ItemRegistry.GUMMY.get(), GummySubtypeInterpreter.INSTANCE);
     }
 
     @Override
