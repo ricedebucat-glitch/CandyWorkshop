@@ -17,6 +17,7 @@ public interface Flavors {
     DeferredHolder<Flavor, MilkyFlavor> MILKY = FLAVORS.register("milky", MilkyFlavor::new);
 
     static Holder<Flavor> byName(String name) {
+        // since old version only have these four flavors
         return switch (name) {
             case "excited" -> EXCITED;
             case "bold" -> BOLD;
