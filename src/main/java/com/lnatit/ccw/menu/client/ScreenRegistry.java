@@ -14,5 +14,6 @@ public class ScreenRegistry
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(MenuRegistry.SUGAR_REFINERY.get(), SugarRefineryScreen::new);
         event.register(MenuRegistry.DRAWER_TABLE.get(), DrawerTableScreen::new);
+        event.register(MenuRegistry.GUMMY_MAGAZINE.get(), GummyMagazineScreen::new);
     }
 }

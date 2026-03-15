@@ -1,4 +1,4 @@
-package com.lnatit.ccw.item.component;
+package com.lnatit.ccw.item.component.legacy;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.network.RegistryFriendlyByteBuf;

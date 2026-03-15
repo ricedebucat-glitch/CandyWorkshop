@@ -2,7 +2,7 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.item.component.Magazine;
+import com.lnatit.ccw.item.component.legacy.Magazine;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
@@ -17,26 +17,26 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-public class ItemRegistry {
-    public static final TagKey<Item> FOODS_MILK_TAG = tag("c", "foods/milk");
-    public static final TagKey<Item> DRINKS_MILK_TAG = tag("c", "drinks/milk");
-    public static final TagKey<Item> CARTON_MILK_TAG = tag("carton_milk");
-    public static final TagKey<Item> OVERWORLD_SUGAR_TAG = tag("overworld_sugar");
-    public static final TagKey<Item> NETHER_SUGAR_TAG = tag("nether_sugar");
-    public static final TagKey<Item> ENDER_SUGAR_TAG = tag("ender_sugar");
+public interface ItemRegistry {
+    TagKey<Item> FOODS_MILK_TAG = tag("c", "foods/milk");
+    TagKey<Item> DRINKS_MILK_TAG = tag("c", "drinks/milk");
+    TagKey<Item> CARTON_MILK_TAG = tag("carton_milk");
+    TagKey<Item> OVERWORLD_SUGAR_TAG = tag("overworld_sugar");
+    TagKey<Item> NETHER_SUGAR_TAG = tag("nether_sugar");
+    TagKey<Item> ENDER_SUGAR_TAG = tag("ender_sugar");
 
-    public static final DeferredRegister.DataComponents DATA_COMPONENTS =
+    DeferredRegister.DataComponents DATA_COMPONENTS =
             DeferredRegister.createDataComponents(
                     Registries.DATA_COMPONENT_TYPE,
                     CandyWorkshop.MODID
             );
 
-    public static final Supplier<DataComponentType<SugarContents>> SUGAR_CONTENTS_DCTYPE =
+    Supplier<DataComponentType<SugarContents>> SUGAR_CONTENTS_DCTYPE =
             DATA_COMPONENTS.registerComponentType(
                     "sugar_contents",
                     sugarBuilder -> sugarBuilder.persistent(SugarContents.CODEC).networkSynchronized(SugarContents.STREAM_CODEC).cacheEncoding()
             );
-    public static final Supplier<DataComponentType<Magazine>> MAGAZINE_CONTENTS_DCTYPE =
+    Supplier<DataComponentType<Magazine>> MAGAZINE_CONTENTS_DCTYPE =
             DATA_COMPONENTS.registerComponentType(
                     "magazine_contents",
                     mBuilder -> mBuilder.persistent(Magazine.CODEC).networkSynchronized(Magazine.STREAM_CODEC).cacheEncoding()
@@ -47,10 +47,10 @@ public class ItemRegistry {
 //                    painterBuilder -> painterBuilder.persistent(PainterContents.CODEC).networkSynchronized(PainterContents.STREAM_CODEC).cacheEncoding()
 //            );
 
-    public static final DeferredRegister.Items ITEMS =
+    DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(CandyWorkshop.MODID);
 
-    public static final DeferredItem<GummyItem> GUMMY =
+    DeferredItem<GummyItem> GUMMY =
             ITEMS.register(
                     "gummy",
                     key -> new GummyItem(
@@ -58,112 +58,112 @@ public class ItemRegistry {
                                     .food(FoodsAndConsumables.GUMMY_FOOD)
                     )
             );
-    public static final DeferredItem<BlockItem> SUGAR_REFINERY = ITEMS.registerSimpleBlockItem(BlockRegistry.SUGAR_REFINERY);
-    public static final DeferredItem<BlockItem> PLAIN_DRAWER_TABLE = ITEMS.registerSimpleBlockItem(BlockRegistry.PLAIN_DRAWER_TABLE);
-    public static final DeferredItem<BlockItem> DRAWER_TABLE = ITEMS.registerSimpleBlockItem(BlockRegistry.DRAWER_TABLE);
-    public static final DeferredItem<MilkExtractorItem> MILK_EXTRACTOR = ITEMS.register(
+    DeferredItem<BlockItem> SUGAR_REFINERY = ITEMS.registerSimpleBlockItem(BlockRegistry.SUGAR_REFINERY);
+    DeferredItem<BlockItem> PLAIN_DRAWER_TABLE = ITEMS.registerSimpleBlockItem(BlockRegistry.PLAIN_DRAWER_TABLE);
+    DeferredItem<BlockItem> DRAWER_TABLE = ITEMS.registerSimpleBlockItem(BlockRegistry.DRAWER_TABLE);
+    DeferredItem<MilkExtractorItem> MILK_EXTRACTOR = ITEMS.register(
             "milk_extractor",
             key -> new MilkExtractorItem(
                     new Item.Properties()
                             .durability(129)
             )
     );
-    public static final DeferredItem<Item> MILK_PACKAGING = ITEMS.registerSimpleItem("milk_packaging");
-    public static final DeferredItem<Item> CARTON_MILK = ITEMS.register(
+    DeferredItem<Item> MILK_PACKAGING = ITEMS.registerSimpleItem("milk_packaging");
+    DeferredItem<Item> CARTON_MILK = ITEMS.register(
             "carton_milk",
             key -> new CartonMilkItem(new Item.Properties())
     );
-    public static final DeferredItem<Item> NETHER_SUGAR = ITEMS.registerSimpleItem("nether_sugar");
-    public static final DeferredItem<Item> ENDER_SUGAR = ITEMS.registerSimpleItem("ender_sugar");
-    public static final DeferredItem<Item> ENERGY_CARROT = ITEMS.register(
+    DeferredItem<Item> NETHER_SUGAR = ITEMS.registerSimpleItem("nether_sugar");
+    DeferredItem<Item> ENDER_SUGAR = ITEMS.registerSimpleItem("ender_sugar");
+    DeferredItem<Item> ENERGY_CARROT = ITEMS.register(
             "energy_carrot",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.ENERGY_CARROT_FOOD)
             )
     );
-    public static final DeferredItem<Item> SWEET_MELON_SLICE = ITEMS.register(
+    DeferredItem<Item> SWEET_MELON_SLICE = ITEMS.register(
             "sweet_melon_slice",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.SWEET_LEMON_SLICE_FOOD)
             )
     );
-    public static final DeferredItem<Item> PHANTOM_PEARL = ITEMS.registerSimpleItem("phantom_pearl");
-    public static final DeferredItem<Item> CALCIUM_RICH_MILK = ITEMS.register(
+    DeferredItem<Item> PHANTOM_PEARL = ITEMS.registerSimpleItem("phantom_pearl");
+    DeferredItem<Item> CALCIUM_RICH_MILK = ITEMS.register(
             "calcium_rich_milk",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.CALCIUM_RICH_MILK_FOOD)
             )
     );
-    public static final DeferredItem<Item> VOID_CARROT = ITEMS.register(
+    DeferredItem<Item> VOID_CARROT = ITEMS.register(
             "void_carrot",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.VOID_CARROT_FOOD)
             )
     );
-    public static final DeferredItem<Item> WEAKNESS_POWDER = ITEMS.registerSimpleItem("weakness_powder");
-    public static final DeferredItem<Item> IRON_CLAD_APPLE = ITEMS.register(
+    DeferredItem<Item> WEAKNESS_POWDER = ITEMS.registerSimpleItem("weakness_powder");
+    DeferredItem<Item> IRON_CLAD_APPLE = ITEMS.register(
             "iron_clad_apple",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.IRON_CLAD_APPLE_FOOD)
             )
     );
-    public static final DeferredItem<Item> GOLD_STUDDED_APPLE = ITEMS.register(
+    DeferredItem<Item> GOLD_STUDDED_APPLE = ITEMS.register(
             "gold_studded_apple",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.GOLD_STUDDED_APPLE_FOOD)
             )
     );
-    public static final DeferredItem<Item> BLESSED_STEAK = ITEMS.register(
+    DeferredItem<Item> BLESSED_STEAK = ITEMS.register(
             "blessed_steak",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.BLESSED_STEAK_FOOD)
             )
     );
-    public static final DeferredItem<Item> GREEDY_OFFERING = ITEMS.register(
+    DeferredItem<Item> GREEDY_OFFERING = ITEMS.register(
             "greedy_offering",
             key -> new Item(
                     new Item.Properties()
                             .craftRemainder(Items.BOWL)
             )
     );
-    public static final DeferredItem<Item> DEFILED_OFFERING = ITEMS.register(
+    DeferredItem<Item> DEFILED_OFFERING = ITEMS.register(
             "defiled_offering",
             key -> new Item(
                     new Item.Properties()
                             .craftRemainder(Items.BOWL)
             )
     );
-    public static final DeferredItem<Item> DOLPHIN_COOKIE = ITEMS.register(
+    DeferredItem<Item> DOLPHIN_COOKIE = ITEMS.register(
             "dolphin_cookie",
             key -> new Item(
                     new Item.Properties()
                             .food(FoodsAndConsumables.DOLPHIN_COOKIE_FOOD)
             )
     );
-    public static final DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
-    public static final DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
-    public static final DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
-    public static final DeferredItem<Item> GUMMY_MAGAZINE = ITEMS.register("gummy_magazine",
+    DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
+    DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
+    DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
+    DeferredItem<Item> GUMMY_MAGAZINE = ITEMS.register("gummy_magazine",
             key -> new GummyMagazineItem(
                     new Item.Properties()
                             .component(MAGAZINE_CONTENTS_DCTYPE, new Magazine())
             )
     );
 
-    public static final DeferredRegister<CreativeModeTab> TABS =
+    DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(
                     Registries.CREATIVE_MODE_TAB,
                     CandyWorkshop.MODID
             );
 
-    public static final Supplier<CreativeModeTab> CANDY_TAB =
+    Supplier<CreativeModeTab> CANDY_TAB =
             TABS.register(
                     "candy",
                     () -> CreativeModeTab.builder()

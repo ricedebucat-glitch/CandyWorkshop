@@ -24,9 +24,5 @@ public class CapRegistry {
                 BlockRegistry.DRAWER_TABLE_BETYPE.get(),
                 DrawerTableBlockEntity::accessInventory
         );
-//
-//        event.registerItem(Capabilities.ItemHandler.ITEM,
-//                           ,
-//                           );
     }
 }

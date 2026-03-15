@@ -9,16 +9,16 @@ import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class RecipeRegistry {
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
+public interface RecipeRegistry {
+    DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, CandyWorkshop.MODID);
-    public static final DeferredHolder<RecipeType<?>, RecipeType<RefiningRecipe>> REFINING =
+    DeferredHolder<RecipeType<?>, RecipeType<RefiningRecipe>> REFINING =
             RECIPE_TYPES.register("refining", RecipeType::simple);
 
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+    DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, CandyWorkshop.MODID);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RepairExtractorRecipe>> REPAIR_EXTRACTOR =
+    DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RepairExtractorRecipe>> REPAIR_EXTRACTOR =
             RECIPE_SERIALIZERS.register("repair_extractor", () -> new SimpleCraftingRecipeSerializer<>(RepairExtractorRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RefiningRecipe>> COMMON_REFINING =
+    DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RefiningRecipe>> COMMON_REFINING =
             RECIPE_SERIALIZERS.register("common_refining", RefiningRecipe.Serializer::new);
 }

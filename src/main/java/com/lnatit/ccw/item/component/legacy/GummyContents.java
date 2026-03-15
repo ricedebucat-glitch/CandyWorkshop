@@ -1,4 +1,4 @@
-package com.lnatit.ccw.item.component;
+package com.lnatit.ccw.item.component.legacy;
 
 import com.lnatit.ccw.item.ItemRegistry;
 import com.mojang.serialization.Codec;
@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -27,11 +28,44 @@ public abstract class GummyContents extends ItemStackHandler {
         this.tier = tier;
     }
 
-    public Tier tier() { return this.tier; }
+    public Tier tier() {
+        return this.tier;
+    }
 
     public List<ItemStack> activeSlots() {
-        int length = Math.min(this.stacks.size(), this.getTierMarch() * this.tier.ordinal());
+        int length = Math.min(this.stacks.size(), this.activeSize());
         return this.stacks.subList(0, length);
+    }
+
+    public List<ItemStack> updateSlots(List<ItemStack> stacks) {
+        stacks = stacks.subList(0, Math.min(stacks.size(), this.activeSize()));
+        List<ItemStack> unaccepted = new ArrayList<>();
+        for (int i = 0; i < stacks.size(); i++) {
+            ItemStack stack = stacks.get(i);
+            if (isItemValid(i, stack)) {
+                if (stack.isEmpty()) {
+                    feed(i);
+                } else {
+                    this.stacks.set(i, stack);
+                }
+            } else {
+                this.stacks.set(i, ItemStack.EMPTY);
+                unaccepted.add(stack);
+            }
+        }
+        return unaccepted;
+    }
+
+    private void feed(int slot) {
+        ItemStack target = this.stacks.get(slot);
+        for (int i = this.activeSize(); i < this.stacks.size(); i++) {
+            ItemStack stack = this.stacks.get(i);
+            if (ItemStack.isSameItemSameComponents(target, stack)) {
+                this.stacks.set(slot, stack);
+                this.stacks.set(i, ItemStack.EMPTY);
+                return;
+            }
+        }
     }
 
     public void upgrade() {
@@ -51,14 +85,34 @@ public abstract class GummyContents extends ItemStackHandler {
     }
 
     @Override
+    public void setStackInSlot(int slot, ItemStack stack) {
+        if (isItemValid(slot, stack)) {
+            super.setStackInSlot(slot, stack);
+        } else  {
+            throw new RuntimeException("Invalid item " + stack + " in slot " + slot + "!");
+        }
+    }
+
+    @Override
     public boolean isItemValid(int slot, ItemStack stack) {
         return stack.isEmpty() || slot < this.stacks.size() && stack.is(ItemRegistry.GUMMY);
     }
 
     protected abstract int getTierMarch();
 
+    protected int activeSize() {
+        return this.getTierMarch() * this.tier.ordinal();
+    }
+
+    protected boolean isEmpty() {
+        return this.stacks.stream().allMatch(ItemStack::isEmpty);
+    }
+
     @Override
     public boolean equals(Object obj) {
+        if (obj instanceof GummyContents other) {
+            return this.isEmpty() && other.isEmpty() && this.tier.ordinal() == other.tier.ordinal();
+        }
         return super.equals(obj);
     }
 

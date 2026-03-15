@@ -7,12 +7,14 @@ import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class MenuRegistry {
-    public static final DeferredRegister<MenuType<?>> MENUS =
+public interface MenuRegistry {
+    DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, CandyWorkshop.MODID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<SugarRefineryMenu>> SUGAR_REFINERY =
+    DeferredHolder<MenuType<?>, MenuType<SugarRefineryMenu>> SUGAR_REFINERY =
             MENUS.register("sugar_refinery", () -> new MenuType<>(SugarRefineryMenu::new, FeatureFlags.DEFAULT_FLAGS));
-    public static final DeferredHolder<MenuType<?>, MenuType<DrawerTableMenu>> DRAWER_TABLE =
+    DeferredHolder<MenuType<?>, MenuType<DrawerTableMenu>> DRAWER_TABLE =
             MENUS.register("drawer_table", () -> new MenuType<>(DrawerTableMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    DeferredHolder<MenuType<?>, MenuType<GummyMagazineMenu>> GUMMY_MAGAZINE =
+            MENUS.register("gummy_magazine", () -> new MenuType<>(GummyMagazineMenu::new, FeatureFlags.DEFAULT_FLAGS));
 }

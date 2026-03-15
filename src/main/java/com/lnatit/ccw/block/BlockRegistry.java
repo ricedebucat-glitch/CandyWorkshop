@@ -18,12 +18,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Set;
 
-public class BlockRegistry {
-    public static final TagKey<Block> DRAWER_TABLE_TAG = tag("drawer_table");
+public interface BlockRegistry {
+    TagKey<Block> DRAWER_TABLE_TAG = tag("drawer_table");
 
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CandyWorkshop.MODID);
+    DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CandyWorkshop.MODID);
 
-    public static final DeferredBlock<SugarRefineryBlock> SUGAR_REFINERY =
+    DeferredBlock<SugarRefineryBlock> SUGAR_REFINERY =
             BLOCKS.registerBlock("sugar_refinery",
                     SugarRefineryBlock::new,
                     BlockBehaviour.Properties.of()
@@ -31,7 +31,7 @@ public class BlockRegistry {
                             .strength(1.5F)
                             .noOcclusion()
             );
-    public static final DeferredBlock<DrawerTableBlock> PLAIN_DRAWER_TABLE =
+    DeferredBlock<DrawerTableBlock> PLAIN_DRAWER_TABLE =
             BLOCKS.registerBlock("plain_drawer_table",
                     DrawerTableBlock::new,
                     BlockBehaviour.Properties.of()
@@ -40,7 +40,7 @@ public class BlockRegistry {
                             .sound(SoundType.WOOD)
                             .noOcclusion()
             );
-    public static final DeferredBlock<DrawerTableBlock> DRAWER_TABLE =
+    DeferredBlock<DrawerTableBlock> DRAWER_TABLE =
             BLOCKS.registerBlock("drawer_table",
                     DrawerTableBlock::new,
                     BlockBehaviour.Properties.of()
@@ -50,10 +50,10 @@ public class BlockRegistry {
                             .noOcclusion()
             );
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
+    DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, CandyWorkshop.MODID);
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SugarRefineryBlockEntity>> SUGAR_REFINERY_BETYPE =
+    DeferredHolder<BlockEntityType<?>, BlockEntityType<SugarRefineryBlockEntity>> SUGAR_REFINERY_BETYPE =
             BLOCK_ENTITIES.register("sugar_refinery",
                     () -> new BlockEntityType<>(
                             SugarRefineryBlockEntity::new,
@@ -61,7 +61,7 @@ public class BlockRegistry {
                             null
                     )
             );
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DrawerTableBlockEntity>> DRAWER_TABLE_BETYPE =
+    DeferredHolder<BlockEntityType<?>, BlockEntityType<DrawerTableBlockEntity>> DRAWER_TABLE_BETYPE =
             BLOCK_ENTITIES.register("drawer_table",
                     () -> new BlockEntityType<>(
                             DrawerTableBlockEntity::new,

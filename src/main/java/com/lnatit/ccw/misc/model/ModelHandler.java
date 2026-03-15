@@ -3,7 +3,7 @@ package com.lnatit.ccw.misc.model;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.MilkExtractorItem;
-import com.lnatit.ccw.item.component.Magazine;
+import com.lnatit.ccw.item.component.legacy.Magazine;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.client.renderer.item.ItemProperties;
