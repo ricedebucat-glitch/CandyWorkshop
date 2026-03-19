@@ -2,7 +2,7 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.item.component.legacy.Magazine;
+import com.lnatit.ccw.item.component.Magazine;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
