@@ -35,7 +35,7 @@ public class GummyMagazineItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
-        MutableContents magazine = GummyContents.get6(itemstack);
+        MutableContents magazine = IContents.Type.MAGAZINE.getMutable(itemstack);
         boolean client = level.isClientSide();
 
         if (player.isShiftKeyDown()) {
@@ -45,11 +45,10 @@ public class GummyMagazineItem extends Item {
                 player.openMenu(provider);
             }
         } else {
-            List<ItemStack> active = magazine.activeSlots();
-            if (active.stream().allMatch(ItemStack::isEmpty)) {
+            if (magazine.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
                 return InteractionResultHolder.fail(itemstack);
             }
-            eatGummies(level, player, active, magazine, client);
+            eatGummies(level, player, magazine);
             GummyContents.set(itemstack, magazine);
         }
 
@@ -57,12 +56,9 @@ public class GummyMagazineItem extends Item {
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
     }
 
-    // I know it's ugly...
-    public static void eatGummies(Level level, Player player, List<ItemStack> active, MutableContents magazine, boolean client) {
-        IContents.Consumer consumer = new IContents.Consumer(level, player);
-        List<ItemStack> results = active.stream().map(consumer).toList();
-        List<ItemStack> drops = magazine.updateSlots(results);
-        if (!client && !drops.isEmpty()) {
+    public static void eatGummies(Level level, Player player, MutableContents magazine) {
+        List<ItemStack> drops = magazine.eat(level, player);
+        if (!level.isClientSide() && !drops.isEmpty()) {
             for (ItemStack drop : drops) {
                 if (drop.isEmpty()) continue;
                 if (!player.getInventory().add(drop)) {

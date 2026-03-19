@@ -22,7 +22,7 @@ public class SimpleTrigger extends SimpleCriterionTrigger<SimpleTrigger.TriggerI
 
     public record TriggerInstance(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(ins -> ins.group(
-                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player)
+                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("entity").forGetter(TriggerInstance::player)
         ).apply(ins, TriggerInstance::new));
 
         public TriggerInstance() {

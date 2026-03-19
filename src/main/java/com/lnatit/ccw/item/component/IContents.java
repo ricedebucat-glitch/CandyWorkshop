@@ -1,5 +1,6 @@
 package com.lnatit.ccw.item.component;
 
+import com.google.common.collect.ImmutableList;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.Codec;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -74,7 +76,10 @@ public interface IContents {
     }
 
     enum Type implements StringRepresentable {
-        MAGAZINE("magazine", 6, 2, ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
+        MAGAZINE("magazine", 6, 2, ItemRegistry.MAGAZINE_CONTENTS_DCTYPE),
+//        APPLICATOR("applicator", 3, 1, ItemRegistry.APPLICATOR_CONTENTS_DCTYPE),
+        ;
+
 
         public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
         public static final StreamCodec<RegistryFriendlyByteBuf, Type> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(Type.class);
@@ -83,7 +88,6 @@ public interface IContents {
         public final int size;
         public final int tierMarch;
         public final Supplier<DataComponentType<GummyContents>> supplier;
-//        public
 
         Type(String name, int size, int tierMarch, Supplier<DataComponentType<GummyContents>> supplier) {
             this.name = name;
@@ -96,13 +100,29 @@ public interface IContents {
         public String getSerializedName() {
             return this.name;
         }
+
+        public GummyContents defaultContents() {
+            return new GummyContents(
+                    ImmutableList.copyOf(Collections.nCopies(this.size, ItemStack.EMPTY)),
+                    Tier.PRIMARY,
+                    this
+            );
+        }
+
+        public MutableContents getMutable(ItemStack stack) {
+            if (!stack.has(this.supplier))
+                stack.set(this.supplier, defaultContents());
+            GummyContents contents = stack.get(this.supplier);
+            assert contents != null;
+            return new MutableContents(contents);
+        }
     }
 
-    record Consumer(Level level, LivingEntity player) implements Function<ItemStack, ItemStack> {
+    record Consumer(Level level, LivingEntity entity) implements Function<ItemStack, ItemStack> {
         @Override
         public ItemStack apply(ItemStack stack) {
             if (stack.isEmpty()) return stack;
-            return stack.copy().finishUsingItem(level, player);
+            return stack.copy().finishUsingItem(level, entity);
         }
     }
 }

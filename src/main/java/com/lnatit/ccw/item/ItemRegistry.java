@@ -3,6 +3,7 @@ package com.lnatit.ccw.item;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.component.GummyContents;
+import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
 import net.minecraft.core.component.DataComponentType;
@@ -153,7 +154,7 @@ public interface ItemRegistry {
     DeferredItem<Item> GUMMY_MAGAZINE = ITEMS.register("gummy_magazine",
             key -> new GummyMagazineItem(
                     new Item.Properties()
-                            .component(MAGAZINE_CONTENTS_DCTYPE, GummyContents.DEFAULT_6)
+                            .component(MAGAZINE_CONTENTS_DCTYPE, IContents.Type.MAGAZINE.defaultContents())
             )
     );
 

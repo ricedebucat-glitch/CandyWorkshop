@@ -8,7 +8,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
@@ -60,7 +59,7 @@ public class GummyContentMenu extends ModContainerMenu {
     @Override
     public boolean clickMenuButton(Player player, int id) {
         if (id == 0) {
-            GummyMagazineItem.eatGummies(player.level(), player, this.mutable.activeSlots(), this.mutable, !(player instanceof ServerPlayer));
+            GummyMagazineItem.eatGummies(player.level(), player, this.mutable);
             player.awardStat(Stats.ITEM_USED.get(this.getContainer(player).getItem()));
             return true;
         }

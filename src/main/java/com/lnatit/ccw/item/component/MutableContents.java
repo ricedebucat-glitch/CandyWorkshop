@@ -3,7 +3,9 @@ package com.lnatit.ccw.item.component;
 import com.lnatit.ccw.item.ItemRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
@@ -62,6 +64,12 @@ public class MutableContents extends ItemStackHandler implements IContents {
                 return;
             }
         }
+    }
+
+    public List<ItemStack> eat(Level level, LivingEntity entity) {
+        IContents.Consumer consumer = new IContents.Consumer(level, entity);
+        List<ItemStack> results = this.activeSlots().stream().map(consumer).toList();
+        return updateSlots(results);
     }
 
     public void upgrade() {

@@ -22,7 +22,7 @@ public class NumericTrigger extends SimpleCriterionTrigger<NumericTrigger.Trigge
 
     public record TriggerInstance(Optional<ContextAwarePredicate> player, MinMaxBounds.Ints count) implements SimpleInstance {
         public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(ins -> ins.group(
-                ContextAwarePredicate.CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
+                ContextAwarePredicate.CODEC.optionalFieldOf("entity").forGetter(TriggerInstance::player),
                 MinMaxBounds.Ints.CODEC.fieldOf("count").forGetter(TriggerInstance::count)
         ).apply(ins, TriggerInstance::new));
 
