@@ -1,26 +1,44 @@
 package com.lnatit.ccw.menu.client;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.menu.GummyMagazineMenu;
+import com.lnatit.ccw.menu.GummyContentMenu;
+import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
-public class GummyMagazineScreen extends AbstractContainerScreen<GummyMagazineMenu> {
+public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMenu> {
     public static final ResourceLocation BACKGROUND_LOCATION =
             ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/gummy_magazine.png");
-//    public static final ResourceLocation ANIMATION_SPRITE =
-//            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/sugar_refinery/stirring");
     public static final int WIDTH = 176;
     public static final int HEIGHT = 188;
 
-    public GummyMagazineScreen(GummyMagazineMenu menu, Inventory playerInventory, Component title) {
+    public GummyMagazineScreen(GummyContentMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = WIDTH;
         this.imageHeight = HEIGHT;
         this.inventoryLabelY = this.imageHeight - 95;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        Button button = new MagazineButton(
+                this.leftPos + 113,
+                this.topPos + 11,
+                this::onButtonPress
+                );
+        this.addRenderableWidget(button);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
@@ -39,5 +57,41 @@ public class GummyMagazineScreen extends AbstractContainerScreen<GummyMagazineMe
                 this.imageHeight,
                 256, 256
         );
+    }
+
+    private void onButtonPress(Button button) {
+        assert this.minecraft != null;
+        assert this.minecraft.gameMode != null;
+        this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
+    }
+
+    private static class MagazineButton extends ExtendedButton {
+        public static final ResourceLocation BUTTON_SPRITE =
+                ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_magazine/button");
+        public static final int MSPF = 50;
+        private long lastPressTime = -1;
+
+        public MagazineButton(int xPos, int yPos, OnPress handler) {
+            super(xPos, yPos, 15, 30, Component.empty(), handler);
+        }
+
+        @Override
+        public void onPress() {
+            super.onPress();
+            this.lastPressTime = Util.getMillis();
+        }
+
+        @Override
+        public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            long delta = Util.getMillis() - this.lastPressTime;
+            int frame = (int) (delta / MSPF);
+            if (frame < 4) {
+                guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 20 + frame * 10, 0, this.getX(), this.getY(), 10, this.getHeight());
+            } else if (this.isHoveredOrFocused()) {
+                guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 10, 0, this.getX(), this.getY(), 10, this.getHeight());
+            } else {
+                guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 0, 0, this.getX(), this.getY(), 10, this.getHeight());
+            }
+        }
     }
 }

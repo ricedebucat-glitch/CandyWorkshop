@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -15,6 +16,8 @@ public interface MenuRegistry {
             MENUS.register("sugar_refinery", () -> new MenuType<>(SugarRefineryMenu::new, FeatureFlags.DEFAULT_FLAGS));
     DeferredHolder<MenuType<?>, MenuType<DrawerTableMenu>> DRAWER_TABLE =
             MENUS.register("drawer_table", () -> new MenuType<>(DrawerTableMenu::new, FeatureFlags.DEFAULT_FLAGS));
-    DeferredHolder<MenuType<?>, MenuType<GummyMagazineMenu>> GUMMY_MAGAZINE =
-            MENUS.register("gummy_magazine", () -> new MenuType<>(GummyMagazineMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    DeferredHolder<MenuType<?>, MenuType<GummyContentMenu>> GUMMY_MAGAZINE =
+            MENUS.register("gummy_magazine", () -> IMenuTypeExtension.create(GummyContentMenu::new));
+//    DeferredHolder<MenuType<?>, MenuType<GummyContentMenu>> GUMMY_MAGAZINE =
+//            MENUS.register("gummy_magazine", () -> IMenuTypeExtension.create(GummyContentMenu::new));
 }

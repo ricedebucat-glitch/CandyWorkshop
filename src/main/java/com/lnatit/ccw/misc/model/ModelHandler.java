@@ -3,7 +3,7 @@ package com.lnatit.ccw.misc.model;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.MilkExtractorItem;
-import com.lnatit.ccw.item.component.legacy.Magazine;
+import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -36,7 +36,7 @@ public class ModelHandler
                 ItemRegistry.GUMMY_MAGAZINE.get(),
                 TIER,
                 (stack, level, entity, seed) -> {
-                    Magazine m = stack.get(ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
+                    GummyContents m = stack.get(ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
                     if (m != null) {
                         return (float) m.tier().ordinal() / 2;
                     }
