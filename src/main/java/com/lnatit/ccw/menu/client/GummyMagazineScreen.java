@@ -14,11 +14,15 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMenu> {
     public static final ResourceLocation BACKGROUND_LOCATION =
             ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/gummy_magazine.png");
+    public static final ResourceLocation ACTIVE_SLOT_SPRITE =
+            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_magazine/active_slot");
     public static final int WIDTH = 176;
     public static final int HEIGHT = 188;
+    private final int activeSlots;
 
     public GummyMagazineScreen(GummyContentMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+        this.activeSlots = menu.activeSize();
         this.imageWidth = WIDTH;
         this.imageHeight = HEIGHT;
         this.inventoryLabelY = this.imageHeight - 95;
@@ -57,6 +61,16 @@ public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMen
                 this.imageHeight,
                 256, 256
         );
+        int slotCount = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                guiGraphics.blitSprite(ACTIVE_SLOT_SPRITE, this.leftPos + 71 + j * 19, this.topPos + 13 + i * 19, 16, 16);
+                slotCount++;
+                if (slotCount >= activeSlots) {
+                    return;
+                }
+            }
+        }
     }
 
     private void onButtonPress(Button button) {

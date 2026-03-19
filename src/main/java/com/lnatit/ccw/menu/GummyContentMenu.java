@@ -53,6 +53,10 @@ public class GummyContentMenu extends ModContainerMenu {
         }
     }
 
+    public int activeSize() {
+        return this.mutable.activeSize();
+    }
+
     @Override
     public boolean clickMenuButton(Player player, int id) {
         if (id == 0) {
