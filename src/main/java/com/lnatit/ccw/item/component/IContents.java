@@ -80,7 +80,6 @@ public interface IContents {
 //        APPLICATOR("applicator", 3, 1, ItemRegistry.APPLICATOR_CONTENTS_DCTYPE),
         ;
 
-
         public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
         public static final StreamCodec<RegistryFriendlyByteBuf, Type> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(Type.class);
 

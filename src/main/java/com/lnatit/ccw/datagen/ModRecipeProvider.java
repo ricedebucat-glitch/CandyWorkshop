@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.crafting.RefiningRecipeBuilder;
 import com.lnatit.ccw.item.crafting.RepairExtractorRecipe;
 import dev.shadowsoffire.apotheosis.Apoth;
 import net.minecraft.core.HolderLookup;
@@ -14,11 +15,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import vectorwing.farmersdelight.client.recipebook.CookingPotRecipeBookTab;
 import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.data.builder.CookingPotRecipeBuilder;
@@ -26,8 +29,7 @@ import vectorwing.farmersdelight.data.builder.CookingPotRecipeBuilder;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-public class ModRecipeProvider extends RecipeProvider
-{
+public class ModRecipeProvider extends RecipeProvider {
     protected ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider);
     }
@@ -35,23 +37,23 @@ public class ModRecipeProvider extends RecipeProvider
     @Override
     protected void buildRecipes(RecipeOutput output, HolderLookup.Provider registries) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.MILK_EXTRACTOR)
-                           .define('#', Items.GLASS_PANE)
-                           .define('U', Items.BUCKET)
-                           .define('I', Items.IRON_INGOT)
-                           .define('X', ItemRegistry.MILK_PACKAGING)
-                           .pattern("#  ")
-                           .pattern("UII")
-                           .pattern("#XI")
-                           .unlockedBy("has_milk", has(Items.MILK_BUCKET))
-                           .save(output);
+                .define('#', Items.GLASS_PANE)
+                .define('U', Items.BUCKET)
+                .define('I', Items.IRON_INGOT)
+                .define('X', ItemRegistry.MILK_PACKAGING)
+                .pattern("#  ")
+                .pattern("UII")
+                .pattern("#XI")
+                .unlockedBy("has_milk", has(Items.MILK_BUCKET))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.MILK_PACKAGING)
-                           .define('#', Items.PAPER)
-                           .pattern("#")
-                           .pattern("#")
-                           .pattern("#")
-                           .unlockedBy("has_paper", has(Items.PAPER))
-                           .save(output);
+                .define('#', Items.PAPER)
+                .pattern("#")
+                .pattern("#")
+                .pattern("#")
+                .unlockedBy("has_paper", has(Items.PAPER))
+                .save(output);
 
 //        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.CARTON_MILK, 128) // wtf?
 //                .define('U', ItemTags.MILK_BUCKET)
@@ -63,258 +65,262 @@ public class ModRecipeProvider extends RecipeProvider
 //                .save(ShapedRecipeBuilder.output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.CARTON_MILK, 8)
-                              .requires(Items.MILK_BUCKET)
-                              .requires(Items.PAPER)
-                              .unlockedBy("has_milk", has(Items.MILK_BUCKET))
-                              .save(output, CandyWorkshop.MODID + ":milk_carton_from_single_milk_bucket");
+                .requires(Items.MILK_BUCKET)
+                .requires(Items.PAPER)
+                .unlockedBy("has_milk", has(Items.MILK_BUCKET))
+                .save(output, CandyWorkshop.MODID + ":milk_carton_from_single_milk_bucket");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegistry.CARTON_MILK, 24)
-                              .requires(Items.MILK_BUCKET, 3)
-                              .requires(Items.PAPER)
-                              .unlockedBy("has_milk", has(Items.MILK_BUCKET))
-                              .save(output);
+                .requires(Items.MILK_BUCKET, 3)
+                .requires(Items.PAPER)
+                .unlockedBy("has_milk", has(Items.MILK_BUCKET))
+                .save(output);
 
         // TODO modify unlock requirements
         SpecialRecipeBuilder.special(RepairExtractorRecipe::new)
-                            .save(output, CandyWorkshop.MODID + ":repair_extractor");
+                .save(output, CandyWorkshop.MODID + ":repair_extractor");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.SUGAR_REFINERY)
-                           .define('U', Items.BUCKET)
-                           .define('#', Items.IRON_INGOT)
-                           .define('/', Tags.Items.RODS_WOODEN)
-                           .define('X', Tags.Items.STONES)
-                           .pattern("U #")
-                           .pattern("X/X")
-                           .pattern(" X ")
-                           .unlockedBy("has_milk", has(Items.MILK_BUCKET))
-                           .save(output);
+                .define('U', Items.BUCKET)
+                .define('#', Items.IRON_INGOT)
+                .define('/', Tags.Items.RODS_WOODEN)
+                .define('X', Tags.Items.STONES)
+                .pattern("U #")
+                .pattern("X/X")
+                .pattern(" X ")
+                .unlockedBy("has_milk", has(Items.MILK_BUCKET))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.PLAIN_DRAWER_TABLE)
-                           .define('#', net.minecraft.tags.ItemTags.PLANKS)
-                           .define('X', Tags.Items.CHESTS)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("#X#")
-                           .unlockedBy("has_chest", has(Items.CHEST))
-                           .save(output);
+                .define('#', net.minecraft.tags.ItemTags.PLANKS)
+                .define('X', Tags.Items.CHESTS)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("#X#")
+                .unlockedBy("has_chest", has(Items.CHEST))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegistry.DRAWER_TABLE)
-                           .define('#', ItemRegistry.PLAIN_DRAWER_TABLE)
-                           .define('X', Items.PINK_CARPET)
-                           .pattern("X")
-                           .pattern("#")
-                           .unlockedBy("has_plain_drawer_table", has(ItemRegistry.PLAIN_DRAWER_TABLE))
-                           .save(output);
+                .define('#', ItemRegistry.PLAIN_DRAWER_TABLE)
+                .define('X', Items.PINK_CARPET)
+                .pattern("X")
+                .pattern("#")
+                .unlockedBy("has_plain_drawer_table", has(ItemRegistry.PLAIN_DRAWER_TABLE))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.NETHER_SUGAR, 8)
-                              .requires(Items.NETHER_WART)
-                              .requires(Items.SUGAR, 8)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output);
+                .requires(Items.NETHER_WART)
+                .requires(Items.SUGAR, 8)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.ENDER_SUGAR, 8)
-                              .requires(Items.DRAGON_BREATH)
-                              .requires(Items.SUGAR, 8)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output);
+                .requires(Items.DRAGON_BREATH)
+                .requires(Items.SUGAR, 8)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.ENERGY_CARROT)
-                           .define('#', Items.REDSTONE)
-                           .define('X', Items.CARROT)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.REDSTONE)
+                .define('X', Items.CARROT)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.SWEET_MELON_SLICE)
-                           .define('#', Items.SUGAR)
-                           .define('X', Items.MELON_SLICE)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.SUGAR)
+                .define('X', Items.MELON_SLICE)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.PHANTOM_PEARL)
-                              .requires(Items.PHANTOM_MEMBRANE)
-                              .requires(Items.ENDER_PEARL)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output);
+                .requires(Items.PHANTOM_MEMBRANE)
+                .requires(Items.ENDER_PEARL)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.CALCIUM_RICH_MILK)
-                           .define('#', Items.BONE)
-                           .define('X', ItemRegistry.CARTON_MILK_TAG)
-                           .pattern(" # ")
-                           .pattern("#X#")
-                           .pattern(" # ")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.BONE)
+                .define('X', ItemRegistry.CARTON_MILK_TAG)
+                .pattern(" # ")
+                .pattern("#X#")
+                .pattern(" # ")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.VOID_CARROT)
-                           .define('#', Items.BLACK_DYE)
-                           .define('X', Items.CARROT)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.BLACK_DYE)
+                .define('X', Items.CARROT)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.WEAKNESS_POWDER)
-                              .requires(Items.BLAZE_POWDER)
-                              .requires(Items.FERMENTED_SPIDER_EYE)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output);
+                .requires(Items.BLAZE_POWDER)
+                .requires(Items.FERMENTED_SPIDER_EYE)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.IRON_CLAD_APPLE)
-                           .define('#', Items.IRON_NUGGET)
-                           .define('X', Items.APPLE)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.IRON_NUGGET)
+                .define('X', Items.APPLE)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.GOLD_STUDDED_APPLE)
-                           .define('#', Items.GOLD_NUGGET)
-                           .define('X', Items.APPLE)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.GOLD_NUGGET)
+                .define('X', Items.APPLE)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.BLESSED_STEAK)
-                           .define('#', Items.GOLD_INGOT)
-                           .define('X', Items.COOKED_BEEF)
-                           .pattern("###")
-                           .pattern("#X#")
-                           .pattern("###")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.GOLD_INGOT)
+                .define('X', Items.COOKED_BEEF)
+                .pattern("###")
+                .pattern("#X#")
+                .pattern("###")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.GREEDY_OFFERING)
-                           .define('#', Items.EMERALD)
-                           .define('X', Items.BOWL)
-                           .pattern(" # ")
-                           .pattern("###")
-                           .pattern(" X ")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.EMERALD)
+                .define('X', Items.BOWL)
+                .pattern(" # ")
+                .pattern("###")
+                .pattern(" X ")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.DEFILED_OFFERING)
-                           .define('#', Items.COAL)
-                           .define('X', Items.BOWL)
-                           .pattern(" # ")
-                           .pattern("###")
-                           .pattern(" X ")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Items.COAL)
+                .define('X', Items.BOWL)
+                .pattern(" # ")
+                .pattern("###")
+                .pattern(" X ")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.DOLPHIN_COOKIE)
-                           .define('#', Tags.Items.FOODS_RAW_FISH)
-                           .define('X', Items.COOKIE)
-                           .pattern(" # ")
-                           .pattern("#X#")
-                           .pattern(" # ")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', Tags.Items.FOODS_RAW_FISH)
+                .define('X', Items.COOKIE)
+                .pattern(" # ")
+                .pattern("#X#")
+                .pattern(" # ")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         Ingredient ominous_banner = new Ingredient(
                 new DataComponentIngredient(
                         HolderSet.direct(Items.WHITE_BANNER.builtInRegistryHolder()),
                         DataComponentPredicate.allOf(
                                 Raid.getLeaderBannerInstance(registries.lookupOrThrow(Registries.BANNER_PATTERN))
-                                    .getComponents()
+                                        .getComponents()
                         ),
                         false
                 )
         );
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ItemRegistry.OMINOUS_FLAG)
-                           .define('#', ominous_banner)
-                           .define('X', Items.EMERALD)
-                           .pattern("# #")
-                           .pattern(" X ")
-                           .pattern("# #")
-                           .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                           .save(output);
+                .define('#', ominous_banner)
+                .define('X', Items.EMERALD)
+                .pattern("# #")
+                .pattern(" X ")
+                .pattern("# #")
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.MILK_GELATIN)
-                              .requires(ItemRegistry.CARTON_MILK_TAG)
-                              .requires(Tags.Items.SLIME_BALLS)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output);
+                .requires(ItemRegistry.CARTON_MILK_TAG)
+                .requires(Tags.Items.SLIME_BALLS)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ItemRegistry.MILK_GELATIN, 8)
-                              .requires(Items.MILK_BUCKET)
-                              .requires(Items.SLIME_BALL, 8)
-                              .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
-                              .save(output, CandyWorkshop.MODID + ":milk_gelatin_from_milk_bucket");
+                .requires(Items.MILK_BUCKET)
+                .requires(Items.SLIME_BALL, 8)
+                .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
+                .save(output, CandyWorkshop.MODID + ":milk_gelatin_from_milk_bucket");
 
-//        RefiningRecipeBuilder.of(
-//                                     SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
-//                                     SizedIngredient.of(Items.SUGAR, 8),
-//                                     Ingredient.of(Items.COPPER_BLOCK),
-//                                     Ingredient.EMPTY,
-//                                     new ItemStack(ItemRegistry.CARAMEL_ALLOY.asItem())
-//                             )
-//                             .save(output);
+        RefiningRecipeBuilder.of(
+                        SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
+                        SizedIngredient.of(Items.SUGAR, 8),
+                        Ingredient.of(Items.COPPER_BLOCK),
+                        Ingredient.EMPTY,
+                        new ItemStack(ItemRegistry.CARAMETAL.asItem())
+                )
+                .save(output);
+
+//        SmithingTransformRecipeBuilder.smithing(
+//                Ingredient.of(ItemRegistry.)
+//        )
 
         RecipeOutput conditional;
         // Compats below
         // Apotheosis
         conditional = output.withConditions(new ModLoadedCondition("apotheosis"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.KNOWLEDGE_BOTTLE)
-                              .requires(Apoth.Items.GEM_DUST.value())
-                              .requires(Items.EXPERIENCE_BOTTLE)
-                              .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                              .save(conditional);
+                .requires(Apoth.Items.GEM_DUST.value())
+                .requires(Items.EXPERIENCE_BOTTLE)
+                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+                .save(conditional);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.VITALITY_BERRY)
-                              .requires(Apoth.Items.GEM_DUST.value())
-                              .requires(Items.SWEET_BERRIES)
-                              .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                              .save(conditional);
+                .requires(Apoth.Items.GEM_DUST.value())
+                .requires(Items.SWEET_BERRIES)
+                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+                .save(conditional);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.MALIGNANT_BERRY)
-                              .requires(Apoth.Items.GEM_DUST.value())
-                              .requires(Items.FERMENTED_SPIDER_EYE)
-                              .requires(Items.SWEET_BERRIES)
-                              .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                              .save(conditional);
+                .requires(Apoth.Items.GEM_DUST.value())
+                .requires(Items.FERMENTED_SPIDER_EYE)
+                .requires(Items.SWEET_BERRIES)
+                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+                .save(conditional);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.EROSION_SHELL)
-                              .requires(Apoth.Items.GEM_DUST.value())
-                              .requires(Items.FERMENTED_SPIDER_EYE)
-                              .requires(Items.SHULKER_SHELL)
-                              .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
-                              .save(conditional);
+                .requires(Apoth.Items.GEM_DUST.value())
+                .requires(Items.FERMENTED_SPIDER_EYE)
+                .requires(Items.SHULKER_SHELL)
+                .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
+                .save(conditional);
 
         // FarmersDelight
         conditional = output.withConditions(new ModLoadedCondition("farmersdelight"));
         CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), 1, 200, 1.0F)
-                               .addIngredient(ItemRegistry.GUMMY)
-                               .addIngredient(Ingredient.fromValues(Stream.of(
-                                       new Ingredient.TagValue(CommonTags.FOODS_RAW_CHICKEN),
-                                       new Ingredient.TagValue(CommonTags.FOODS_RAW_PORK),
-                                       new Ingredient.TagValue(CommonTags.FOODS_RAW_BEEF)
-                               )))
-                               .addIngredient(CommonTags.CROPS_RICE)
-                               .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
-                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
-                               .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
-                               .build(conditional);
+                .addIngredient(ItemRegistry.GUMMY)
+                .addIngredient(Ingredient.fromValues(Stream.of(
+                        new Ingredient.TagValue(CommonTags.FOODS_RAW_CHICKEN),
+                        new Ingredient.TagValue(CommonTags.FOODS_RAW_PORK),
+                        new Ingredient.TagValue(CommonTags.FOODS_RAW_BEEF)
+                )))
+                .addIngredient(CommonTags.CROPS_RICE)
+                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
+                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
+                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+                .build(conditional);
 
         CookingPotRecipeBuilder.cookingPotRecipe(FarmersDelightCompats.SWEET_HARVEST_SOUP.get(), 1, 200, 1.0F)
-                               .addIngredient(ItemRegistry.GUMMY)
-                               .addIngredient(net.minecraft.tags.ItemTags.create(ResourceLocation.fromNamespaceAndPath(
-                                       "c",
-                                       "foods/fruit")))
-                               .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
-                               .addIngredient(CommonTags.FOODS_MILK)
-                               .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
-                               .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
-                               .build(conditional);
+                .addIngredient(ItemRegistry.GUMMY)
+                .addIngredient(net.minecraft.tags.ItemTags.create(ResourceLocation.fromNamespaceAndPath(
+                        "c",
+                        "foods/fruit")))
+                .addIngredient(CommonTags.FOODS_LEAFY_GREEN)
+                .addIngredient(CommonTags.FOODS_MILK)
+                .unlockedBy("has_gummy", has(ItemRegistry.GUMMY))
+                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+                .build(conditional);
     }
 
 

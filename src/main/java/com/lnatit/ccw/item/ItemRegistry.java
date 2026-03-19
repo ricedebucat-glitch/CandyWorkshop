@@ -150,7 +150,15 @@ public interface ItemRegistry {
     );
     DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
     DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
-    DeferredItem<Item> CARAMEL_ALLOY = ITEMS.registerSimpleItem("caramel_alloy");
+    DeferredItem<Item> CARAMETAL = ITEMS.registerSimpleItem("carametal");
+    DeferredItem<SmithingTemplateItem> NETHER_SMITHING_WAFER = ITEMS.register(
+            "nether_smithing_wafer",
+            SmithingWafers::createNether
+    );
+    DeferredItem<SmithingTemplateItem> ENDER_SMITHING_WAFER = ITEMS.register(
+            "ender_smithing_wafer",
+            SmithingWafers::createEnder
+    );
     DeferredItem<Item> GUMMY_MAGAZINE = ITEMS.register("gummy_magazine",
             key -> new GummyMagazineItem(
                     new Item.Properties()

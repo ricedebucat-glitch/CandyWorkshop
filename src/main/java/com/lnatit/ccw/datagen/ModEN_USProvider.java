@@ -63,7 +63,7 @@ public class ModEN_USProvider extends LanguageProvider {
 
         this.add(ItemRegistry.MILK_GELATIN.get(), "Milk Gelatin");
 
-//        this.add(ItemRegistry.CARAMEL_ALLOY.get(), "Caramel Alloy");
+        this.add(ItemRegistry.CARAMETAL.get(), "Carametal");
         this.add(ItemRegistry.GUMMY_MAGAZINE.get(), "Gummy Magazine");
 
 //        this.add("item.ccw.milk_extractor,desc0", "");
