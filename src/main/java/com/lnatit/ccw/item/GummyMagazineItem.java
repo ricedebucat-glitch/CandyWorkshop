@@ -4,6 +4,7 @@ import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
 import com.lnatit.ccw.menu.GummyContentMenu;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -14,10 +15,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.List;
 
 public class GummyMagazineItem extends Item {
+    public static final String DESC_1 = "item.ccw.gummy_magazine.desc0";
+    public static final String DESC_2 = "item.ccw.gummy_magazine.desc1";
+    public static final String DESC_UNFOLD = "item.ccw.unfold";
+    public static final String FOLDED_1 = "item.ccw.gummy_magazine.folded0";
+    public static final String FOLDED_2 = "item.ccw.gummy_magazine.folded1";
+    public static final String FOLDED_3 = "item.ccw.gummy_magazine.folded2";
+
+
     public GummyMagazineItem(Properties properties) {
         super(properties);
     }
@@ -67,6 +77,14 @@ public class GummyMagazineItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        tooltipComponents.add(Component.translatable(DESC_1));
+        tooltipComponents.add(Component.translatable(DESC_2));
+        if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
+            tooltipComponents.add(Component.translatable(FOLDED_1));
+            tooltipComponents.add(Component.translatable(FOLDED_2));
+            tooltipComponents.add(Component.translatable(FOLDED_3));
+        } else {
+            tooltipComponents.add(Component.translatable(DESC_UNFOLD));
+        }
     }
 }

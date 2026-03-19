@@ -5,6 +5,7 @@ import com.lnatit.ccw.CandyWorkshop;
 //import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
+import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
@@ -63,13 +64,22 @@ public class ModEN_USProvider extends LanguageProvider {
         this.add(ItemRegistry.MILK_GELATIN.get(), "Milk Gelatin");
 
 //        this.add(ItemRegistry.CARAMEL_ALLOY.get(), "Caramel Alloy");
+        this.add(ItemRegistry.GUMMY_MAGAZINE.get(), "Gummy Magazine");
 
-        this.add("item.ccw.milk_extractor,desc0", "");
-        this.add("item.ccw.milk_extractor,desc1", "");
-        this.add("item.ccw.milk_extractor,desc2", "");
+//        this.add("item.ccw.milk_extractor,desc0", "");
+//        this.add("item.ccw.milk_extractor,desc1", "");
+//        this.add("item.ccw.milk_extractor,desc2", "");
+//
+//        this.add("item.ccw.carton_milk,desc0", "");
+//        this.add("item.ccw.carton_milk,desc1", "");
 
-        this.add("item.ccw.carton_milk,desc0", "");
-        this.add("item.ccw.carton_milk,desc1", "");
+        this.add(GummyMagazineItem.DESC_UNFOLD, "- Press [Shift] to Unfold");
+
+        this.add(GummyMagazineItem.DESC_1, "Consume multiple gummies with one click");
+        this.add(GummyMagazineItem.DESC_2, "Sneak + Right-click to open the GUI");
+        this.add(GummyMagazineItem.FOLDED_1, "+ Targets gummies in §elightning slots§r only");
+        this.add(GummyMagazineItem.FOLDED_2, "+ Consume gummies via §cbuttons§r in the GUI");
+        this.add(GummyMagazineItem.FOLDED_3, "+ Upgradeable at a §6Smithing Table§r");
 
         this.add("item.ccw.gummy.excited.prefix", "Excited");
         this.add("item.ccw.gummy.bold.prefix", "Bold");

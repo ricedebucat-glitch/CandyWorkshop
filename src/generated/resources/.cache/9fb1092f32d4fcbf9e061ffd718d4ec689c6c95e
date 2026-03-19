@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-12T17:30:33.3914385	Recipes
+// 1.21.1	2026-03-19T20:34:16.3284097	Recipes
 386c59f43743ae60afa22a7c2e2f28319b402067 data/ccw/advancement/recipes/brewing/blessed_steak.json
 28eb0fe9f148abcc7116e23d2ddaa658c32001c1 data/ccw/advancement/recipes/brewing/calcium_rich_milk.json
 dbb8f1dfc996ab451a2f13b8854294a11dc5a0fa data/ccw/advancement/recipes/brewing/defiled_offering.json
@@ -31,7 +31,6 @@ c0971e27c6be053d3ce7a8fa89b3e578843d1a44 data/ccw/advancement/recipes/misc/milk_
 c7672250520d8400ff4284a689ececf3b7051666 data/ccw/advancement/recipes/misc/sugar_refinery.json
 c259732b4c156dbb56e3ae01f405d0c9d46f9276 data/ccw/recipe/blessed_steak.json
 8a15b573ab2ec10751d2a553b3ca0718a9991588 data/ccw/recipe/calcium_rich_milk.json
-3d5267609e3913990aac89573a2d80a8176fb448 data/ccw/recipe/caramel_alloy.json
 390901982c7f61641900d1eb467a2616e60fe737 data/ccw/recipe/carton_milk.json
 747fdedf4f5b5b76861c014db454de4a950c9b0b data/ccw/recipe/cooking/glazed_meat_rice.json
 6b59b0633ffbd51b03d02748763fcb871211c322 data/ccw/recipe/cooking/sweet_harvest_soup.json
