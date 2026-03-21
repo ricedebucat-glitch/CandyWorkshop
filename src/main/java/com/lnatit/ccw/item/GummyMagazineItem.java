@@ -77,7 +77,7 @@ public class GummyMagazineItem extends TieredItem
     }
 
     public static void eatGummies(Level level, Player player, MutableContents magazine) {
-        List<ItemStack> drops = magazine.eat(player, new Consumer(level, player));
+        List<ItemStack> drops = magazine.apply(player, new Consumer(level, player));
         if (!level.isClientSide() && !drops.isEmpty()) {
             for (ItemStack drop : drops) {
                 if (drop.isEmpty()) continue;

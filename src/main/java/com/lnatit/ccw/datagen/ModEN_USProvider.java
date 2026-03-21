@@ -5,8 +5,10 @@ import com.lnatit.ccw.CandyWorkshop;
 //import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
+import com.lnatit.ccw.item.GummyGlazerItem;
 import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.SmithingWafers;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.core.Holder;
@@ -81,14 +83,6 @@ public class ModEN_USProvider extends LanguageProvider {
 //        this.add("item.ccw.carton_milk,desc0", "");
 //        this.add("item.ccw.carton_milk,desc1", "");
 
-        this.add(GummyMagazineItem.DESC_UNFOLD_KEY, "- Press [Shift] to Unfold");
-
-        this.add(GummyMagazineItem.DESC_1_KEY, "Consume multiple gummies with one click");
-        this.add(GummyMagazineItem.DESC_2_KEY, "Sneak + Right-click to open the GUI");
-        this.add(GummyMagazineItem.FOLDED_1_KEY, "+ Targets gummies in §elightning slots§r only");
-        this.add(GummyMagazineItem.FOLDED_2_KEY, "+ Consume gummies via §cbuttons§r in the GUI");
-        this.add(GummyMagazineItem.FOLDED_3_KEY, "+ Upgradeable at a §6Smithing Table§r");
-
         this.add("item.ccw.gummy.excited.prefix", "Excited");
         this.add("item.ccw.gummy.bold.prefix", "Bold");
         this.add("item.ccw.gummy.milky.prefix", "Milky");
@@ -96,6 +90,40 @@ public class ModEN_USProvider extends LanguageProvider {
         this.add("item.ccw.gummy.excited.desc", "Excited desc");
         this.add("item.ccw.gummy.bold.desc", "Bold desc");
         this.add("item.ccw.gummy.milky.desc", "Milky desc");
+
+        // Smithing wafer templates
+        this.add(SmithingWafers.NETHER_GLAZE_APPLIES_TO, "placeholder: nether applies to");
+        this.add(SmithingWafers.NETHER_GLAZE_INGREDIENTS, "placeholder: nether ingredients");
+        this.add(SmithingWafers.NETHER_GLAZE_UPGRADE, "placeholder: nether upgrade");
+        this.add(SmithingWafers.NETHER_GLAZE_BASE_SLOT_DESC, "placeholder: nether base slot");
+        this.add(SmithingWafers.NETHER_GLAZE_ADDITIONS_SLOT_DESC, "placeholder: nether additions slot");
+        this.add(SmithingWafers.ENDER_GLAZE_APPLIES_TO, "placeholder: ender applies to");
+        this.add(SmithingWafers.ENDER_GLAZE_INGREDIENTS, "placeholder: ender ingredients");
+        this.add(SmithingWafers.ENDER_GLAZE_UPGRADE, "placeholder: ender upgrade");
+        this.add(SmithingWafers.ENDER_GLAZE_BASE_SLOT_DESC, "placeholder: ender base slot");
+        this.add(SmithingWafers.ENDER_GLAZE_ADDITIONS_SLOT_DESC, "placeholder: ender additions slot");
+
+        this.add(GummyMagazineItem.DESC_UNFOLD_KEY, "- Press [Shift] to Unfold");
+
+        // Gummy Magazine tooltips
+        this.add(GummyMagazineItem.DESC_1_KEY, "Consume multiple gummies with one click");
+        this.add(GummyMagazineItem.DESC_2_KEY, "Sneak + Right-click to open the GUI");
+        this.add(GummyMagazineItem.FOLDED_1_KEY, "+ Targets gummies in §elightning slots§r only");
+        this.add(GummyMagazineItem.FOLDED_2_KEY, "+ Consume gummies via §cbuttons§r in the GUI");
+        this.add(GummyMagazineItem.FOLDED_3_KEY, "+ Upgradeable at a §6Smithing Table§r");
+
+        // Gummy Glazer tooltips
+        this.add(GummyGlazerItem.DESC_1_KEY, "placeholder: glazer desc 0");
+        this.add(GummyGlazerItem.DESC_2_KEY, "placeholder: glazer desc 1");
+        this.add(GummyGlazerItem.DESC_MODE_SELECTION_KEY, "placeholder: glazer mode selection (%s)");
+        this.add(GummyGlazerItem.DESC_MODE_SAVE_KEY, "placeholder: glazer mode save");
+        this.add(GummyGlazerItem.DESC_MODE_EXTEND_KEY, "placeholder: glazer mode extend");
+        this.add(GummyGlazerItem.FOLDED_1_KEY, "placeholder: glazer folded 0");
+        this.add(GummyGlazerItem.FOLDED_2_KEY, "placeholder: glazer folded 1");
+        this.add(GummyGlazerItem.FOLDED_3_KEY, "placeholder: glazer folded 2");
+        this.add(GummyGlazerItem.FOLDED_4_KEY, "placeholder: glazer folded 3");
+        this.add(GummyGlazerItem.FOLDED_5_KEY, "placeholder: glazer folded 4");
+        this.add(GummyGlazerItem.FOLDED_6_KEY, "placeholder: glazer folded 5");
 
         for (DeferredHolder<Sugar, ? extends Sugar> sugar : Sugars.SUGARS.getEntries()) {
             this.add("item." + CandyWorkshop.MODID + ".gummy." + ((Holder<?>) sugar).getKey().location().getPath(), "placeholder:" + ((Holder<?>) sugar)

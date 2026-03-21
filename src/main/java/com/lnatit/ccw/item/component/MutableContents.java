@@ -82,7 +82,7 @@ public class MutableContents extends ItemStackHandler implements IContents
         }
     }
 
-    public List<ItemStack> eat(LivingEntity entity, Function<ItemStack, ItemStack> consumer) {
+    public List<ItemStack> apply(LivingEntity entity, Function<ItemStack, ItemStack> consumer) {
         List<ItemStack> results = this.activeSlots().stream().map(consumer).toList();
         return updateSlots(results);
     }

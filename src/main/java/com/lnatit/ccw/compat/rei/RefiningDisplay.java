@@ -29,9 +29,9 @@
 //                    EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(d -> d.inputs),
 //                    EntryIngredient.codec().fieldOf("extra").forGetter(d -> d.extra),
 //                    EntryIngredient.codec().fieldOf("output").forGetter(d -> d.output)
-//            ).eat(instance, RefiningDisplay::new)),
+//            ).apply(instance, RefiningDisplay::new)),
 //            StreamCodec.composite(
-//                    EntryIngredient.streamCodec().eat(ByteBufCodecs.list()),
+//                    EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
 //                    d -> d.inputs,
 //                    EntryIngredient.streamCodec(),
 //                    d -> d.extra,

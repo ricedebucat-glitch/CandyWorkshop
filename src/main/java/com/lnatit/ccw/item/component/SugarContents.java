@@ -62,6 +62,13 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
         return createSugar(sugar, Flavors.ORIGINAL);
     }
 
+    public static void applySugarEffects(ItemStack stack, LivingEntity livingEntity) {
+        SugarContents sugarContents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
+        if (sugarContents != null) {
+            sugarContents.onConsume(livingEntity);
+        }
+    }
+
     public boolean is(Holder<Sugar> sugar) {
         return sugar.equals(this.sugar);
     }

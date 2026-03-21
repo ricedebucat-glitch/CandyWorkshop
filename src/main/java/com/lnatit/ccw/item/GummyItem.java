@@ -24,10 +24,7 @@ public class GummyItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-        SugarContents sugarContents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
-        if (sugarContents != null) {
-            sugarContents.onConsume(livingEntity);
-        }
+        SugarContents.applySugarEffects(stack, livingEntity);
         return super.finishUsingItem(stack, level, livingEntity);
     }
 

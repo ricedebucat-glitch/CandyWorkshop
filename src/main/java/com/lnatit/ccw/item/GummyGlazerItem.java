@@ -14,7 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -27,6 +26,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class GummyGlazerItem extends TieredItem
     public static final String DESC_2_KEY = "item.ccw.gummy_glazer.desc1";
     public static final String DESC_MODE_SELECTION_KEY = "item.ccw.gummy_glazer.mode_selection";
     public static final String DESC_MODE_SAVE_KEY = "item.ccw.gummy_glazer.mode_save";
-    public static final String DESC_MODE_EXTEND_KEY =  "item.ccw.gummy_glazer.mode_extend";
+    public static final String DESC_MODE_EXTEND_KEY = "item.ccw.gummy_glazer.mode_extend";
     public static final String DESC_UNFOLD_KEY = "item.ccw.unfold";
     public static final String FOLDED_1_KEY = "item.ccw.gummy_glazer.folded0";
     public static final String FOLDED_2_KEY = "item.ccw.gummy_glazer.folded1";
@@ -68,6 +68,12 @@ public class GummyGlazerItem extends TieredItem
         return new GummyGlazerItem(new Item.Properties().component(IContents.Type.GLAZER.dataComponentType,
                                                                    IContents.Type.GLAZER.defaultContents()), tier);
     }
+
+//    @Override
+//    public InteractionResult useOn(UseOnContext context) {
+//        LivingEntity source = context.getPlayer();
+//        LivingEntity target = context.
+//    }
 
     // TODO check whether to switch between modes
     @Override
@@ -98,7 +104,8 @@ public class GummyGlazerItem extends TieredItem
         tooltipComponents.add(DESC_1);
         tooltipComponents.add(DESC_2);
         // TODO reset styles of each mode
-        tooltipComponents.add(Component.translatable(DESC_MODE_SELECTION_KEY, DESC_MODE_SAVE, DESC_MODE_EXTEND).withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable(DESC_MODE_SELECTION_KEY, DESC_MODE_SAVE, DESC_MODE_EXTEND)
+                                       .withStyle(ChatFormatting.GRAY));
         if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
             tooltipComponents.add(FOLDED_1);
             tooltipComponents.add(FOLDED_2);
@@ -114,54 +121,73 @@ public class GummyGlazerItem extends TieredItem
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onAttack(AttackEntityEvent event) {
-        Entity target = event.getTarget();
-        if (target instanceof LivingEntity living) {
+        if (event.getTarget() instanceof LivingEntity target) {
             Player player = event.getEntity();
 
             ItemStack mainHand = player.getMainHandItem();
             if (mainHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, mainHand, living);
-                event.setCanceled(true);
+                applyGummies(player, mainHand, target);
+//                event.setCanceled(true);
             }
 
             ItemStack offHand = player.getOffhandItem();
             if (offHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, offHand, living);
+                applyGummies(player, offHand, target);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingInteract(PlayerInteractEvent.EntityInteract event) {
+        if (event.getTarget() instanceof LivingEntity target) {
+            Player player = event.getEntity();
+
+            ItemStack mainHand = player.getMainHandItem();
+            if (mainHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, mainHand, target);
+            }
+
+            ItemStack offHand = player.getOffhandItem();
+            if (offHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, offHand, target);
             }
         }
     }
 
     // TODO check exact requirements
     public static void onLivingHurt(LivingDamageEvent.Pre event) {
-        if (event.getSource().getEntity() instanceof ServerPlayer player) {
+        if (event.getSource().getEntity() instanceof LivingEntity source) {
             LivingEntity living = event.getEntity();
 
-            ItemStack mainHand = player.getMainHandItem();
+            ItemStack mainHand = source.getMainHandItem();
             if (mainHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, mainHand, living);
+                applyGummies(source, mainHand, living);
             }
 
-            ItemStack offHand = player.getOffhandItem();
+            ItemStack offHand = source.getOffhandItem();
             if (offHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, offHand, living);
+                applyGummies(source, offHand, living);
             }
         }
     }
 
-    private static void applyGummies(Player player, ItemStack glazer, LivingEntity target) {
+    private static void applyGummies(LivingEntity applier, ItemStack glazer, LivingEntity target) {
         Item item = glazer.getItem();
         MutableContents contents = IContents.Type.GLAZER.getMutable(glazer, ((GummyGlazerItem) item).tier);
         if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
             return;
         }
-        // TODO eat on mode
-        contents.eat(target, new ConditionalConsumer(player.level(), target));
+        // TODO apply on mode
+        contents.apply(target, new ConditionalConsumer(applier, target));
         GummyContents.set(glazer, contents);
 
-        player.awardStat(Stats.ITEM_USED.get(item));
+        if (applier instanceof ServerPlayer player) {
+            player.awardStat(Stats.ITEM_USED.get(item));
+        }
     }
 
-    private record ConditionalConsumer(Level level, LivingEntity entity) implements Function<ItemStack, ItemStack>
+    private record ConditionalConsumer(LivingEntity applier,
+                                       LivingEntity target) implements Function<ItemStack, ItemStack>
     {
         @Override
         public ItemStack apply(ItemStack stack) {
@@ -170,12 +196,16 @@ public class GummyGlazerItem extends TieredItem
                 SugarContents contents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
                 assert contents != null;
                 Optional<Formula> optional = Formula.getFormulaOptional(contents.sugar(), contents.flavor());
-                if (optional.isPresent() && optional.get().effects().stream().allMatch(effect -> entity.hasEffect(effect.mobEffect()))) {
+                if (optional.isPresent() && optional.get()
+                                                    .effects()
+                                                    .stream()
+                                                    .allMatch(effect -> target.hasEffect(effect.mobEffect()))) {
                     return stack;
                 }
             }
-            // TODO check exact requirements
-            return stack.copy().finishUsingItem(level, entity);
+            SugarContents.applySugarEffects(stack, target);
+            stack.consume(1, applier);
+            return stack;
         }
     }
 }
