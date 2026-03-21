@@ -3,7 +3,6 @@ package com.lnatit.ccw.misc.model;
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.MilkExtractorItem;
-import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -23,7 +22,7 @@ import java.util.Map;
 public class ModelHandler
 {
     public static final ResourceLocation BROKEN = ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "broken");
-    public static final ResourceLocation TIER =  ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "tier");
+//    public static final ResourceLocation TIER =  ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "tier");
 
     @SubscribeEvent
     public static void onPropertyRegister(FMLClientSetupEvent event) {
@@ -32,17 +31,17 @@ public class ModelHandler
                 BROKEN,
                 (stack, level, entity, seed) -> MilkExtractorItem.isBroken(stack) ? 1.0F : 0.0F
         ));
-        event.enqueueWork(() -> ItemProperties.register(
-                ItemRegistry.GUMMY_MAGAZINE.get(),
-                TIER,
-                (stack, level, entity, seed) -> {
-                    GummyContents m = stack.get(ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
-                    if (m != null) {
-                        return (float) m.tier().ordinal() / 2;
-                    }
-                    return 0;
-                }
-        ));
+//        event.enqueueWork(() -> ItemProperties.register(
+//                ItemRegistry.GUMMY_MAGAZINE.get(),
+//                TIER,
+//                (stack, level, entity, seed) -> {
+//                    GummyContents m = stack.get(ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
+//                    if (m != null) {
+//                        return (float) m.tier().ordinal() / 2;
+//                    }
+//                    return 0;
+//                }
+//        ));
     }
 
     @SubscribeEvent

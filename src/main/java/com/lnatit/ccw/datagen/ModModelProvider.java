@@ -88,6 +88,10 @@ public class ModModelProvider
                             1.0f
                     ).end();
 
+            basicItem(ItemRegistry.CARAMETAL.getId());
+            basicItem(ItemRegistry.NETHER_SMITHING_WAFER.getId());
+            basicItem(ItemRegistry.ENDER_SMITHING_WAFER.getId());
+
             // Compats below
             // Apotheosis
             basicItem(ApothesisCompats.MALIGNANT_BERRY.asItem());

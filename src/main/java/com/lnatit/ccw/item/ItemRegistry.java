@@ -84,14 +84,22 @@ public interface ItemRegistry
     DeferredItem<Item> OMINOUS_FLAG = ITEMS.registerSimpleItem("ominous_flag");
     DeferredItem<Item> MILK_GELATIN = ITEMS.registerSimpleItem("milk_gelatin");
     DeferredItem<Item> CARAMETAL = ITEMS.registerSimpleItem("carametal");
+    DeferredItem<GummyMagazineItem> GUMMY_MAGAZINE =
+            ITEMS.register("gummy_magazine", key -> GummyMagazineItem.create(Tier.PRIMARY));
+    DeferredItem<GummyMagazineItem> NETHER_MAGAZINE =
+            ITEMS.register("nether_magazine", key -> GummyMagazineItem.create(Tier.NETHER));
+    DeferredItem<GummyMagazineItem> ENDER_MAGAZINE =
+            ITEMS.register("ender_magazine", key -> GummyMagazineItem.create(Tier.ENDER));
+    DeferredItem<GummyGlazerItem> GUMMY_GLAZER =
+            ITEMS.register("gummy_glazer", key -> GummyGlazerItem.create(Tier.PRIMARY));
+    DeferredItem<GummyGlazerItem> NETHER_GLAZER =
+            ITEMS.register("nether_glazer", key -> GummyGlazerItem.create(Tier.NETHER));
+    DeferredItem<GummyGlazerItem> ENDER_GLAZER =
+            ITEMS.register("ender_glazer", key -> GummyGlazerItem.create(Tier.ENDER));
     DeferredItem<SmithingTemplateItem> NETHER_SMITHING_WAFER =
             ITEMS.register("nether_smithing_wafer", SmithingWafers::createNether);
     DeferredItem<SmithingTemplateItem> ENDER_SMITHING_WAFER =
             ITEMS.register("ender_smithing_wafer", SmithingWafers::createEnder);
-    DeferredItem<GummyMagazineItem> GUMMY_MAGAZINE =
-            ITEMS.register("gummy_magazine", key -> GummyMagazineItem.create(Tier.PRIMARY));
-    DeferredItem<GummyGlazerItem> GUMMY_GLAZER =
-            ITEMS.register("gummy_glazer", key -> GummyGlazerItem.create(Tier.PRIMARY));
 
     DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CandyWorkshop.MODID);
 

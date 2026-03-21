@@ -64,7 +64,15 @@ public class ModEN_USProvider extends LanguageProvider {
         this.add(ItemRegistry.MILK_GELATIN.get(), "Milk Gelatin");
 
         this.add(ItemRegistry.CARAMETAL.get(), "Carametal");
+        this.add(ItemRegistry.NETHER_SMITHING_WAFER.get(), "Nether Smithing Wafer");
+        this.add(ItemRegistry.ENDER_SMITHING_WAFER.get(), "Ender Smithing Wafer");
+
         this.add(ItemRegistry.GUMMY_MAGAZINE.get(), "Gummy Magazine");
+        this.add(ItemRegistry.NETHER_MAGAZINE.get(), "Nether Magazine");
+        this.add(ItemRegistry.ENDER_MAGAZINE.get(), "Ender Magazine");
+        this.add(ItemRegistry.GUMMY_GLAZER.get(), "Gummy Glazer");
+        this.add(ItemRegistry.NETHER_GLAZER.get(), "Nether Glazer");
+        this.add(ItemRegistry.ENDER_GLAZER.get(), "Ender Glazer");
 
 //        this.add("item.ccw.milk_extractor,desc0", "");
 //        this.add("item.ccw.milk_extractor,desc1", "");

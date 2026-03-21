@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-12T18:10:48.0381191	Item Models: ccw
+// 1.21.1	2026-03-21T15:12:20.5823476	Item Models: ccw
 64fe3fdacbf2459201ab1fa379623b8f6912f57c assets/ccw/models/item/bayberry_gummy.json
 35d5d97672911e648688c3a91c5b5ba8d0d89c7f assets/ccw/models/item/binding_gummy.json
 ab9f70176ce56d913ff7d89713c752c4354b6d04 assets/ccw/models/item/black_tea_gummy.json
@@ -9,6 +9,7 @@ b0b8c83ff20f14d7ee49a06b5e97d4146d020a65 assets/ccw/models/item/blinding_gummy.j
 6e9b4511b5d6aa8307ace5f35e751ae6fb605d3c assets/ccw/models/item/bug_gummy.json
 5046b00c1f99e62e4662566b0d6c2f598b9f387a assets/ccw/models/item/bunny_gummy.json
 7e2b6fe0364087cc9851f2cbc80fc21ef7217b4c assets/ccw/models/item/calcium_rich_milk.json
+995d9dcbb7d666c876bf2a3d6d37010f5c7401ea assets/ccw/models/item/carametal.json
 1eb7c946b855f3259f532fb5e4be9674a7d1526c assets/ccw/models/item/carton_milk.json
 54d6fe5d7a889269fa1612b9ed0e7078029e7e49 assets/ccw/models/item/chorus_gummy.json
 568659a77baef6f7596acc694e1fef417dfc270b assets/ccw/models/item/comfort_gummy.json
@@ -19,6 +20,7 @@ c980ef5a212181416ceb56baae08ab24dd216b91 assets/ccw/models/item/discount_gummy.j
 b86acfcd6db888d79e39e52e0a04cdb7cfcb3a74 assets/ccw/models/item/dolphin_cookie.json
 541711cdc166a63e9dacaaff218cd7c8b9fd3ae2 assets/ccw/models/item/drawer_table.json
 b0166004dc63cf56600f4b76ed0113735c110439 assets/ccw/models/item/durian_gummy.json
+099090d31869fdb4218393aac584b32f0c25123d assets/ccw/models/item/ender_smithing_wafer.json
 39768dadfd30c408b38ff5906e32626c421bac30 assets/ccw/models/item/ender_sugar.json
 8972cd1e6a993b5bcbd529812c30b71ff53114ef assets/ccw/models/item/energy_carrot.json
 20c7e39604305c79d749a68e7cdf2e72ad792feb assets/ccw/models/item/erosion_shell.json
@@ -56,6 +58,7 @@ d9285bd8d4e65e45b0eaa7f482884b5bf5f16157 assets/ccw/models/item/mango_gummy.json
 b85c879361b6e2b936a18f6a33b7c795d390c6b1 assets/ccw/models/item/milk_gelatin.json
 70c5b45b16f9ced95cb2bb687be9f2adee78d33e assets/ccw/models/item/milk_packaging.json
 bd72c338f2a7de1a55e2af9c7d3a0c4e746bb9d4 assets/ccw/models/item/mint_gummy.json
+4880bad4852efed3ff2c5445514d9f4fec110fac assets/ccw/models/item/nether_smithing_wafer.json
 548c3158750bc17e878ce191bfa7e142e38f5753 assets/ccw/models/item/nether_sugar.json
 27c77449646807fe2f24ee771b87363fbfc378fe assets/ccw/models/item/night_vision_gummy.json
 6969b356df08655fdc32885f006d5c1dd232ba10 assets/ccw/models/item/nourished_gummy.json

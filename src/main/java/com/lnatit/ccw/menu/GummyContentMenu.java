@@ -1,8 +1,8 @@
 package com.lnatit.ccw.menu;
 
 import com.lnatit.ccw.item.GummyMagazineItem;
-import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.component.GummyContents;
+import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -113,7 +113,7 @@ public class GummyContentMenu extends ModContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return this.getContainer(player).is(ItemRegistry.GUMMY_MAGAZINE);
+        return this.getContainer(player).has(IContents.Type.MAGAZINE.dataComponentType);
     }
 
     public record Context(MutableContents mutable, InteractionHand useHand, int slotId) {
