@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.SmithingTemplateItem;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public interface SmithingWafers {
     String ENDER_GLAZE_BASE_SLOT_DESC = Util.makeDescriptionId("item", CandyWorkshop.id("smithing_template.ender_glaze.base_slot_desc"));
     String ENDER_GLAZE_ADDITIONS_SLOT_DESC = Util.makeDescriptionId("item", CandyWorkshop.id("smithing_template.ender_glaze.additions_slot_desc"));
 
+    ResourceLocation EMPTY_SLOT_MAGAZINE = CandyWorkshop.id("item/empty_slot_gummy_magazine");
+    ResourceLocation EMPTY_SLOT_GLAZER =  CandyWorkshop.id("item/empty_slot_gummy_glazer");
+    List<ResourceLocation> UPGRADE_ICONS = List.of(EMPTY_SLOT_MAGAZINE, EMPTY_SLOT_GLAZER);
+    ResourceLocation EMPTY_SLOT_INGOT = ResourceLocation.withDefaultNamespace("item/empty_slot_ingot");
+    ResourceLocation EMPTY_SLOT_DRAGON_HEAD = CandyWorkshop.id("item/empty_slot_dragon_head");
+
     static SmithingTemplateItem createNether() {
         return new SmithingTemplateItem(
                 Component.translatable(SmithingWafers.NETHER_GLAZE_APPLIES_TO).withStyle(DESCRIPTION_FORMAT),
@@ -31,8 +38,8 @@ public interface SmithingWafers {
                 Component.translatable(SmithingWafers.NETHER_GLAZE_UPGRADE).withStyle(TITLE_FORMAT),
                 Component.translatable(SmithingWafers.NETHER_GLAZE_BASE_SLOT_DESC),
                 Component.translatable(SmithingWafers.NETHER_GLAZE_ADDITIONS_SLOT_DESC),
-                List.of(),
-                List.of()
+                UPGRADE_ICONS,
+                List.of(EMPTY_SLOT_INGOT)
         );
     }
 
@@ -43,8 +50,8 @@ public interface SmithingWafers {
                 Component.translatable(SmithingWafers.ENDER_GLAZE_UPGRADE).withStyle(TITLE_FORMAT),
                 Component.translatable(SmithingWafers.ENDER_GLAZE_BASE_SLOT_DESC),
                 Component.translatable(SmithingWafers.ENDER_GLAZE_ADDITIONS_SLOT_DESC),
-                List.of(),
-                List.of()
+                UPGRADE_ICONS,
+                List.of(EMPTY_SLOT_DRAGON_HEAD)
         );
     }
 }

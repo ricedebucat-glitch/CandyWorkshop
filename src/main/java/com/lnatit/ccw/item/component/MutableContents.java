@@ -1,6 +1,7 @@
 package com.lnatit.ccw.item.component;
 
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.item.Tier;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,23 +12,36 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MutableContents extends ItemStackHandler implements IContents {
-    public static final StreamCodec<RegistryFriendlyByteBuf, MutableContents> STREAM_CODEC = IContents.streamCodec(MutableContents::new);
+public class MutableContents extends ItemStackHandler implements IContents
+{
+    public static final StreamCodec<RegistryFriendlyByteBuf, MutableContents> STREAM_CODEC = StreamCodec.composite(
+            ItemStack.OPTIONAL_LIST_STREAM_CODEC,
+            IContents::stacks,
+            Type.STREAM_CODEC,
+            IContents::type,
+            Tier.STREAM_CODEC,
+            m -> m.tier,
+            MutableContents::new
+    );
 
-    private Tier tier;
+    private final Tier tier;
     private final Type type;
 
-    public MutableContents(GummyContents contents) {
-        this(contents.stacks(), contents.tier(), contents.type());
+    public MutableContents(GummyContents contents, Tier tier) {
+        this(contents.stacks(), contents.type(), tier);
     }
 
-    private MutableContents(List<ItemStack> stacks, Tier tier, Type type) {
+    private MutableContents(List<ItemStack> stacks, Type type, Tier tier) {
         super(type.size);
-        this.tier = tier;
         this.type = type;
+        this.tier = tier;
         for (int i = 0; i < type.size; i++) {
             this.stacks.set(i, stacks.get(i));
         }
+    }
+
+    public int activeSize() {
+        return this.type().tierMarch * (this.tier.ordinal() + 1);
     }
 
     public List<ItemStack> activeSlots() {
@@ -43,10 +57,12 @@ public class MutableContents extends ItemStackHandler implements IContents {
             if (isItemValid(i, stack)) {
                 if (stack.isEmpty()) {
                     feed(i);
-                } else {
+                }
+                else {
                     this.stacks.set(i, stack);
                 }
-            } else {
+            }
+            else {
                 this.stacks.set(i, ItemStack.EMPTY);
                 unaccepted.add(stack);
             }
@@ -72,22 +88,9 @@ public class MutableContents extends ItemStackHandler implements IContents {
         return updateSlots(results);
     }
 
-    public void upgrade() {
-        if (this.tier == Tier.PRIMARY) {
-            this.tier = Tier.NETHER;
-        } else {
-            this.tier = Tier.ENDER;
-        }
-    }
-
     @Override
     public List<ItemStack> stacks() {
         return this.stacks;
-    }
-
-    @Override
-    public Tier tier() {
-        return this.tier;
     }
 
     @Override
@@ -104,7 +107,8 @@ public class MutableContents extends ItemStackHandler implements IContents {
     public void setStackInSlot(int slot, ItemStack stack) {
         if (isItemValid(slot, stack)) {
             super.setStackInSlot(slot, stack);
-        } else {
+        }
+        else {
             throw new RuntimeException("Invalid item " + stack + " in slot " + slot + "!");
         }
     }
@@ -113,4 +117,5 @@ public class MutableContents extends ItemStackHandler implements IContents {
     public boolean isItemValid(int slot, ItemStack stack) {
         return stack.isEmpty() || slot < this.stacks.size() && stack.is(ItemRegistry.GUMMY);
     }
+
 }
