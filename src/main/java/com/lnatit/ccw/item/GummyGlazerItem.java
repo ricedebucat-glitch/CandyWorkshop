@@ -1,10 +1,65 @@
 package com.lnatit.ccw.item;
 
+import com.lnatit.ccw.CandyWorkshop;
+import com.lnatit.ccw.data.Formula;
+import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
+import com.lnatit.ccw.item.component.MutableContents;
+import com.lnatit.ccw.item.component.SugarContents;
+import com.lnatit.ccw.menu.GummyContentMenu;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
+@EventBusSubscriber(modid = CandyWorkshop.MODID)
 public class GummyGlazerItem extends TieredItem
 {
+    public static final String DESC_1_KEY = "item.ccw.gummy_glazer.desc0";
+    public static final String DESC_2_KEY = "item.ccw.gummy_glazer.desc1";
+    public static final String DESC_MODE_SELECTION_KEY = "item.ccw.gummy_glazer.mode_selection";
+    public static final String DESC_MODE_SAVE_KEY = "item.ccw.gummy_glazer.mode_save";
+    public static final String DESC_MODE_EXTEND_KEY =  "item.ccw.gummy_glazer.mode_extend";
+    public static final String DESC_UNFOLD_KEY = "item.ccw.unfold";
+    public static final String FOLDED_1_KEY = "item.ccw.gummy_glazer.folded0";
+    public static final String FOLDED_2_KEY = "item.ccw.gummy_glazer.folded1";
+    public static final String FOLDED_3_KEY = "item.ccw.gummy_glazer.folded2";
+    public static final String FOLDED_4_KEY = "item.ccw.gummy_glazer.folded3";
+    public static final String FOLDED_5_KEY = "item.ccw.gummy_glazer.folded4";
+    public static final String FOLDED_6_KEY = "item.ccw.gummy_glazer.folded5";
+
+    public static final Component DESC_1 = Component.translatable(DESC_1_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component DESC_2 = Component.translatable(DESC_2_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component DESC_MODE_SAVE = Component.translatable(DESC_MODE_SAVE_KEY);
+    public static final Component DESC_MODE_EXTEND = Component.translatable(DESC_MODE_EXTEND_KEY);
+    public static final Component DESC_UNFOLD = Component.translatable(DESC_UNFOLD_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_1 = Component.translatable(FOLDED_1_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_2 = Component.translatable(FOLDED_2_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_3 = Component.translatable(FOLDED_3_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_4 = Component.translatable(FOLDED_4_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_5 = Component.translatable(FOLDED_5_KEY).withStyle(ChatFormatting.GRAY);
+    public static final Component FOLDED_6 = Component.translatable(FOLDED_6_KEY).withStyle(ChatFormatting.GRAY);
+
     private GummyGlazerItem(Properties properties, Tier tier) {
         super(properties, tier);
     }
@@ -12,5 +67,115 @@ public class GummyGlazerItem extends TieredItem
     public static GummyGlazerItem create(Tier tier) {
         return new GummyGlazerItem(new Item.Properties().component(IContents.Type.GLAZER.dataComponentType,
                                                                    IContents.Type.GLAZER.defaultContents()), tier);
+    }
+
+    // TODO check whether to switch between modes
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (player.isShiftKeyDown() && !level.isClientSide) {
+            int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
+            ItemStack itemstack = player.getItemInHand(usedHand);
+            GummyContentMenu.Provider provider = GummyContentMenu.provider(IContents.Type.GLAZER,
+                                                                           IContents.Type.GLAZER.getMutable(player.getItemInHand(
+                                                                                   usedHand), this.tier),
+                                                                           usedHand,
+                                                                           slot,
+                                                                           itemstack.getHoverName());
+            player.openMenu(provider);
+            player.awardStat(Stats.ITEM_USED.get(this));
+            return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+        }
+        return super.use(level, player, usedHand);
+    }
+
+    @Override
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag
+    ) {
+        tooltipComponents.add(DESC_1);
+        tooltipComponents.add(DESC_2);
+        // TODO reset styles of each mode
+        tooltipComponents.add(Component.translatable(DESC_MODE_SELECTION_KEY, DESC_MODE_SAVE, DESC_MODE_EXTEND).withStyle(ChatFormatting.GRAY));
+        if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
+            tooltipComponents.add(FOLDED_1);
+            tooltipComponents.add(FOLDED_2);
+            tooltipComponents.add(FOLDED_3);
+            tooltipComponents.add(FOLDED_4);
+            tooltipComponents.add(FOLDED_5);
+            tooltipComponents.add(FOLDED_6);
+        }
+        else {
+            tooltipComponents.add(DESC_UNFOLD);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onAttack(AttackEntityEvent event) {
+        Entity target = event.getTarget();
+        if (target instanceof LivingEntity living) {
+            Player player = event.getEntity();
+
+            ItemStack mainHand = player.getMainHandItem();
+            if (mainHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, mainHand, living);
+                event.setCanceled(true);
+            }
+
+            ItemStack offHand = player.getOffhandItem();
+            if (offHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, offHand, living);
+            }
+        }
+    }
+
+    // TODO check exact requirements
+    public static void onLivingHurt(LivingDamageEvent.Pre event) {
+        if (event.getSource().getEntity() instanceof ServerPlayer player) {
+            LivingEntity living = event.getEntity();
+
+            ItemStack mainHand = player.getMainHandItem();
+            if (mainHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, mainHand, living);
+            }
+
+            ItemStack offHand = player.getOffhandItem();
+            if (offHand.getItem() instanceof GummyGlazerItem) {
+                applyGummies(player, offHand, living);
+            }
+        }
+    }
+
+    private static void applyGummies(Player player, ItemStack glazer, LivingEntity target) {
+        Item item = glazer.getItem();
+        MutableContents contents = IContents.Type.GLAZER.getMutable(glazer, ((GummyGlazerItem) item).tier);
+        if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
+            return;
+        }
+        // TODO eat on mode
+        contents.eat(target, new ConditionalConsumer(player.level(), target));
+        GummyContents.set(glazer, contents);
+
+        player.awardStat(Stats.ITEM_USED.get(item));
+    }
+
+    private record ConditionalConsumer(Level level, LivingEntity entity) implements Function<ItemStack, ItemStack>
+    {
+        @Override
+        public ItemStack apply(ItemStack stack) {
+            if (stack.isEmpty()) return stack;
+            if (stack.has(ItemRegistry.SUGAR_CONTENTS_DCTYPE)) {
+                SugarContents contents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
+                assert contents != null;
+                Optional<Formula> optional = Formula.getFormulaOptional(contents.sugar(), contents.flavor());
+                if (optional.isPresent() && optional.get().effects().stream().allMatch(effect -> entity.hasEffect(effect.mobEffect()))) {
+                    return stack;
+                }
+            }
+            // TODO check exact requirements
+            return stack.copy().finishUsingItem(level, entity);
+        }
     }
 }

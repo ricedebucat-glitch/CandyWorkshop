@@ -6,11 +6,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class MutableContents extends ItemStackHandler implements IContents
 {
@@ -82,8 +82,7 @@ public class MutableContents extends ItemStackHandler implements IContents
         }
     }
 
-    public List<ItemStack> eat(Level level, LivingEntity entity) {
-        IContents.Consumer consumer = new IContents.Consumer(level, entity);
+    public List<ItemStack> eat(LivingEntity entity, Function<ItemStack, ItemStack> consumer) {
         List<ItemStack> results = this.activeSlots().stream().map(consumer).toList();
         return updateSlots(results);
     }

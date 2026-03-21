@@ -254,7 +254,7 @@ public class ModRecipeProvider extends RecipeProvider
                               .unlockedBy("has_milk_carton", has(ItemRegistry.CARTON_MILK_TAG))
                               .save(output, CandyWorkshop.MODID + ":milk_gelatin_from_milk_bucket");
 
-        // TODO recheck
+        // TODO check amount and output
         RefiningRecipeBuilder.of(
                                      SizedIngredient.of(ItemRegistry.CARTON_MILK_TAG, 8),
                                      SizedIngredient.of(Items.SUGAR, 8),

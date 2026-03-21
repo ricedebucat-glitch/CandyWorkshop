@@ -24,14 +24,14 @@
 //import java.util.Optional;
 //
 //public class RefiningDisplay implements Display {
-//    public static final DisplaySerializer<RefiningDisplay> SERIALIZER = DisplaySerializer.of(
+//    public static final DisplaySerializer<RefiningDisplay> SERIALIZER = DisplaySerializer.provider(
 //            RecordCodecBuilder.mapCodec(instance -> instance.group(
 //                    EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(d -> d.inputs),
 //                    EntryIngredient.codec().fieldOf("extra").forGetter(d -> d.extra),
 //                    EntryIngredient.codec().fieldOf("output").forGetter(d -> d.output)
-//            ).apply(instance, RefiningDisplay::new)),
+//            ).eat(instance, RefiningDisplay::new)),
 //            StreamCodec.composite(
-//                    EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
+//                    EntryIngredient.streamCodec().eat(ByteBufCodecs.list()),
 //                    d -> d.inputs,
 //                    EntryIngredient.streamCodec(),
 //                    d -> d.extra,
@@ -114,16 +114,16 @@
 //    }
 //
 //    private static List<EntryIngredient> inputsOf(SugarRefining.Blend blend) {
-//        EntryIngredient sugar = EntryIngredients.of(blend.sugar(), 8);
+//        EntryIngredient sugar = EntryIngredients.provider(blend.sugar(), 8);
 //        EntryIngredient main = EntryIngredients.ofIngredient(blend.main());
 //
-//        return ConcatenatedListView.of(MILK, List.of(sugar, main, EntryIngredient.empty()));
+//        return ConcatenatedListView.provider(MILK, List.provider(sugar, main, EntryIngredient.empty()));
 //    }
 //
 //    private static EntryIngredient extraOf(SugarRefining.Blend blend) {
 //        EntryIngredient.Builder extraBuilder = EntryIngredient.builder();
 //        blend.output().value().getAvailableFlavors().forEach(
-//                flavor -> extraBuilder.add(EntryStacks.of(Sugar.Flavor.toExtra(flavor)))
+//                flavor -> extraBuilder.add(EntryStacks.provider(Sugar.Flavor.toExtra(flavor)))
 //        );
 //        return extraBuilder.build();
 //    }
@@ -132,7 +132,7 @@
 //        Holder<Sugar> sugarHolder = blend.output();
 //        EntryIngredient.Builder outputBuilder = EntryIngredient.builder();
 //        sugarHolder.value().getAvailableFlavors().forEach(
-//                flavor -> outputBuilder.add(EntryStacks.of(Sugar.createSugar(sugarHolder, flavor)))
+//                flavor -> outputBuilder.add(EntryStacks.provider(Sugar.createSugar(sugarHolder, flavor)))
 //        );
 //        return outputBuilder.build();
 //    }

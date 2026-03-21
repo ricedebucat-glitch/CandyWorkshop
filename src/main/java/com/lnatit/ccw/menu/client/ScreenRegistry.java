@@ -15,5 +15,6 @@ public class ScreenRegistry
         event.register(MenuRegistry.SUGAR_REFINERY.get(), SugarRefineryScreen::new);
         event.register(MenuRegistry.DRAWER_TABLE.get(), DrawerTableScreen::new);
         event.register(MenuRegistry.GUMMY_MAGAZINE.get(), GummyMagazineScreen::new);
+        event.register(MenuRegistry.GUMMY_GLAZER.get(), GummyGlazerScreen::new);
     }
 }

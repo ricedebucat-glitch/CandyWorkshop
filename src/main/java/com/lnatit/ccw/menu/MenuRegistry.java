@@ -17,7 +17,7 @@ public interface MenuRegistry {
     DeferredHolder<MenuType<?>, MenuType<DrawerTableMenu>> DRAWER_TABLE =
             MENUS.register("drawer_table", () -> new MenuType<>(DrawerTableMenu::new, FeatureFlags.DEFAULT_FLAGS));
     DeferredHolder<MenuType<?>, MenuType<GummyContentMenu>> GUMMY_MAGAZINE =
-            MENUS.register("gummy_magazine", () -> IMenuTypeExtension.create(GummyContentMenu::new));
-//    DeferredHolder<MenuType<?>, MenuType<GummyContentMenu>> GUMMY_MAGAZINE =
-//            MENUS.register("gummy_magazine", () -> IMenuTypeExtension.create(GummyContentMenu::new));
+            MENUS.register("gummy_magazine", () -> IMenuTypeExtension.create(GummyContentMenu::ofMagazine));
+    DeferredHolder<MenuType<?>, MenuType<GummyContentMenu>> GUMMY_GLAZER =
+            MENUS.register("gummy_glazer", () -> IMenuTypeExtension.create(GummyContentMenu::ofGlazer));
 }

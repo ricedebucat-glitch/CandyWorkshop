@@ -20,12 +20,12 @@
 //@REIPluginClient
 //public class CandyWorkshopPlugin implements REIClientPlugin
 //{
-//    public static final CategoryIdentifier<RefiningDisplay> REFINING = CategoryIdentifier.of(CandyWorkshop.MODID, "plugin/refining");
+//    public static final CategoryIdentifier<RefiningDisplay> REFINING = CategoryIdentifier.provider(CandyWorkshop.MODID, "plugin/refining");
 //
 //    @Override
 //    public void registerCategories(CategoryRegistry registry) {
 //        registry.add(new RefiningCategory());
-//        registry.addWorkstations(REFINING, EntryStacks.of(ItemRegistry.SUGAR_REFINERY));
+//        registry.addWorkstations(REFINING, EntryStacks.provider(ItemRegistry.SUGAR_REFINERY));
 //    }
 //
 //    @Override

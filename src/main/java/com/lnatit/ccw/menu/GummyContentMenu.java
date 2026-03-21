@@ -19,35 +19,62 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class GummyContentMenu extends ModContainerMenu {
+public class GummyContentMenu extends ModContainerMenu
+{
+    private final IContents.Type type;
     private final InteractionHand hand;
     private final MutableContents mutable;
     private final int locked;
 
-    public GummyContentMenu(int containerId, Inventory playerInventory, Context context) {
-        super(MenuRegistry.GUMMY_MAGAZINE.get(), containerId);
+    public GummyContentMenu(int containerId, Inventory playerInventory, IContents.Type type, Context context) {
+        super(type.menuType.get(), containerId);
+        this.type = type;
         this.hand = context.useHand();
         this.mutable = context.mutable();
         this.addContentSlots(mutable);
         int slotId = context.slotId();
-        if (hand == InteractionHand.OFF_HAND)
+        if (hand == InteractionHand.OFF_HAND) {
             slotId = -1;
+        }
         Slot locked = this.addLockedInventorySlots(playerInventory, 8, 106, slotId);
         if (locked != null) {
             this.locked = locked.index;
-        } else {
+        }
+        else {
             this.locked = -1;
         }
     }
 
-    public GummyContentMenu(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf data) {
-        this(containerId, playerInventory, Context.STREAM_CODEC.decode(data));
+    private GummyContentMenu(
+            int containerId,
+            Inventory playerInventory,
+            IContents.Type type,
+            RegistryFriendlyByteBuf data
+    ) {
+        this(containerId, playerInventory, type, Context.STREAM_CODEC.decode(data));
+    }
+
+    public static GummyContentMenu ofMagazine(
+            int containerId,
+            Inventory playerInventory,
+            RegistryFriendlyByteBuf data
+    ) {
+        return new GummyContentMenu(containerId, playerInventory, IContents.Type.MAGAZINE, data);
+    }
+
+    public static GummyContentMenu ofGlazer(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf data) {
+        return new GummyContentMenu(containerId, playerInventory, IContents.Type.GLAZER, data);
     }
 
     private void addContentSlots(IItemHandler contents) {
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 2; j++) {
-                this.addSlot(new SlotItemHandler(contents, j + i * 2, 71 + j * 19, 13 + i * 19));
+            switch (this.type) {
+                case MAGAZINE -> {
+                    for (int j = 0; j < 2; j++) {
+                        this.addSlot(new SlotItemHandler(contents, j + i * 2, 71 + j * 19, 13 + i * 19));
+                    }
+                }
+                case GLAZER -> this.addSlot(new SlotItemHandler(contents, i, 71, 13 + i * 19));
             }
         }
     }
@@ -58,7 +85,7 @@ public class GummyContentMenu extends ModContainerMenu {
 
     @Override
     public boolean clickMenuButton(Player player, int id) {
-        if (id == 0) {
+        if (this.type == IContents.Type.MAGAZINE && id == 0) {
             GummyMagazineItem.eatGummies(player.level(), player, this.mutable);
             player.awardStat(Stats.ITEM_USED.get(this.getContainer(player).getItem()));
             return true;
@@ -78,7 +105,7 @@ public class GummyContentMenu extends ModContainerMenu {
         if (slot.hasItem()) {
             ItemStack stack = slot.getItem();
             result = stack.copy();
-            if (index < 3 * 2) {
+            if (index < this.type.size) {
                 if (!this.moveItemStackTo(stack, 6, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
@@ -113,10 +140,11 @@ public class GummyContentMenu extends ModContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return this.getContainer(player).has(IContents.Type.MAGAZINE.dataComponentType);
+        return this.getContainer(player).has(this.type.dataComponentType);
     }
 
-    public record Context(MutableContents mutable, InteractionHand useHand, int slotId) {
+    public record Context(MutableContents mutable, InteractionHand useHand, int slotId)
+    {
         public static final StreamCodec<RegistryFriendlyByteBuf, Context> STREAM_CODEC = StreamCodec.composite(
                 MutableContents.STREAM_CODEC,
                 Context::mutable,
@@ -136,10 +164,18 @@ public class GummyContentMenu extends ModContainerMenu {
         }
     }
 
-    public record Provider(Context context, Component title) implements MenuProvider {
-        public static Provider of(MutableContents mutable, InteractionHand useHand, int slot, Component title) {
-            return new Provider(new Context(mutable, useHand, slot), title);
-        }
+    public static Provider provider(
+            IContents.Type type,
+            MutableContents mutable,
+            InteractionHand useHand,
+            int slot,
+            Component title
+    ) {
+        return new Provider(type, new Context(mutable, useHand, slot), title);
+    }
+
+    public record Provider(IContents.Type type, Context context, Component title) implements MenuProvider
+    {
 
         @Override
         public Component getDisplayName() {
@@ -148,7 +184,7 @@ public class GummyContentMenu extends ModContainerMenu {
 
         @Override
         public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-            return new GummyContentMenu(containerId, playerInventory, this.context);
+            return new GummyContentMenu(containerId, playerInventory, this.type, this.context);
         }
 
         @Override

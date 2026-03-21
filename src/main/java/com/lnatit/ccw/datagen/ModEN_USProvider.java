@@ -81,13 +81,13 @@ public class ModEN_USProvider extends LanguageProvider {
 //        this.add("item.ccw.carton_milk,desc0", "");
 //        this.add("item.ccw.carton_milk,desc1", "");
 
-        this.add(GummyMagazineItem.DESC_UNFOLD, "- Press [Shift] to Unfold");
+        this.add(GummyMagazineItem.DESC_UNFOLD_KEY, "- Press [Shift] to Unfold");
 
-        this.add(GummyMagazineItem.DESC_1, "Consume multiple gummies with one click");
-        this.add(GummyMagazineItem.DESC_2, "Sneak + Right-click to open the GUI");
-        this.add(GummyMagazineItem.FOLDED_1, "+ Targets gummies in §elightning slots§r only");
-        this.add(GummyMagazineItem.FOLDED_2, "+ Consume gummies via §cbuttons§r in the GUI");
-        this.add(GummyMagazineItem.FOLDED_3, "+ Upgradeable at a §6Smithing Table§r");
+        this.add(GummyMagazineItem.DESC_1_KEY, "Consume multiple gummies with one click");
+        this.add(GummyMagazineItem.DESC_2_KEY, "Sneak + Right-click to open the GUI");
+        this.add(GummyMagazineItem.FOLDED_1_KEY, "+ Targets gummies in §elightning slots§r only");
+        this.add(GummyMagazineItem.FOLDED_2_KEY, "+ Consume gummies via §cbuttons§r in the GUI");
+        this.add(GummyMagazineItem.FOLDED_3_KEY, "+ Upgradeable at a §6Smithing Table§r");
 
         this.add("item.ccw.gummy.excited.prefix", "Excited");
         this.add("item.ccw.gummy.bold.prefix", "Bold");
