@@ -45,12 +45,6 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
             boolean leftHand = displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
                     || displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
 
-            ItemTransform flip = new ItemTransform(
-                    new Vector3f(0, 180, 0),
-                    new Vector3f(),
-                    new Vector3f(1, 1, 1)
-            );
-
 
 
 
@@ -58,7 +52,7 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
 
 
             poseStack.translate(0.5F, 0.5F, 0.5F);
-            poseStack.pushPose();
+//            poseStack.pushPose();
             BakedModel baked = Minecraft.getInstance().getModelManager().getModel(of(glazer));
             // maybe useless cuz no overrides here
             baked = baked.getOverrides().resolve(baked, stack, null, null, 0);
@@ -68,21 +62,28 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
             baked = ClientHooks.handleCameraTransforms(poseStack, baked, displayContext, leftHand);
             poseStack.translate(-0.5F, -0.5F, -0.5F);
             renderBaked(baked, stack, poseStack, bufferSource, packedLight, packedOverlay);
-            poseStack.popPose();
+//            poseStack.popPose();
 
-            ItemTransform rotate = new ItemTransform(
+
+            ItemTransform step1 = new ItemTransform(
+                    new Vector3f(0, 180, 0),
+                    new Vector3f(),
+                    new Vector3f(1, 1, 1)
+            );
+
+            ItemTransform step2 = new ItemTransform(
                     new Vector3f(0, 0, 0),
                     new Vector3f(0, 5f, 2.5f).mul((float) STEP),
                     new Vector3f(.25f, .25f, .25f)
             );
 
-            ItemTransform transform = new ItemTransform(
-                    new Vector3f(0, 160, -8),
-                    // 1/16 x
-                    new Vector3f(4.25f, 4.25f, -1.25f).mul((float) STEP),
-//                    new Vector3f(),
-                    new Vector3f(0.6f, 0.6f, 0.6f)
-            );
+//            ItemTransform transform = new ItemTransform(
+//                    new Vector3f(0, 160, -8),
+//                    // 1/16 x
+//                    new Vector3f(4.25f, 4.25f, -1.25f).mul((float) STEP),
+////                    new Vector3f(),
+//                    new Vector3f(0.6f, 0.6f, 0.6f)
+//            );
 
 
             if (true && stack.has(ItemRegistry.GLAZER_CONTENTS_DCTYPE)) {
@@ -92,14 +93,16 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
                         continue;
 
                     poseStack.pushPose();
+                    poseStack.translate(0.5F, 0.5F, 0.5F);
+
                     baked = Minecraft.getInstance().getItemRenderer().getModel(gummy, Minecraft.getInstance().level, Minecraft.getInstance().player, 0);
                     // Why here mojang resolved it twice?
                     baked = baked.getOverrides().resolve(baked, gummy, Minecraft.getInstance().level, Minecraft.getInstance().player, 0);
 //                    baked = ClientHooks.handleCameraTransforms(poseStack, baked, displayContext, leftHand);
 
-                    flip.apply(leftHand, poseStack);
-                    rotate.apply(leftHand, poseStack);
 //                    transform.apply(leftHand, poseStack);
+                    step1.apply(leftHand, poseStack);
+                    step2.apply(leftHand, poseStack);
 
 
                     poseStack.translate(-0.5F, -0.5F, -0.5F);
