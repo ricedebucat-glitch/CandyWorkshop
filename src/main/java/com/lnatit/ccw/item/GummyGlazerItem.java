@@ -178,7 +178,7 @@ public class GummyGlazerItem extends TieredItem
             return;
         }
         // TODO apply on mode
-        contents.apply(target, new ConditionalConsumer(applier, target));
+        contents.apply(new ConditionalConsumer(applier, target));
         GummyContents.set(glazer, contents);
 
         if (applier instanceof ServerPlayer player) {
@@ -192,6 +192,7 @@ public class GummyGlazerItem extends TieredItem
         @Override
         public ItemStack apply(ItemStack stack) {
             if (stack.isEmpty()) return stack;
+            stack = stack.copy();
             if (stack.has(ItemRegistry.SUGAR_CONTENTS_DCTYPE)) {
                 SugarContents contents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
                 assert contents != null;

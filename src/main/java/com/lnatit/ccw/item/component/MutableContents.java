@@ -4,7 +4,6 @@ import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.Tier;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
@@ -82,7 +81,7 @@ public class MutableContents extends ItemStackHandler implements IContents
         }
     }
 
-    public List<ItemStack> apply(LivingEntity entity, Function<ItemStack, ItemStack> consumer) {
+    public List<ItemStack> apply(Function<ItemStack, ItemStack> consumer) {
         List<ItemStack> results = this.activeSlots().stream().map(consumer).toList();
         return updateSlots(results);
     }

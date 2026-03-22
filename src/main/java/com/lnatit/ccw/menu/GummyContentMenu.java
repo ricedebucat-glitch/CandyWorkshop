@@ -4,6 +4,7 @@ import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -74,13 +75,17 @@ public class GummyContentMenu extends ModContainerMenu
                         this.addSlot(new SlotItemHandler(contents, j + i * 2, 71 + j * 19, 13 + i * 19));
                     }
                 }
-                case GLAZER -> this.addSlot(new SlotItemHandler(contents, i, 71, 13 + i * 19));
+                case GLAZER -> this.addSlot(new SlotItemHandler(contents, i, 80, 13 + i * 19));
             }
         }
     }
 
     public int activeSize() {
         return this.mutable.activeSize();
+    }
+
+    public NonNullList<ItemStack> items() {
+        return this.mutable.items();
     }
 
     @Override

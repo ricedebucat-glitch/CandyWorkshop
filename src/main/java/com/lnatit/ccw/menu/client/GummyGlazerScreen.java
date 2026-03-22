@@ -13,7 +13,6 @@ public class GummyGlazerScreen extends AbstractContainerScreen<GummyContentMenu>
             ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/gummy_glazer.png");
     public static final ResourceLocation ACTIVE_SLOT_SPRITE =
             ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_container/active_slot");
-    // TODO check size
     public static final int WIDTH = 176;
     public static final int HEIGHT = 188;
     private final int activeSlots;
@@ -50,7 +49,7 @@ public class GummyGlazerScreen extends AbstractContainerScreen<GummyContentMenu>
         );
         int slotCount = 0;
         for (int i = 0; i < 3; i++) {
-                guiGraphics.blitSprite(ACTIVE_SLOT_SPRITE, this.leftPos + 71, this.topPos + 13 + i * 19, 16, 16);
+                guiGraphics.blitSprite(ACTIVE_SLOT_SPRITE, this.leftPos + 80, this.topPos + 13 + i * 19, 16, 16);
                 slotCount++;
                 if (slotCount >= activeSlots) {
                     return;

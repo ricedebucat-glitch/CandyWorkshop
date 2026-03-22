@@ -1,9 +1,9 @@
 package com.lnatit.ccw.misc.model;
 
-import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.item.GummyGlazerItem;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.component.GummyContents;
+import com.lnatit.ccw.menu.client.GummyGlazerScreen;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -14,19 +14,22 @@ import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.ClientHooks;
 import org.joml.Vector3f;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static net.minecraft.client.renderer.entity.ItemRenderer.getFoilBufferDirect;
 
 
 public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
     public static final double STEP = 0.0625;
+    public static final ItemTransform STEP_1 = new ItemTransform(
+            new Vector3f(0, 180, 0),
+            new Vector3f(),
+            new Vector3f(1, 1, 1)
+    );
 
     public GummyGlazerRenderer() {
         super(dispatcher(), Minecraft.getInstance().getEntityModels());
@@ -44,67 +47,29 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
         if (stack.getItem() instanceof GummyGlazerItem glazer) {
             boolean leftHand = displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
                     || displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
-
-
-
-
-
-
-
+            // since we already have a push-pop in ItemRenderer
             poseStack.translate(0.5F, 0.5F, 0.5F);
-//            poseStack.pushPose();
             BakedModel baked = Minecraft.getInstance().getModelManager().getModel(of(glazer));
             // maybe useless cuz no overrides here
             baked = baked.getOverrides().resolve(baked, stack, null, null, 0);
-
-//            flip.apply(leftHand, poseStack);
-
             baked = ClientHooks.handleCameraTransforms(poseStack, baked, displayContext, leftHand);
             poseStack.translate(-0.5F, -0.5F, -0.5F);
             renderBaked(baked, stack, poseStack, bufferSource, packedLight, packedOverlay);
-//            poseStack.popPose();
+            poseStack.translate(0.5F, 0.5F, 0.5F);
+            STEP_1.apply(leftHand, poseStack);
 
-
-            ItemTransform step1 = new ItemTransform(
-                    new Vector3f(0, 180, 0),
-                    new Vector3f(),
-                    new Vector3f(1, 1, 1)
-            );
-
-            ItemTransform step2 = new ItemTransform(
-                    new Vector3f(0, 0, 0),
-                    new Vector3f(0, 5f, 2.5f).mul((float) STEP),
-                    new Vector3f(.25f, .25f, .25f)
-            );
-
-//            ItemTransform transform = new ItemTransform(
-//                    new Vector3f(0, 160, -8),
-//                    // 1/16 x
-//                    new Vector3f(4.25f, 4.25f, -1.25f).mul((float) STEP),
-////                    new Vector3f(),
-//                    new Vector3f(0.6f, 0.6f, 0.6f)
-//            );
-
-
-            if (true && stack.has(ItemRegistry.GLAZER_CONTENTS_DCTYPE)) {
-                GummyContents contents = stack.get(ItemRegistry.GLAZER_CONTENTS_DCTYPE);
-                for (ItemStack gummy : contents.items()) {
+            if (displayContext.firstPerson() && stack.has(ItemRegistry.GLAZER_CONTENTS_DCTYPE)) {
+                NonNullList<ItemStack> items = getContents(stack);
+                for (int i = 0; i < items.size(); i++) {
+                    ItemStack gummy = items.get(i);
                     if (gummy.isEmpty())
                         continue;
 
                     poseStack.pushPose();
-                    poseStack.translate(0.5F, 0.5F, 0.5F);
-
                     baked = Minecraft.getInstance().getItemRenderer().getModel(gummy, Minecraft.getInstance().level, Minecraft.getInstance().player, 0);
                     // Why here mojang resolved it twice?
                     baked = baked.getOverrides().resolve(baked, gummy, Minecraft.getInstance().level, Minecraft.getInstance().player, 0);
-//                    baked = ClientHooks.handleCameraTransforms(poseStack, baked, displayContext, leftHand);
-
-//                    transform.apply(leftHand, poseStack);
-                    step1.apply(leftHand, poseStack);
-                    step2.apply(leftHand, poseStack);
-
-
+                    step2(i).apply(leftHand, poseStack);
                     poseStack.translate(-0.5F, -0.5F, -0.5F);
                     renderBaked(baked, gummy, poseStack, bufferSource, packedLight, packedOverlay);
                     poseStack.popPose();
@@ -139,7 +104,19 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
         return ModelResourceLocation.standalone(ModelHandler.GUMMY_GLAZER);
     }
 
-    private record ModelContext(ItemStack stack, BakedModel baked) {
+    private static NonNullList<ItemStack> getContents(ItemStack stack) {
+        if (Minecraft.getInstance().screen instanceof GummyGlazerScreen screen) {
+            return screen.getMenu().items();
+        }
+        GummyContents contents = stack.get(ItemRegistry.GLAZER_CONTENTS_DCTYPE);
+        return contents.items();
+    }
 
+    private static ItemTransform step2(int index) {
+        return new ItemTransform(
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 5f - (index * 5), 2.5f).mul((float) STEP),
+                new Vector3f(.25f, .25f, .25f)
+        );
     }
 }
