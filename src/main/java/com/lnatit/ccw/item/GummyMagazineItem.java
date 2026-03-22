@@ -1,14 +1,17 @@
 package com.lnatit.ccw.item;
 
+import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
 import com.lnatit.ccw.menu.GummyContentMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 
@@ -45,6 +49,18 @@ public class GummyMagazineItem extends TieredItem
     public static GummyMagazineItem create(Tier tier) {
         return new GummyMagazineItem(new Item.Properties().component(IContents.Type.MAGAZINE.dataComponentType,
                                                                      IContents.Type.MAGAZINE.defaultContents()), tier);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
+            Level level = context.getLevel();
+            BlockPos pos = context.getClickedPos();
+            if (level.getBlockState(pos).is(BlockRegistry.SUGAR_REFINERY)) {
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return super.useOn(context);
     }
 
     @Override
