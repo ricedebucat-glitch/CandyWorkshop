@@ -4,6 +4,7 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.compat.fruitsdelight.FruitsDelightCompats;
+import com.lnatit.ccw.compat.kaleidoscope.CookeryCompat;
 import com.lnatit.ccw.compat.neapolitan.NeapolitanCompats;
 import com.lnatit.ccw.compat.youkaishomecoming.YoukaisHomecomingCompats;
 import com.lnatit.ccw.data.DataPackRegistry;
@@ -273,6 +274,32 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
                 .defaultBold()
                 .clearConditions()
 
+                .loaded("kaleidoscope_cookery")
+                .register(CookeryCompat.SWEET_AND_SOUR_MEAT, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.VIGOR))
+                .defaultBold()
+
+                .register(CookeryCompat.VEGGIE_FRESH, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.PRESERVATION))
+                .defaultBold()
+
+                .register(CookeryCompat.LACTRO_BOLT, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.FLATULENCE))
+                .defaultBold()
+
+                .register(CookeryCompat.SASHIMI, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.MUSTARD))
+                .defaultBold()
+
+                .register(CookeryCompat.TALLOW, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.SATIATED_SHIELD))
+                .defaultBold()
+
+                .register(CookeryCompat.PHANTO_BYE, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.SULFUR))
+                .defaultBold()
+
+                .register(CookeryCompat.BROTH_WARM, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.WARMTH))
+                .defaultBold()
+
+                .register(CookeryCompat.MUTTON_DASH, Effect.simple(com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.TUNDRA_STRIDER))
+                .defaultBold()
+                .clearConditions()
+
                 .loaded("neapolitan")
                 .register(NeapolitanCompats.HOOHOO_HAHA, Effect.simple(NeapolitanMobEffects.AGILITY))
                 .defaultBold()
@@ -287,6 +314,10 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
                 .defaultBold()
 
                 .register(NeapolitanCompats.VANILLA, Effect.simple(NeapolitanMobEffects.VANILLA_SCENT))
+                .defaultBold()
+
+                .register(NeapolitanCompats.SUGAR_RUSH, Effect.simple(NeapolitanMobEffects.SUGAR_RUSH))
+                .defaultExcited()
                 .defaultBold()
                 .clearConditions()
 
@@ -322,7 +353,6 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
                 .register(YoukaisHomecomingCompats.UDUMBARA, Effect.simple(YHEffects.UDUMBARA))
                 .defaultBold()
                 .clearConditions()
-
         ;
     }
 
@@ -333,6 +363,9 @@ public class ModDataProviders extends DatapackBuiltinEntriesProvider
             context.register(key, value);
         }
     }
+
+    // BOLD: extend
+    // EXCITED: amplify
 
     // TODO maybe we should push it further?
     private static class Formulas

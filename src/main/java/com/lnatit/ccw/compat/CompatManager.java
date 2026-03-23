@@ -14,6 +14,7 @@ public class CompatManager
             List.of(new Entry("apotheosis", "com.lnatit.ccw.compat.apothesis.ApothesisCompats"),
                     new Entry("farmersdelight", "com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats"),
                     new Entry("fruitsdelight", "com.lnatit.ccw.compat.fruitsdelight.FruitsDelightCompats"),
+                    new Entry("kaleidoscope_cookery", "com.lnatit.ccw.compat.kaleidoscope.CookeryCompat"),
                     new Entry("neapolitan", "com.lnatit.ccw.compat.neapolitan.NeapolitanCompats"),
 //                    new Entry("youkaisfeasts", "com.lnatit.ccw.compat.youkaishomecoming.YoukaisHomecomingCompats"),
                     new Entry("youkaishomecoming", "com.lnatit.ccw.compat.youkaishomecoming.YoukaisHomecomingCompats"));

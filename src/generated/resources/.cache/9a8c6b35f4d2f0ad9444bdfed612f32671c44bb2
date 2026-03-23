@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-19T20:34:16.3304099	Candy Workshop - Datapacks
+// 1.21.1	2026-03-23T19:06:34.4785318	Candy Workshop - Datapacks
 effbf37cfc8a96f159baa1f24c5ad89a23f92803 data/ccw/ccw/formula/bayberry_bold.json
 4ba5d705f4126701fbd0b400301f9ef905eac4e9 data/ccw/ccw/formula/bayberry_original.json
 2700b79d56a7db64dfc5f0088178bb1496b5bba5 data/ccw/ccw/formula/binding_bold.json
@@ -11,6 +11,8 @@ f66266ac4a5b21088bf5af7ec0f1301a05be293a data/ccw/ccw/formula/blueberry_bold.jso
 f3c87b3e70c4de3d8b886924ded988681708d115 data/ccw/ccw/formula/blueberry_original.json
 496022e477003c47922771cc1d7a4ee46048111e data/ccw/ccw/formula/brightness_bold.json
 1567c151a46ad3783615910f36cac48aed86a00b data/ccw/ccw/formula/brightness_original.json
+77701ce9035354dc111f8be208a4444b8a4aafe9 data/ccw/ccw/formula/broth_warm_bold.json
+237d904b075e73550a32a8437abd17f0b9b34b57 data/ccw/ccw/formula/broth_warm_original.json
 fe1ff66b959a2dde45c245fee19824af8f6b95e9 data/ccw/ccw/formula/bug_bold.json
 f1c90702d043df2f41e2a3541cb3f0faffcca68e data/ccw/ccw/formula/bug_original.json
 728f396d8b931e796cf396b36277d5ea9c6afbe1 data/ccw/ccw/formula/bunny_bold.json
@@ -68,6 +70,8 @@ c4a68e1bcfc5087ed6d7debb5e5228a0e94966c6 data/ccw/ccw/formula/kiwi_bold.json
 da58c408d44bcfd3c2c4d17262ea7ecbcdb23788 data/ccw/ccw/formula/knowledge_bold.json
 ab2a094db585d8984e11f1873582d1763fbfc3a5 data/ccw/ccw/formula/knowledge_excited.json
 c4d30891c36467ba93de1ecd25363702e7c80ca1 data/ccw/ccw/formula/knowledge_original.json
+d2d50616e354e01b42c7ffa986c60a54c3b310be data/ccw/ccw/formula/lacto_bolt_bold.json
+da8c996ded275a882e132988f81705fdcf1f3bd2 data/ccw/ccw/formula/lacto_bolt_original.json
 5f79bff053a9ac823482401f4619f33c410faebf data/ccw/ccw/formula/lazy_bold.json
 3c5ebac4a849e1a284c7c0a43f750f422f676d8d data/ccw/ccw/formula/lazy_excited.json
 b799117b8ea74c8f1b6e2963c4f58704676c1124 data/ccw/ccw/formula/lazy_original.json
@@ -81,6 +85,8 @@ c5064756868e14dfa9b0c1ac4b7c4c771ba0a922 data/ccw/ccw/formula/mangosteen_origina
 8652b22d0a0ad1d47ea9d122bbc5d2c64db8a9f8 data/ccw/ccw/formula/mango_original.json
 c186267393f9803c9be45db33dfd1d4e14c5beea data/ccw/ccw/formula/mint_bold.json
 2b35f5be08a465a3ef0403ce55f0d0c8b514fc4d data/ccw/ccw/formula/mint_original.json
+af7bf1b6f84e71dd3326696b447d1b4874f77450 data/ccw/ccw/formula/mutton_dash_bold.json
+e958d36aa02667d6d122c6e0490e826b16e6a871 data/ccw/ccw/formula/mutton_dash_original.json
 f995b7bf8bec5b1b8c22dc6e59d22c2958abcefa data/ccw/ccw/formula/night_vision_bold.json
 832044ae1862164ef87ae35b1a1eb4db6588811e data/ccw/ccw/formula/night_vision_original.json
 5da480d6a5e84aad527f4af290f1518908ec725c data/ccw/ccw/formula/nourished_bold.json
@@ -93,6 +99,8 @@ e0dd54e25bc9ba87220bedd5f516fc00ca76485f data/ccw/ccw/formula/peach_bold.json
 eb68851d62c9e023072343873ce6cfec0e02703d data/ccw/ccw/formula/peach_original.json
 3de4cb64737e55031184e060ac332a2409a4f6d9 data/ccw/ccw/formula/persimmon_bold.json
 10ac091807436dce71885a746f54e1f8096193cb data/ccw/ccw/formula/persimmon_original.json
+b72501dabb4229eb9e81486bf0929f3aaf3b09d6 data/ccw/ccw/formula/phanto_bye_bold.json
+30332210a8e6a161dd071bc45eefb5c9b31ac5a4 data/ccw/ccw/formula/phanto_bye_original.json
 907b3fda9b3adb428f6292f3e1d21c3e83bbf669 data/ccw/ccw/formula/pineapple_bold.json
 d603dcf77634407cb3a61892ca3caa9ebe7a81c9 data/ccw/ccw/formula/pineapple_original.json
 a639f1f07bed6d96e91850d3d8672f8c93527566 data/ccw/ccw/formula/poison_bold.json
@@ -112,6 +120,8 @@ ea37566b5b33471807c0eccff62fa3cf8c4a18f7 data/ccw/ccw/formula/red_heart_original
 98b6515b65f5cf79c64e6984ffc3f67b64ddaed8 data/ccw/ccw/formula/refreshing_bold.json
 503c42369e3bdc14a5ec0a3d9d452c187a9df8b2 data/ccw/ccw/formula/refreshing_excited.json
 58acc333929b638c44e0bd4325cce63e2c832caa data/ccw/ccw/formula/refreshing_original.json
+c2dd5d3bf954fd7d36d9e36ddf5048c68bf00fdc data/ccw/ccw/formula/sashimi_bold.json
+63949d9ceb29f83ce976d695dc4aa9f5a6169f44 data/ccw/ccw/formula/sashimi_original.json
 5270beddb25711760fbbc4563df57811fae4d721 data/ccw/ccw/formula/satiating_bold.json
 f6aaa2003fffc42bcc1a5c59052b1871eea9446d data/ccw/ccw/formula/satiating_original.json
 912ad1f6ba39551109261f5049bb913e622a9fd2 data/ccw/ccw/formula/snail_bold.json
@@ -134,9 +144,16 @@ ccc91971083d112d5d0a2b804f03544e462aba4d data/ccw/ccw/formula/stinky_original.js
 9b6339bdb6d23e461358b6e7e0600193ccd7f9dc data/ccw/ccw/formula/strength_bold.json
 665c433f75fb300c2c2961e87fb1a71773ca56ff data/ccw/ccw/formula/strength_excited.json
 7fecd0ec769dd64cad255145af0a6afe85342c72 data/ccw/ccw/formula/strength_original.json
+dc580f30dea057ce37dd05b8a1519c8d5287731a data/ccw/ccw/formula/sugar_rush_bold.json
+2fd5d4dc6ba12a300970f956ecffdd2947aade65 data/ccw/ccw/formula/sugar_rush_excited.json
+976545603e515aa06fe5bb9353520b4a5416e1b0 data/ccw/ccw/formula/sugar_rush_original.json
 2bb049250f77a5dec76aa83bc0112b0f1129a379 data/ccw/ccw/formula/sundering_bold.json
 cd6f0c59b8a84aeb7553d659e5f5c08198daf2b9 data/ccw/ccw/formula/sundering_excited.json
 c4c0347783d406f7c400c72392d60f03e421c3c9 data/ccw/ccw/formula/sundering_original.json
+74e7582f5a2a0c9e00a76db08a7201a991d3cafb data/ccw/ccw/formula/sweet_and_sour_meat_bold.json
+3b8b74bf0ef17381643c4541b5e73eabf8f00682 data/ccw/ccw/formula/sweet_and_sour_meat_original.json
+d5a4626ce490718302394f0eaeb4801ef59facea data/ccw/ccw/formula/tallow_bold.json
+7addd58c29510c6a11e04341dfa56a5084457764 data/ccw/ccw/formula/tallow_original.json
 47b86ea6c954534cb8b852c86f4bfe8c99fcba9f data/ccw/ccw/formula/taunting_bold.json
 976275611d17d5183e2f5a7e9b58638b228f95a0 data/ccw/ccw/formula/taunting_original.json
 9a5e533693f3fa6678713f2b6f12dd59a4c6c3bf data/ccw/ccw/formula/tidal_bold.json
@@ -150,6 +167,8 @@ fc48eb36ee96544450f0456e3b74dd20f4618628 data/ccw/ccw/formula/udumbara_bold.json
 4c440b6732165ac9c98a7a89f6758c2777bc5042 data/ccw/ccw/formula/unlucky_original.json
 728f4375f8e76198ac7bed1ca95fa36731402370 data/ccw/ccw/formula/vanilla_bold.json
 30c3583859e0c86ad98b05872c3762d93dc4f7f5 data/ccw/ccw/formula/vanilla_original.json
+1c98fd6c688809d592832ec16f2c6bf605f14b7f data/ccw/ccw/formula/veggie_fresh_bold.json
+b261a91286bcb6fdf886de6412884bdef6816cc6 data/ccw/ccw/formula/veggie_fresh_original.json
 539e348c8695a3dbaba7b65e70e9bb91c99c1d9a data/ccw/ccw/formula/vitality_bold.json
 43e08dcfdca5d4e8b5338e81b7248d865b570f32 data/ccw/ccw/formula/vitality_excited.json
 64572c191c7fd25e422ad8089d4c9009657a7d00 data/ccw/ccw/formula/vitality_original.json

@@ -28,12 +28,12 @@ public class CookeryCompat
     public static final DeferredItem<Item> SILENCED_SAUCE =
             ItemRegistry.ITEMS.registerSimpleItem("silenced_sauce");
     public static final DeferredItem<Item> HEARTH_WARM_MARROW_SAUCE =
-            ItemRegistry.ITEMS.registerSimpleItem("hearth_armor_marrow_cream");
+            ItemRegistry.ITEMS.registerSimpleItem("hearth_warm_marrow_cream");
     public static final DeferredItem<Item> LAMB_CARROT_SAUCE =
             ItemRegistry.ITEMS.registerSimpleItem("lamb_carrot_sauce");
 
     public static final DeferredHolder<Sugar, Sugar> SWEET_AND_SOUR_MEAT = Sugars.SUGARS.register("sweet_and_sour_meat",
-                                                                                                  () -> new Sugar(Sugar.Type.OVERWORLD,
+                                                                                                  () -> new Sugar(Sugar.Type.NETHER,
                                                                                                                   Ingredient.of(
                                                                                                                           SWEET_AND_SOUR_MEAT_SAUCE.get())));
     public static final DeferredHolder<Sugar, Sugar> VEGGIE_FRESH = Sugars.SUGARS.register("veggie_fresh",
@@ -45,15 +45,15 @@ public class CookeryCompat
                                                                                                           Ingredient.of(
                                                                                                                   LACTO_BOLT_RED_SAUCE.get())));
     public static final DeferredHolder<Sugar, Sugar> SASHIMI = Sugars.SUGARS.register("sashimi",
-                                                                                      () -> new Sugar(Sugar.Type.OVERWORLD,
+                                                                                      () -> new Sugar(Sugar.Type.NETHER,
                                                                                                       Ingredient.of(
                                                                                                               SASHIMI_SIDE_SAUCE.get())));
     public static final DeferredHolder<Sugar, Sugar> TALLOW = Sugars.SUGARS.register("tallow",
-                                                                                     () -> new Sugar(Sugar.Type.NETHER,
+                                                                                     () -> new Sugar(Sugar.Type.END,
                                                                                                      Ingredient.of(
                                                                                                              ULTRA_RICH_MARROW_CREAM.get())));
     public static final DeferredHolder<Sugar, Sugar> PHANTO_BYE = Sugars.SUGARS.register("phanto_bye",
-                                                                                         () -> new Sugar(Sugar.Type.OVERWORLD,
+                                                                                         () -> new Sugar(Sugar.Type.NETHER,
                                                                                                          Ingredient.of(
                                                                                                                  SILENCED_SAUCE.get())));
     public static final DeferredHolder<Sugar, Sugar> BROTH_WARM = Sugars.SUGARS.register("broth_warm",
