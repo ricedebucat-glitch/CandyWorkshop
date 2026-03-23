@@ -155,6 +155,7 @@ public class GummyGlazerItem extends TieredItem
     }
 
     // TODO check exact requirements
+    @SubscribeEvent
     public static void onLivingHurt(LivingDamageEvent.Pre event) {
         if (event.getSource().getEntity() instanceof LivingEntity source) {
             LivingEntity living = event.getEntity();
