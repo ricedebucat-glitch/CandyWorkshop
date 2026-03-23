@@ -96,12 +96,12 @@ public class GummyGlazerRenderer extends BlockEntityWithoutLevelRenderer {
 
     public static ModelResourceLocation of(GummyGlazerItem glazer) {
         if (glazer == ItemRegistry.NETHER_GLAZER.get()) {
-            return ModelResourceLocation.standalone(ModelHandler.NETHER_GLAZER);
+            return ModelHandler.NETHER_GLAZER;
         }
         if (glazer == ItemRegistry.ENDER_GLAZER.get()) {
-            return ModelResourceLocation.standalone(ModelHandler.ENDER_GLAZER);
+            return ModelHandler.ENDER_GLAZER;
         }
-        return ModelResourceLocation.standalone(ModelHandler.GUMMY_GLAZER);
+        return ModelHandler.GUMMY_GLAZER;
     }
 
     private static NonNullList<ItemStack> getContents(ItemStack stack) {

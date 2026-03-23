@@ -60,7 +60,7 @@ public class FoodsAndConsumables {
             new FoodProperties.Builder()
                     .nutrition(20)
                     .saturationModifier(FoodConstants.FOOD_SATURATION_SUPERNATURAL)
-                    .effect(() -> new MobEffectInstance(MobEffects.SATURATION, 1200), 1.0f)
+                    .effect(() -> new MobEffectInstance(MobEffects.SATURATION, 40), 1.0f)
                     .build();
 
     public static final FoodProperties DOLPHIN_COOKIE_FOOD =

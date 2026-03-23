@@ -50,12 +50,11 @@ public abstract class Flavor {
     /**
      * @param entity         the entity consuming the gummy
      * @param effectsToApply the effect list to apply
-     * @param formulaEffects the effect corresponding to current formula
      */
-    public void preConsume(LivingEntity entity, List<Effect> effectsToApply, List<Effect> formulaEffects) {
+    public void preConsume(LivingEntity entity, List<Effect> effectsToApply) {
     }
 
-    public void postConsume(LivingEntity entity, List<Effect> appliedEffects, List<Effect> formulaEffects) {
+    public void postConsume(LivingEntity entity, List<Effect> appliedEffects) {
     }
 
     public int craftCount() {

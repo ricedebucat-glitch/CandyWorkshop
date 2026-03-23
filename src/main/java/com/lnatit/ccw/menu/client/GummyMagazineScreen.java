@@ -13,9 +13,9 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMenu> {
     public static final ResourceLocation BACKGROUND_LOCATION =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/gummy_magazine.png");
+            CandyWorkshop.id("textures/gui/container/gummy_magazine.png");
     public static final ResourceLocation ACTIVE_SLOT_SPRITE =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_container/active_slot");
+            CandyWorkshop.id("container/gummy_container/active_slot");
     public static final int WIDTH = 176;
     public static final int HEIGHT = 188;
     private final int activeSlots;
@@ -81,7 +81,7 @@ public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMen
 
     private static class MagazineButton extends ExtendedButton {
         public static final ResourceLocation BUTTON_SPRITE =
-                ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_magazine/button");
+                CandyWorkshop.id("container/gummy_magazine/button");
         public static final int MSPF = 50;
         private long lastPressTime = -1;
 

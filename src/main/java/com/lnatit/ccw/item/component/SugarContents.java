@@ -118,8 +118,8 @@ public record SugarContents(Holder<Sugar> sugar, Holder<Flavor> flavor)
         List<Flavor> flavors = List.of(formula.flavor().value());
         List<Effect> effects = formula.effects();
 
-        flavors.forEach(m -> m.preConsume(entity, effects, effects));
+        flavors.forEach(m -> m.preConsume(entity, effects));
         effects.forEach(e -> e.extendEffect(entity));
-        flavors.forEach(m -> m.postConsume(entity, effects, effects));
+        flavors.forEach(m -> m.postConsume(entity, effects));
     }
 }

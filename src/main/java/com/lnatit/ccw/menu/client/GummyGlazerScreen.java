@@ -10,9 +10,9 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class GummyGlazerScreen extends AbstractContainerScreen<GummyContentMenu> {
     public static final ResourceLocation BACKGROUND_LOCATION =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/gummy_glazer.png");
+            CandyWorkshop.id("textures/gui/container/gummy_glazer.png");
     public static final ResourceLocation ACTIVE_SLOT_SPRITE =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/gummy_container/active_slot");
+            CandyWorkshop.id("container/gummy_container/active_slot");
     public static final int WIDTH = 176;
     public static final int HEIGHT = 188;
     private final int activeSlots;

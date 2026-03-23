@@ -412,7 +412,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
                     null,
                     "advancements." + CandyWorkshop.MODID + ".root.title",
                     "advancements." + CandyWorkshop.MODID + ".root.description",
-                    ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "root")
+                    CandyWorkshop.id("root")
             );
         }
 
@@ -422,7 +422,7 @@ public class ModAdvcmtProvider extends AdvancementProvider {
                     AdvancementSubProvider.createPlaceholder(CandyWorkshop.MODID + ":" + parentLoc),
                     "advancements." + CandyWorkshop.MODID + "." + name + ".title",
                     "advancements." + CandyWorkshop.MODID + "." + name + ".description",
-                    ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, name)
+                    CandyWorkshop.id(name)
             );
         }
 

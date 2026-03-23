@@ -21,8 +21,7 @@ import java.util.Map;
 @EventBusSubscriber(modid = CandyWorkshop.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public interface ModelHandler
 {
-    ResourceLocation BROKEN = ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "broken");
-//    public static final ResourceLocation TIER =  ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "tier");
+    ResourceLocation BROKEN = CandyWorkshop.id("broken");
 
     @SubscribeEvent
     static void onPropertyRegister(FMLClientSetupEvent event) {
@@ -31,22 +30,11 @@ public interface ModelHandler
                                                         (stack, level, entity, seed) -> MilkExtractorItem.isBroken(stack)
                                                                                         ? 1.0F
                                                                                         : 0.0F));
-//        event.enqueueWork(() -> ItemProperties.register(
-//                ItemRegistry.GUMMY_MAGAZINE.get(),
-//                TIER,
-//                (stack, level, entity, seed) -> {
-//                    GummyContents m = stack.get(ItemRegistry.MAGAZINE_CONTENTS_DCTYPE);
-//                    if (m != null) {
-//                        return (float) m.tier().ordinal() / 2;
-//                    }
-//                    return 0;
-//                }
-//        ));
     }
 
-    ResourceLocation GUMMY_GLAZER = CandyWorkshop.id("item/gummy_glazer_base");
-    ResourceLocation NETHER_GLAZER = CandyWorkshop.id("item/nether_glazer_base");
-    ResourceLocation ENDER_GLAZER = CandyWorkshop.id("item/ender_glazer_base");
+    ModelResourceLocation GUMMY_GLAZER = ModelResourceLocation.standalone(CandyWorkshop.id("item/gummy_glazer_base"));
+    ModelResourceLocation NETHER_GLAZER = ModelResourceLocation.standalone(CandyWorkshop.id("item/nether_glazer_base"));
+    ModelResourceLocation ENDER_GLAZER = ModelResourceLocation.standalone(CandyWorkshop.id("item/ender_glazer_base"));
 
     @SubscribeEvent
     static void onModelRegister(ModelEvent.RegisterAdditional event) {
@@ -54,9 +42,9 @@ public interface ModelHandler
             event.register(ModelResourceLocation.standalone(Sugar.getModelId(sugarHolder)));
         }
 
-        event.register(ModelResourceLocation.standalone(GUMMY_GLAZER));
-        event.register(ModelResourceLocation.standalone(NETHER_GLAZER));
-        event.register(ModelResourceLocation.standalone(ENDER_GLAZER));
+        event.register(GUMMY_GLAZER);
+        event.register(NETHER_GLAZER);
+        event.register(ENDER_GLAZER);
     }
 
     @SubscribeEvent

@@ -3,7 +3,6 @@ package com.lnatit.ccw.item.sugaring;
 import com.lnatit.ccw.data.Effect;
 import com.lnatit.ccw.item.ItemRegistry;
 import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,17 +17,12 @@ public class MilkyFlavor extends SimpleFlavor {
     }
 
     @Override
-    public Style style() {
-        return super.style().withColor(0xFFFFFF);
-    }
-
-    @Override
     public @Nullable Holder<Flavor> proxy() {
         return Flavors.ORIGINAL;
     }
 
     @Override
-    public void preConsume(LivingEntity entity, List<Effect> effectsToApply, List<Effect> formulaEffects) {
+    public void preConsume(LivingEntity entity, List<Effect> effectsToApply) {
         List<Holder<MobEffect>> toRemove = new ArrayList<>();
         for (Holder<MobEffect> effect : entity.getActiveEffectsMap().keySet()) {
             if (effectsToApply.stream().noneMatch(inst -> inst.is(effect))) {

@@ -14,11 +14,11 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 public class SugarRefineryScreen extends AbstractContainerScreen<SugarRefineryMenu> {
     public static final ResourceLocation BACKGROUND_LOCATION =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "textures/gui/container/sugar_refinery.png");
+            CandyWorkshop.id("textures/gui/container/sugar_refinery.png");
     public static final ResourceLocation ANIMATION_SPRITE =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/sugar_refinery/stirring");
+            CandyWorkshop.id("container/sugar_refinery/stirring");
     public static final ResourceLocation PROGRESS_SPRITE =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, "container/sugar_refinery/progress");
+            CandyWorkshop.id("container/sugar_refinery/progress");
     public static final Tooltip PAUSE = Tooltip.create(Component.translatable("container.sugar_refinery.pause"));
     public static final Tooltip START = Tooltip.create(Component.translatable("container.sugar_refinery.start"));
     public static final int WIDTH = 176;

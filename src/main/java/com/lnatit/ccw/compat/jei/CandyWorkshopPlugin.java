@@ -27,7 +27,7 @@ import java.util.List;
 public class CandyWorkshopPlugin implements IModPlugin
 {
     public static ResourceLocation UID =
-            ResourceLocation.fromNamespaceAndPath(CandyWorkshop.MODID, CandyWorkshop.MODID);
+            CandyWorkshop.id(CandyWorkshop.MODID);
 
     @SuppressWarnings("unchecked")
     public static final RecipeType<List<? extends IFormula>> REFINING =
