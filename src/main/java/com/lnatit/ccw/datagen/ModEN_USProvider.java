@@ -1,14 +1,13 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
-//import com.lnatit.ccw.compat.apothesis.ApothBlends;
-//import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
 import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.GummyGlazerItem;
 import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.SmithingWafers;
+import com.lnatit.ccw.item.sugaring.Flavors;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
 import net.minecraft.core.Holder;
@@ -83,13 +82,12 @@ public class ModEN_USProvider extends LanguageProvider {
 //        this.add("item.ccw.carton_milk,desc0", "");
 //        this.add("item.ccw.carton_milk,desc1", "");
 
-        this.add("item.ccw.gummy.excited.prefix", "Excited");
-        this.add("item.ccw.gummy.bold.prefix", "Bold");
-        this.add("item.ccw.gummy.milky.prefix", "Milky");
-
-        this.add("item.ccw.gummy.excited.desc", "Excited desc");
-        this.add("item.ccw.gummy.bold.desc", "Bold desc");
-        this.add("item.ccw.gummy.milky.desc", "Milky desc");
+        for (var flavor : Flavors.FLAVORS.getEntries()) {
+            if (flavor == Flavors.ORIGINAL)
+                continue;
+            this.add("item.ccw.gummy." + flavor.getKey().location().getPath() + ".prefix", "prefix: " + flavor.getRegisteredName());
+            this.add("item.ccw.gummy." + flavor.getKey().location().getPath() + ".desc", "desc: " + flavor.getRegisteredName());
+        }
 
         // Smithing wafer templates
         this.add(SmithingWafers.NETHER_GLAZE_APPLIES_TO, "placeholder: nether applies to");

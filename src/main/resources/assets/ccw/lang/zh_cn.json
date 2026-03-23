@@ -99,6 +99,8 @@
     "item.ccw.gummy.mutton_dash": "placeholder:mutton_dash",
     "item.ccw.gummy.night_vision": "夜视软糖",
     "item.ccw.gummy.nourished": "滋养软糖",
+    "item.ccw.gummy.nutritious.desc": "desc: ccw:nutritious",
+    "item.ccw.gummy.nutritious.prefix": "prefix: ccw:nutritious",
     "item.ccw.gummy.oolong_tea": "归乡乌龙茶软糖",
     "item.ccw.gummy.orange": "橘子软糖",
     "item.ccw.gummy.peach": "水蜜桃软糖",
