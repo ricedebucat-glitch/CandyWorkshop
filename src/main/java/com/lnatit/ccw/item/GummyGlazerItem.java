@@ -78,16 +78,18 @@ public class GummyGlazerItem extends TieredItem
     // TODO check whether to switch between modes
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if (player.isShiftKeyDown() && !level.isClientSide) {
-            int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
+        if (player.isShiftKeyDown()) {
             ItemStack itemstack = player.getItemInHand(usedHand);
-            GummyContentMenu.Provider provider = GummyContentMenu.provider(IContents.Type.GLAZER,
-                                                                           IContents.Type.GLAZER.getMutable(player.getItemInHand(
-                                                                                   usedHand), this.tier),
-                                                                           usedHand,
-                                                                           slot,
-                                                                           itemstack.getHoverName());
-            player.openMenu(provider);
+            if (!level.isClientSide) {
+                int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
+                GummyContentMenu.Provider provider = GummyContentMenu.provider(IContents.Type.GLAZER,
+                                                                               IContents.Type.GLAZER.getMutable(player.getItemInHand(
+                                                                                       usedHand), this.tier),
+                                                                               usedHand,
+                                                                               slot,
+                                                                               itemstack.getHoverName());
+                player.openMenu(provider);
+            }
             player.awardStat(Stats.ITEM_USED.get(this));
             return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
         }

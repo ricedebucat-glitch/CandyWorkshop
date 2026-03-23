@@ -101,7 +101,7 @@ public class GummyMagazineScreen extends AbstractContainerScreen<GummyContentMen
             int frame = (int) (delta / MSPF);
             if (frame < 4) {
                 guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 20 + frame * 10, 0, this.getX(), this.getY(), 10, this.getHeight());
-            } else if (this.isHoveredOrFocused()) {
+            } else if (this.isHovered()) {
                 guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 10, 0, this.getX(), this.getY(), 10, this.getHeight());
             } else {
                 guiGraphics.blitSprite(BUTTON_SPRITE, 60, 30, 0, 0, this.getX(), this.getY(), 10, this.getHeight());
