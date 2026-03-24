@@ -1,17 +1,14 @@
 package com.lnatit.ccw.item;
 
-import com.lnatit.ccw.block.BlockRegistry;
 import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
 import com.lnatit.ccw.menu.GummyContentMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -19,14 +16,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class GummyMagazineItem extends TieredItem
+public class GummyMagazineItem extends GummyDeviceItem
 {
     public static final String DESC_1_KEY = "item.ccw.gummy_magazine.desc0";
     public static final String DESC_2_KEY = "item.ccw.gummy_magazine.desc1";
@@ -43,7 +39,7 @@ public class GummyMagazineItem extends TieredItem
     public static final Component FOLDED_3 = Component.translatable(FOLDED_3_KEY).withStyle(ChatFormatting.GRAY);
 
     private GummyMagazineItem(Properties properties, Tier tier) {
-        super(properties, tier);
+        super(properties, IContents.Type.MAGAZINE, tier);
     }
 
     public static GummyMagazineItem create(Tier tier) {
@@ -52,27 +48,15 @@ public class GummyMagazineItem extends TieredItem
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
-        if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
-            Level level = context.getLevel();
-            BlockPos pos = context.getClickedPos();
-            if (level.getBlockState(pos).is(BlockRegistry.SUGAR_REFINERY)) {
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.useOn(context);
-    }
-
-    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
-        MutableContents magazine = IContents.Type.MAGAZINE.getMutable(itemstack, this.tier);
+        MutableContents magazine = this.getMutable(itemstack);
         boolean client = level.isClientSide();
 
         if (player.isShiftKeyDown()) {
             if (!client) {
                 int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
-                GummyContentMenu.Provider provider = GummyContentMenu.provider(IContents.Type.MAGAZINE,
+                GummyContentMenu.Provider provider = GummyContentMenu.provider(this.type,
                                                                                magazine,
                                                                                usedHand,
                                                                                slot,

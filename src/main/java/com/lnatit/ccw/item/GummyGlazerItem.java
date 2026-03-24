@@ -33,7 +33,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID)
-public class GummyGlazerItem extends TieredItem
+public class GummyGlazerItem extends GummyDeviceItem
 {
     public static final String DESC_1_KEY = "item.ccw.gummy_glazer.desc0";
     public static final String DESC_2_KEY = "item.ccw.gummy_glazer.desc1";
@@ -61,7 +61,7 @@ public class GummyGlazerItem extends TieredItem
     public static final Component FOLDED_6 = Component.translatable(FOLDED_6_KEY).withStyle(ChatFormatting.GRAY);
 
     private GummyGlazerItem(Properties properties, Tier tier) {
-        super(properties, tier);
+        super(properties, IContents.Type.GLAZER, tier);
     }
 
     public static GummyGlazerItem create(Tier tier) {
@@ -82,9 +82,8 @@ public class GummyGlazerItem extends TieredItem
             ItemStack itemstack = player.getItemInHand(usedHand);
             if (!level.isClientSide) {
                 int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
-                GummyContentMenu.Provider provider = GummyContentMenu.provider(IContents.Type.GLAZER,
-                                                                               IContents.Type.GLAZER.getMutable(player.getItemInHand(
-                                                                                       usedHand), this.tier),
+                GummyContentMenu.Provider provider = GummyContentMenu.provider(this.type,
+                                                                               this.getMutable(itemstack),
                                                                                usedHand,
                                                                                slot,
                                                                                itemstack.getHoverName());
@@ -123,20 +122,17 @@ public class GummyGlazerItem extends TieredItem
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onAttack(AttackEntityEvent event) {
-        if (event.getTarget() instanceof LivingEntity target) {
-            Player player = event.getEntity();
-
-            ItemStack mainHand = player.getMainHandItem();
-            if (mainHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, mainHand, target);
-//                event.setCanceled(true);
-            }
-
-            ItemStack offHand = player.getOffhandItem();
-            if (offHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, offHand, target);
-            }
-        }
+        // maybe useless
+//        if (event.getTarget() instanceof LivingEntity target) {
+//            Player player = event.getEntity();
+//
+//            ItemStack mainHand = player.getMainHandItem();
+//            applyGummies(player, mainHand, target);
+////            event.setCanceled(true);
+//
+//            ItemStack offHand = player.getOffhandItem();
+//            applyGummies(player, offHand, target);
+//        }
     }
 
     @SubscribeEvent
@@ -145,14 +141,10 @@ public class GummyGlazerItem extends TieredItem
             Player player = event.getEntity();
 
             ItemStack mainHand = player.getMainHandItem();
-            if (mainHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, mainHand, target);
-            }
+            applyGummies(player, mainHand, target);
 
             ItemStack offHand = player.getOffhandItem();
-            if (offHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(player, offHand, target);
-            }
+            applyGummies(player, offHand, target);
         }
     }
 
@@ -163,29 +155,26 @@ public class GummyGlazerItem extends TieredItem
             LivingEntity living = event.getEntity();
 
             ItemStack mainHand = source.getMainHandItem();
-            if (mainHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(source, mainHand, living);
-            }
+            applyGummies(source, mainHand, living);
 
             ItemStack offHand = source.getOffhandItem();
-            if (offHand.getItem() instanceof GummyGlazerItem) {
-                applyGummies(source, offHand, living);
-            }
+            applyGummies(source, offHand, living);
         }
     }
 
-    private static void applyGummies(LivingEntity applier, ItemStack glazer, LivingEntity target) {
-        Item item = glazer.getItem();
-        MutableContents contents = IContents.Type.GLAZER.getMutable(glazer, ((GummyGlazerItem) item).tier);
-        if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
-            return;
-        }
-        // TODO apply on mode
-        contents.apply(new ConditionalConsumer(applier, target));
-        GummyContents.set(glazer, contents);
+    private static void applyGummies(LivingEntity applier, ItemStack stack, LivingEntity target) {
+        if (stack.getItem() instanceof GummyGlazerItem glazer) {
+            MutableContents contents = glazer.getMutable(stack);
+            if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
+                return;
+            }
+            // TODO apply on mode
+            contents.apply(new ConditionalConsumer(applier, target));
+            GummyContents.set(stack, contents);
 
-        if (applier instanceof ServerPlayer player) {
-            player.awardStat(Stats.ITEM_USED.get(item));
+            if (applier instanceof ServerPlayer player) {
+                player.awardStat(Stats.ITEM_USED.get(glazer));
+            }
         }
     }
 

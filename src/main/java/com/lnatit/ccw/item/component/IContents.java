@@ -2,7 +2,6 @@ package com.lnatit.ccw.item.component;
 
 import com.google.common.collect.ImmutableList;
 import com.lnatit.ccw.item.ItemRegistry;
-import com.lnatit.ccw.item.Tier;
 import com.lnatit.ccw.menu.GummyContentMenu;
 import com.lnatit.ccw.menu.MenuRegistry;
 import com.mojang.serialization.Codec;
@@ -84,15 +83,6 @@ public interface IContents
 
         public GummyContents defaultContents() {
             return new GummyContents(ImmutableList.copyOf(Collections.nCopies(this.size, ItemStack.EMPTY)), this);
-        }
-
-        public MutableContents getMutable(ItemStack stack, Tier tier) {
-            if (!stack.has(this.dataComponentType)) {
-                stack.set(this.dataComponentType, defaultContents());
-            }
-            GummyContents contents = stack.get(this.dataComponentType);
-            assert contents != null;
-            return new MutableContents(contents, tier);
         }
     }
 }
