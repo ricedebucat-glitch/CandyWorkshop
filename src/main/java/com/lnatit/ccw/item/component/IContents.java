@@ -48,28 +48,25 @@ public interface IContents
 
     enum Type implements StringRepresentable
     {
-        MAGAZINE("magazine", 6, 2, ItemRegistry.MAGAZINE_CONTENTS_DCTYPE, MenuRegistry.GUMMY_MAGAZINE),
-        GLAZER("glazer", 3, 1, ItemRegistry.GLAZER_CONTENTS_DCTYPE, MenuRegistry.GUMMY_GLAZER),
+        MAGAZINE(6, 2, ItemRegistry.MAGAZINE_CONTENTS_DCTYPE, MenuRegistry.GUMMY_MAGAZINE),
+        GLAZER(3, 1, ItemRegistry.GLAZER_CONTENTS_DCTYPE, MenuRegistry.GUMMY_GLAZER),
         ;
 
         public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
         public static final StreamCodec<RegistryFriendlyByteBuf, Type> STREAM_CODEC =
                 NeoForgeStreamCodecs.enumCodec(Type.class);
 
-        private final String name;
         public final int size;
         public final int tierMarch;
         public final Supplier<DataComponentType<GummyContents>> dataComponentType;
         public final Supplier<MenuType<GummyContentMenu>> menuType;
 
         Type(
-                String name,
                 int size,
                 int tierMarch,
                 Supplier<DataComponentType<GummyContents>> dataComponentType,
                 Supplier<MenuType<GummyContentMenu>> menuType
         ) {
-            this.name = name;
             this.size = size;
             this.tierMarch = tierMarch;
             this.dataComponentType = dataComponentType;
@@ -78,7 +75,7 @@ public interface IContents
 
         @Override
         public String getSerializedName() {
-            return this.name;
+            return this.name().toLowerCase();
         }
 
         public GummyContents defaultContents() {

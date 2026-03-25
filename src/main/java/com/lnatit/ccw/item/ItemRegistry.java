@@ -2,6 +2,7 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
+import com.lnatit.ccw.item.component.GlazerMode;
 import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.SugarContents;
 import com.lnatit.ccw.misc.RegRegistry;
@@ -44,6 +45,12 @@ public interface ItemRegistry
             gBuilder -> gBuilder.persistent(GummyContents.CODEC)
                                 .networkSynchronized(GummyContents.STREAM_CODEC)
                                 .cacheEncoding());
+    Supplier<DataComponentType<GlazerMode>> GLAZER_MODE_DCTYPE = DATA_COMPONENTS.registerComponentType(
+            "glazer_mode",
+            builder -> builder.persistent(GlazerMode.CODEC)
+                              .networkSynchronized(GlazerMode.STREAM_CODEC)
+                              .cacheEncoding()
+    );
 
     DeferredRegister.Items ITEMS = DeferredRegister.createItems(CandyWorkshop.MODID);
 
