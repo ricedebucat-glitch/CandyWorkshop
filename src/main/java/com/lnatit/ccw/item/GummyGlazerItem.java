@@ -2,10 +2,7 @@ package com.lnatit.ccw.item;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.data.Formula;
-import com.lnatit.ccw.item.component.GummyContents;
-import com.lnatit.ccw.item.component.IContents;
-import com.lnatit.ccw.item.component.MutableContents;
-import com.lnatit.ccw.item.component.SugarContents;
+import com.lnatit.ccw.item.component.*;
 import com.lnatit.ccw.menu.GummyContentMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -37,9 +34,6 @@ public class GummyGlazerItem extends GummyDeviceItem
 {
     public static final String DESC_1_KEY = "item.ccw.gummy_glazer.desc0";
     public static final String DESC_2_KEY = "item.ccw.gummy_glazer.desc1";
-    public static final String DESC_MODE_SELECTION_KEY = "item.ccw.gummy_glazer.mode_selection";
-    public static final String DESC_MODE_SAVE_KEY = "item.ccw.gummy_glazer.mode_save";
-    public static final String DESC_MODE_EXTEND_KEY = "item.ccw.gummy_glazer.mode_extend";
     public static final String DESC_UNFOLD_KEY = "item.ccw.unfold";
     public static final String FOLDED_1_KEY = "item.ccw.gummy_glazer.folded0";
     public static final String FOLDED_2_KEY = "item.ccw.gummy_glazer.folded1";
@@ -50,8 +44,6 @@ public class GummyGlazerItem extends GummyDeviceItem
 
     public static final Component DESC_1 = Component.translatable(DESC_1_KEY).withStyle(ChatFormatting.GRAY);
     public static final Component DESC_2 = Component.translatable(DESC_2_KEY).withStyle(ChatFormatting.GRAY);
-    public static final Component DESC_MODE_SAVE = Component.translatable(DESC_MODE_SAVE_KEY);
-    public static final Component DESC_MODE_EXTEND = Component.translatable(DESC_MODE_EXTEND_KEY);
     public static final Component DESC_UNFOLD = Component.translatable(DESC_UNFOLD_KEY).withStyle(ChatFormatting.GRAY);
     public static final Component FOLDED_1 = Component.translatable(FOLDED_1_KEY).withStyle(ChatFormatting.GRAY);
     public static final Component FOLDED_2 = Component.translatable(FOLDED_2_KEY).withStyle(ChatFormatting.GRAY);
@@ -102,11 +94,11 @@ public class GummyGlazerItem extends GummyDeviceItem
             List<Component> tooltipComponents,
             TooltipFlag tooltipFlag
     ) {
+
         tooltipComponents.add(DESC_1);
         tooltipComponents.add(DESC_2);
         // TODO reset styles of each mode
-        tooltipComponents.add(Component.translatable(DESC_MODE_SELECTION_KEY, DESC_MODE_SAVE, DESC_MODE_EXTEND)
-                                       .withStyle(ChatFormatting.GRAY));
+        GlazerMode.getOrDefault(stack).addGlazerTooltip(tooltipComponents::add);
         if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
             tooltipComponents.add(FOLDED_1);
             tooltipComponents.add(FOLDED_2);
@@ -168,8 +160,7 @@ public class GummyGlazerItem extends GummyDeviceItem
             if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
                 return;
             }
-            // TODO apply on mode
-            contents.apply(new ConditionalConsumer(applier, target));
+            contents.apply(new Consumer(applier, target, GlazerMode.getOrDefault(stack)));
             GummyContents.set(stack, contents);
 
             if (applier instanceof ServerPlayer player) {
@@ -178,14 +169,15 @@ public class GummyGlazerItem extends GummyDeviceItem
         }
     }
 
-    private record ConditionalConsumer(LivingEntity applier,
-                                       LivingEntity target) implements Function<ItemStack, ItemStack>
+    private record Consumer(LivingEntity applier,
+                            LivingEntity target,
+                            GlazerMode mode) implements Function<ItemStack, ItemStack>
     {
         @Override
         public ItemStack apply(ItemStack stack) {
             if (stack.isEmpty()) return stack;
             stack = stack.copy();
-            if (stack.has(ItemRegistry.SUGAR_CONTENTS_DCTYPE)) {
+            if (mode == GlazerMode.SAVE && stack.has(ItemRegistry.SUGAR_CONTENTS_DCTYPE)) {
                 SugarContents contents = stack.get(ItemRegistry.SUGAR_CONTENTS_DCTYPE);
                 assert contents != null;
                 Optional<Formula> optional = Formula.getFormulaOptional(contents.sugar(), contents.flavor());
@@ -201,4 +193,6 @@ public class GummyGlazerItem extends GummyDeviceItem
             return stack;
         }
     }
+
+
 }

@@ -7,6 +7,7 @@ import com.lnatit.ccw.item.GummyGlazerItem;
 import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.SmithingWafers;
+import com.lnatit.ccw.item.component.GlazerMode;
 import com.lnatit.ccw.item.sugaring.Flavors;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
@@ -113,15 +114,17 @@ public class ModEN_USProvider extends LanguageProvider {
         // Gummy Glazer tooltips
         this.add(GummyGlazerItem.DESC_1_KEY, "placeholder: glazer desc 0");
         this.add(GummyGlazerItem.DESC_2_KEY, "placeholder: glazer desc 1");
-        this.add(GummyGlazerItem.DESC_MODE_SELECTION_KEY, "placeholder: glazer mode selection (%s)");
-        this.add(GummyGlazerItem.DESC_MODE_SAVE_KEY, "placeholder: glazer mode save");
-        this.add(GummyGlazerItem.DESC_MODE_EXTEND_KEY, "placeholder: glazer mode extend");
+        this.add(GlazerMode.DESC_MODE_SELECTION_KEY, "placeholder: glazer mode selection (%s)");
+        this.add(GlazerMode.DESC_MODE_SAVE_KEY, "placeholder: glazer mode save");
+        this.add(GlazerMode.DESC_MODE_EXTEND_KEY, "placeholder: glazer mode extend");
         this.add(GummyGlazerItem.FOLDED_1_KEY, "placeholder: glazer folded 0");
         this.add(GummyGlazerItem.FOLDED_2_KEY, "placeholder: glazer folded 1");
         this.add(GummyGlazerItem.FOLDED_3_KEY, "placeholder: glazer folded 2");
         this.add(GummyGlazerItem.FOLDED_4_KEY, "placeholder: glazer folded 3");
         this.add(GummyGlazerItem.FOLDED_5_KEY, "placeholder: glazer folded 4");
         this.add(GummyGlazerItem.FOLDED_6_KEY, "placeholder: glazer folded 5");
+
+        this.add("key.ccw.switch_mode", "Switch Glazer Mode");
 
         for (DeferredHolder<Sugar, ? extends Sugar> sugar : Sugars.SUGARS.getEntries()) {
             this.add("item." + CandyWorkshop.MODID + ".gummy." + ((Holder<?>) sugar).getKey().location().getPath(), "placeholder:" + ((Holder<?>) sugar)
