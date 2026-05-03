@@ -125,6 +125,8 @@ subprojects {
     }
 }
 
+apply from: "$rootDir/gradle/lang-merge-and-conflicts.gradle"
+
 project(':core') {
     neoForge {
         runs {
@@ -175,9 +177,6 @@ project(':core') {
         implementation("youkaishomecoming:youkaishomecoming:3.0.8")
     }
 
-    jar {
-        exclude 'com/lnatit/ccw/datagen'
-    }
 }
 
 project(':data') {
@@ -349,11 +348,11 @@ configure([
 }
 
 tasks.named('jar', Jar).configure {
+    notCompatibleWithConfigurationCache('Aggregates subproject jars via zipTree providers.')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     def moduleJars = [
             project(':core').tasks.named('jar'),
-            project(':data').tasks.named('jar'),
             // Keep this list in sync when adding/removing compat modules.
             project(':compat-apothesis').tasks.named('jar'),
             project(':compat-farmersdelight').tasks.named('jar'),
@@ -366,7 +365,11 @@ tasks.named('jar', Jar).configure {
     ]
 
     dependsOn(moduleJars)
-    from(moduleJars.collect { provider { zipTree(it.get().archiveFile) } })
+    dependsOn(tasks.named('validateCrossProjectResourceConflicts'))
+    from(moduleJars.collect { jarTask -> jarTask.flatMap { it.archiveFile }.map { archive -> zipTree(archive) } })
+    // Root aggregate excludes datagen implementation while subproject jars keep datagen classes for runData workflows.
+    exclude 'com/lnatit/ccw/datagen/**'
+    exclude 'com/lnatit/ccw/compat/**/datagen/**'
 
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 }

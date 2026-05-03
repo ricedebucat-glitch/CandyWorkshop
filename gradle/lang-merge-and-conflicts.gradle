@@ -1,0 +1,113 @@
+subprojects {
+    def mainLangDir = file("src/main/resources/assets/${project.mod_id}/lang")
+    def generatedLangDir = file("src/generated/resources/assets/${project.mod_id}/lang")
+    def mergedLangDir = layout.buildDirectory.dir("generated/mergedLang/assets/${project.mod_id}/lang")
+
+    def mergeLangResources = tasks.register('mergeLangResources') {
+        inputs.files(provider {
+            def files = []
+            if (mainLangDir.exists()) {
+                files.addAll(mainLangDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: [])
+            }
+            if (generatedLangDir.exists()) {
+                files.addAll(generatedLangDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: [])
+            }
+            files
+        })
+        outputs.dir(mergedLangDir)
+
+        doLast {
+            def outDir = mergedLangDir.get().asFile
+            if (outDir.exists()) {
+                outDir.deleteDir()
+            }
+            outDir.mkdirs()
+
+            def merged = [:].withDefault { new LinkedHashMap<String, Object>() }
+            // main > generated within each subproject.
+            [generatedLangDir, mainLangDir].each { langDir ->
+                if (!langDir.exists()) {
+                    return
+                }
+
+                (langDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: []).sort { it.name }.each { langFile ->
+                    def parsed = new groovy.json.JsonSlurper().parse(langFile)
+                    if (!(parsed instanceof Map)) {
+                        throw new GradleException("Language file must be a JSON object: ${langFile}")
+                    }
+                    merged[langFile.name].putAll(parsed as Map<String, Object>)
+                }
+            }
+
+            merged.keySet().sort().each { fileName ->
+                def target = new File(outDir, fileName)
+                target.parentFile.mkdirs()
+                target.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(merged[fileName]))
+            }
+        }
+    }
+
+    tasks.named('processResources', ProcessResources).configure {
+        dependsOn mergeLangResources
+
+        from(sourceSets.main.resources) {
+            exclude "assets/${project.mod_id}/lang/*.json"
+        }
+        from(sourceSets.generated.resources) {
+            exclude "assets/${project.mod_id}/lang/*.json"
+        }
+        from(mergedLangDir)
+    }
+}
+
+def aggregatedProjectPaths = [
+        ':core',
+        ':compat-apothesis',
+        ':compat-farmersdelight',
+        ':compat-fruitsdelight',
+        ':compat-jei',
+        ':compat-kaleidoscope',
+        ':compat-neapolitan',
+        ':compat-rei',
+        ':compat-youkaishomecoming'
+]
+
+def aggregatedResourceOutputDirs = aggregatedProjectPaths.collectEntries { subprojectPath ->
+    [(subprojectPath): project(subprojectPath).tasks.named('processResources').map { it.destinationDir }]
+}
+def resourceConflictReport = layout.buildDirectory.file('reports/resource-conflicts.txt')
+
+tasks.register('validateCrossProjectResourceConflicts') {
+    dependsOn aggregatedProjectPaths.collect { project(it).tasks.named('processResources') }
+
+    doLast {
+        def ownersByPath = [:].withDefault { [] as List<String> }
+
+        aggregatedResourceOutputDirs.each { subprojectPath, outDirProvider ->
+            def outDir = outDirProvider.get()
+            if (outDir == null || !outDir.exists()) {
+                return
+            }
+
+            outDir.eachFileRecurse(groovy.io.FileType.FILES) { file ->
+                def relativePath = outDir.toPath().relativize(file.toPath()).toString().replace('\\', '/')
+                ownersByPath[relativePath] << subprojectPath
+            }
+        }
+
+        def conflicts = ownersByPath.findAll { path, owners -> owners.toSet().size() > 1 }
+        if (conflicts.isEmpty()) {
+            return
+        }
+
+        def reportFile = resourceConflictReport.get().asFile
+        reportFile.parentFile.mkdirs()
+        def lines = conflicts.keySet().sort().collect { conflictPath ->
+            "${conflictPath} <= ${conflicts[conflictPath].toSet().sort().join(', ')}"
+        }
+        reportFile.text = lines.join(System.lineSeparator())
+
+        throw new GradleException("Cross-project resource conflicts detected (${conflicts.size()}). See ${reportFile}")
+    }
+}
+
