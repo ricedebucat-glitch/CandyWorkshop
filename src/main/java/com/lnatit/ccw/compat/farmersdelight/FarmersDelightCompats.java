@@ -26,25 +26,25 @@ public class FarmersDelightCompats
                                                                                                                               3600),
                                                                                                                       1.0F)
                                                                                                               .build())));
-    public static final Supplier<Item> SWEET_HARVEST_SOUP = registerWithTab("sweet_harvest_soup",
-                                                                            () -> new ConsumableItem(ModItems.bowlFoodItem(
-                                                                                    new FoodProperties.Builder().nutrition(
-                                                                                                                        8)
-                                                                                                                .saturationModifier(
-                                                                                                                        FoodConstants.FOOD_SATURATION_NORMAL)
-                                                                                                                .effect(() -> FoodValues.comfort(
-                                                                                                                                6000),
-                                                                                                                        1.0F)
-                                                                                                                .build())));
+//    public static final Supplier<Item> SWEET_HARVEST_SOUP = registerWithTab("sweet_harvest_soup",
+//                                                                            () -> new ConsumableItem(ModItems.bowlFoodItem(
+//                                                                                    new FoodProperties.Builder().nutrition(
+//                                                                                                                        8)
+//                                                                                                                .saturationModifier(
+//                                                                                                                        FoodConstants.FOOD_SATURATION_NORMAL)
+//                                                                                                                .effect(() -> FoodValues.comfort(
+//                                                                                                                                6000),
+//                                                                                                                        1.0F)
+//                                                                                                                .build())));
 
     public static final DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.SUGARS.register("nourished",
                                                                                         () -> new Sugar(Sugar.Type.OVERWORLD,
                                                                                                         Ingredient.of(
                                                                                                                 GLAZED_MEAT_RICE.get())));
-    public static final DeferredHolder<Sugar, Sugar> COMFORT = Sugars.SUGARS.register("comfort",
-                                                                                      () -> new Sugar(Sugar.Type.OVERWORLD,
-                                                                                                      Ingredient.of(
-                                                                                                              SWEET_HARVEST_SOUP.get())));
+//    public static final DeferredHolder<Sugar, Sugar> COMFORT = Sugars.SUGARS.register("comfort",
+//                                                                                      () -> new Sugar(Sugar.Type.OVERWORLD,
+//                                                                                                      Ingredient.of(
+//                                                                                                              SWEET_HARVEST_SOUP.get())));
 
     public static void init() {
     }
