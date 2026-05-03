@@ -1,235 +1,376 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.88'
     id 'idea'
+    id 'net.neoforged.moddev' version '2.0.88' apply false
 }
 
 tasks.named('wrapper', Wrapper).configure {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
     distributionType = Wrapper.DistributionType.BIN
 }
 
-var build_version = mod_version
-var build_id = System.getenv("BUILD_ID")
-if (build_id != null)
-    build_version = "${mod_version}+b${build_id}"
-
-version = "v${build_version}-mc${minecraft_version}"
-group = mod_group_id
-
-repositories {
-    mavenLocal()
-    maven { url = "https://maven.blamejared.com/" }
-    maven { url = "https://maven.terraformersmc.com/" }
-    maven { url = "https://modmaven.dev" }
-    maven { url = "https://cursemaven.com" }
-    maven { url = "https://maven.shedaniel.me/" }
-    // Registrate
-    maven { url = "https://maven.ithundxr.dev/snapshots" }
-
-    flatDir {
-        dir 'libs'
-    }
+var buildVersion = mod_version
+var buildId = System.getenv('BUILD_ID')
+if (buildId != null) {
+    buildVersion = "${mod_version}+b${buildId}"
 }
+
+version = "v${buildVersion}-mc${minecraft_version}"
+group = mod_group_id
 
 base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+allprojects {
+    group = rootProject.group
+    version = rootProject.version
 
-neoForge {
-    // Specify the version of NeoForge to use.
-    version = project.neo_version
+    repositories {
+        mavenLocal()
+        maven { url = 'https://maven.blamejared.com/' }
+        maven { url = 'https://maven.terraformersmc.com/' }
+        maven { url = 'https://modmaven.dev' }
+        maven { url = 'https://cursemaven.com' }
+        maven { url = 'https://maven.shedaniel.me/' }
+        maven { url = 'https://maven.ithundxr.dev/snapshots' }
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    // This line is optional. Access Transformers are automatically detected
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            client()
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        // This run config launches GameTestServer and runs all registered gametests, then exits.
-        // By default, the server will crash when no gametests are provided.
-        // The gametest system is also enabled by default for other run configs under the /test command.
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-
-            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
-            // gameDirectory = project.file('run-data')
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        // applies to all the run configs above
-        configureEach {
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        // define mod <-> source bindings
-        // these are used to tell the game which sources are for which mod
-        // multi mod projects should define one per mod
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
+        flatDir {
+            dir rootProject.file('libs')
         }
     }
 }
 
-// Include resources generated by data generators.
-sourceSets {
-    datagen.resources { srcDir 'src/generated/resources' }
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'net.neoforged.moddev'
+    apply plugin: 'idea'
+
+    java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+    sourceSets {
+        generated.resources { srcDir 'src/generated/resources' }
+    }
+
+    processResources {
+        from sourceSets.main.resources
+        from sourceSets.generated.resources
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        exclude '.cache'
+        exclude 'assets/ccw/unused'
+    }
+
+    configurations {
+        runtimeClasspath.extendsFrom localRuntime
+    }
+
+    dependencies {
+        compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+        runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+        compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
+//        runtimeOnly("dev.emi:emi-neoforge:${emi_version}")
+    }
+
+    neoForge {
+        version = project.neo_version
+
+        parchment {
+            mappingsVersion = project.parchment_mappings_version
+            minecraftVersion = project.parchment_minecraft_version
+        }
+
+        mods {
+            "${mod_id}" {
+                sourceSet(sourceSets.main)
+            }
+        }
+    }
+
+    def templatesDir = file('src/main/templates')
+    if (templatesDir.exists()) {
+        var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
+            var replaceProperties = [
+                    minecraft_version      : minecraft_version,
+                    minecraft_version_range: minecraft_version_range,
+                    neo_version            : neo_version,
+                    neo_version_range      : neo_version_range,
+                    loader_version_range   : loader_version_range,
+                    mod_id                 : mod_id,
+                    mod_name               : mod_name,
+                    mod_license            : mod_license,
+                    mod_version            : buildVersion,
+                    mod_authors            : mod_authors,
+                    mod_description        : mod_description
+            ]
+            inputs.properties replaceProperties
+            expand replaceProperties
+            from templatesDir
+            into 'build/generated/sources/modMetadata'
+        }
+
+        sourceSets.main.resources.srcDir generateModMetadata
+        neoForge.ideSyncTask generateModMetadata
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+
+    idea {
+        module {
+            downloadSources = true
+            downloadJavadoc = true
+        }
+    }
 }
 
-// Include resources generated by data generators.
-processResources {
-    from sourceSets.main.resources
-    from sourceSets.datagen.resources
+project(':core') {
+    neoForge {
+        runs {
+            client {
+                client()
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            server {
+                server()
+                programArgument '--nogui'
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            gameTestServer {
+                type = 'gameTestServer'
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            configureEach {
+                systemProperty 'forge.logging.markers', 'REGISTRIES'
+                logLevel = org.slf4j.event.Level.DEBUG
+            }
+        }
+    }
+
+    dependencies {
+        implementation("curse.maven:patchouli-306770:6164617")
+        implementation("curse.maven:placebo-283644:6446766-sources")
+        implementation("curse.maven:apoattr-898963:6514649-sources")
+        implementation("curse.maven:apoench-1063926:6631673-sources")
+        implementation("curse.maven:apospaw-986583:6689771-sources")
+        implementation("curse.maven:apotheosis-313970:6545942-sources")
+
+        implementation("curse.maven:farmers-delight-398521:8007613")
+
+        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+        implementation("curse.maven:fruits-delight-943774:8004727")
+        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+
+        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
+
+        implementation("curse.maven:blueprint-382216:7148094")
+        implementation("curse.maven:neapolitan-382016:7119475")
+        runtimeOnly("curse.maven:gallery-1173553:6449910")
+
+        implementation("l2core:l2core:3.0.8+3")
+        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
+    }
+
+    jar {
+        exclude 'com/lnatit/ccw/datagen'
+    }
+}
+
+project(':data') {
+    neoForge {
+        runs {
+            data {
+                data()
+                programArguments.addAll '--mod', project.mod_id, '--all', '--output',
+                        rootProject.project(':core').file('src/generated/resources/').getAbsolutePath(), '--existing',
+                        rootProject.project(':core').file('src/main/resources/').getAbsolutePath()
+            }
+
+            configureEach {
+                systemProperty 'forge.logging.markers', 'REGISTRIES'
+                logLevel = org.slf4j.event.Level.DEBUG
+            }
+        }
+    }
+
+    dependencies {
+        implementation project(':core')
+        // Add new compat project here so datagen can resolve compat symbols.
+        // Example: implementation project(':compat-<newmod>')
+        implementation project(':compat-apothesis')
+        implementation project(':compat-farmersdelight')
+        implementation project(':compat-fruitsdelight')
+        implementation project(':compat-kaleidoscope')
+        implementation project(':compat-neapolitan')
+        implementation project(':compat-youkaishomecoming')
+
+        implementation("curse.maven:patchouli-306770:6164617")
+        implementation("curse.maven:placebo-283644:6446766-sources")
+        implementation("curse.maven:apoattr-898963:6514649-sources")
+        implementation("curse.maven:apoench-1063926:6631673-sources")
+        implementation("curse.maven:apospaw-986583:6689771-sources")
+        implementation("curse.maven:apotheosis-313970:6545942-sources")
+
+        implementation("curse.maven:farmers-delight-398521:8007613")
+
+        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+        implementation("curse.maven:fruits-delight-943774:8004727")
+        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+
+        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
+
+        implementation("curse.maven:blueprint-382216:7148094")
+        implementation("curse.maven:neapolitan-382016:7119475")
+        runtimeOnly("curse.maven:gallery-1173553:6449910")
+
+        implementation("l2core:l2core:3.0.8+3")
+        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
+    }
+}
+
+// New compat onboarding checklist:
+// 1) Add include in settings.gradle: include 'compat-<newmod>'
+// 2) Add compat project block below with required mod dependencies
+// 3) Add compat project dependency in :data (see above)
+// 4) Add project to compat run-task configure([...]) list
+// 5) Add project jar to root moduleJars aggregation list
+
+project(':compat-apothesis') {
+    dependencies {
+        implementation project(':core')
+        implementation("curse.maven:patchouli-306770:6164617")
+        implementation("curse.maven:placebo-283644:6446766-sources")
+        implementation("curse.maven:apoattr-898963:6514649-sources")
+        implementation("curse.maven:apoench-1063926:6631673-sources")
+        implementation("curse.maven:apospaw-986583:6689771-sources")
+        implementation("curse.maven:apotheosis-313970:6545942-sources")
+    }
+}
+
+project(':compat-farmersdelight') {
+    dependencies {
+        implementation project(':core')
+        implementation("curse.maven:farmers-delight-398521:8007613")
+    }
+}
+
+project(':compat-fruitsdelight') {
+    dependencies {
+        implementation project(':core')
+        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+        implementation("curse.maven:fruits-delight-943774:8004727")
+        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+    }
+}
+
+project(':compat-jei') {
+    dependencies {
+        implementation project(':core')
+    }
+}
+
+project(':compat-kaleidoscope') {
+    dependencies {
+        implementation project(':core')
+        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
+    }
+}
+
+project(':compat-neapolitan') {
+    dependencies {
+        implementation project(':core')
+        implementation("curse.maven:blueprint-382216:7148094")
+        implementation("curse.maven:neapolitan-382016:7119475")
+        runtimeOnly("curse.maven:gallery-1173553:6449910")
+    }
+}
+
+project(':compat-rei') {
+    dependencies {
+        implementation project(':core')
+    }
+}
+
+project(':compat-youkaishomecoming') {
+    dependencies {
+        implementation project(':core')
+        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+        implementation("l2core:l2core:3.0.8+3")
+        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
+    }
+}
+
+configure([
+        // Keep this list in sync when adding/removing compat modules.
+        project(':compat-apothesis'),
+        project(':compat-farmersdelight'),
+        project(':compat-fruitsdelight'),
+        project(':compat-jei'),
+        project(':compat-kaleidoscope'),
+        project(':compat-neapolitan'),
+        project(':compat-rei'),
+        project(':compat-youkaishomecoming')
+]) {
+    neoForge {
+        runs {
+            client {
+                client()
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            server {
+                server()
+                programArgument '--nogui'
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            gameTestServer {
+                type = 'gameTestServer'
+                systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            }
+
+            data {
+                data()
+                programArguments.addAll '--mod', project.mod_id, '--all', '--output',
+                        file('src/generated/resources/').getAbsolutePath(), '--existing',
+                        file('src/main/resources/').getAbsolutePath()
+            }
+
+            configureEach {
+                systemProperty 'forge.logging.markers', 'REGISTRIES'
+                logLevel = org.slf4j.event.Level.DEBUG
+            }
+        }
+    }
+}
+
+tasks.named('jar', Jar).configure {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    // Exclude datagen caches
-    exclude ".cache"
-    // Also for unused assets
-    exclude "assets/ccw/unused"
-}
 
-// Sets up a dependency configuration called 'localRuntime'.
-// This configuration should be used instead of 'runtimeOnly' to declare
-// a dependency that will be present for runtime testing but that is
-// "optional", meaning it will not be pulled by dependents of this mod.
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
-dependencies {
-    // JEI
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-
-    // EMI WIP
-    compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
-//    runtimeOnly("dev.emi:emi-neoforge:${emi_version}")
-
-    // Apothesis
-    implementation("curse.maven:patchouli-306770:6164617")
-    implementation("curse.maven:placebo-283644:6446766-sources")
-    implementation("curse.maven:apoattr-898963:6514649-sources")
-    implementation("curse.maven:apoench-1063926:6631673-sources")
-    implementation("curse.maven:apospaw-986583:6689771-sources")
-    implementation("curse.maven:apotheosis-313970:6545942-sources")
-
-    // Farmers Delight
-    // https://www.curseforge.com/minecraft/mc-mods/farmers-delight/files
-    // FD has no src to download
-    implementation("curse.maven:farmers-delight-398521:8007613")
-
-    // FruitsDelight
-    // https://www.curseforge.com/minecraft/mc-mods/fruits-delight/files
-    implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
-    implementation("curse.maven:fruits-delight-943774:8004727")
-    // for datagen issue
-    runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
-
-    // KaleidoScope
-    // Cookery
-    // https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-cookery/files
-    implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
-    // Nether
-    // https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-nether/files
-//    implementation("curse.maven:kaleidoscope-nether-1417862:7732247")
-    // End
-    // https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-end/files
-//    implementation()
-
-    // Neapolitan
-    // https://www.curseforge.com/minecraft/mc-mods/neapolitan/files
-    implementation("curse.maven:blueprint-382216:7148094")
-    implementation("curse.maven:neapolitan-382016:7119475")
-    // datagen issue
-    runtimeOnly("curse.maven:gallery-1173553:6449910")
-
-    // Youkais Homecoming
-    // No src to download
-    implementation("l2core:l2core:3.0.8+3")
-    // https://www.curseforge.com/minecraft/mc-mods/gensokyo-delight-youkais-feasts/files
-//    implementation("curse.maven:gensokyo-delight-youkais-feasts-1309991:7798640")
-    // https://modrinth.com/mod/youkaishomecoming/versions?g=1.21.1
-    implementation("youkaishomecoming:youkaishomecoming:3.0.8")
-
-//    implementation "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
-}
-
-jar {
-    // Exclude datagen codes in builds
-    exclude "com/lnatit/ccw/datagen"
-}
-
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : build_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
+    def moduleJars = [
+            project(':core').tasks.named('jar'),
+            project(':data').tasks.named('jar'),
+            // Keep this list in sync when adding/removing compat modules.
+            project(':compat-apothesis').tasks.named('jar'),
+            project(':compat-farmersdelight').tasks.named('jar'),
+            project(':compat-fruitsdelight').tasks.named('jar'),
+            project(':compat-jei').tasks.named('jar'),
+            project(':compat-kaleidoscope').tasks.named('jar'),
+            project(':compat-neapolitan').tasks.named('jar'),
+            project(':compat-rei').tasks.named('jar'),
+            project(':compat-youkaishomecoming').tasks.named('jar')
     ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-// Include the output of "generateModMetadata" as an input directory for the build
-// this works with both building through Gradle and the IDE.
-sourceSets.main.resources.srcDir generateModMetadata
-// To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
 
-// Example configuration to allow publishing using the maven-publish plugin
+    dependsOn(moduleJars)
+    from(moduleJars.collect { provider { zipTree(it.get().archiveFile) } })
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}
+
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
@@ -240,17 +381,5 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
     }
 }
