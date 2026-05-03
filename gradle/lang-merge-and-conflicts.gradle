@@ -62,7 +62,7 @@ subprojects {
 
 def aggregatedProjectPaths = [
         ':core',
-        ':compat-apothesis',
+        ':compat-apotheosis',
         ':compat-farmersdelight',
         ':compat-fruitsdelight',
         ':compat-jei',

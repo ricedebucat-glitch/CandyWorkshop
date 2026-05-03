@@ -14,7 +14,7 @@ rootProject.name = 'CandyWorkshop'
 
 include 'core'
 include 'data'
-include 'compat-apothesis'
+include 'compat-apotheosis'
 include 'compat-farmersdelight'
 include 'compat-fruitsdelight'
 include 'compat-jei'

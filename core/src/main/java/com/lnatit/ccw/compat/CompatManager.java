@@ -12,11 +12,11 @@ public class CompatManager
 {
     private static final List<Entry> COMPATS =
             List.of(new Entry("apotheosis", "com.lnatit.ccw.compat.apothesis.ApothesisCompats"),
-                    new Entry("farmersdelight", "com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats"),
-                    new Entry("fruitsdelight", "com.lnatit.ccw.compat.fruitsdelight.FruitsDelightCompats"),
-                    new Entry("kaleidoscope_cookery", "com.lnatit.ccw.compat.kaleidoscope.CookeryCompat"),
-                    new Entry("neapolitan", "com.lnatit.ccw.compat.neapolitan.NeapolitanCompats"),
-                    new Entry("youkaishomecoming", "com.lnatit.ccw.compat.youkaishomecoming.YoukaisHomecomingCompats"));
+                    new Entry("farmersdelight", "com.lnatit.ccw.compat.FarmersDelightCompats"),
+                    new Entry("fruitsdelight", "com.lnatit.ccw.compat.FruitsDelightCompats"),
+                    new Entry("kaleidoscope_cookery", "com.lnatit.ccw.compat.CookeryCompat"),
+                    new Entry("neapolitan", "com.lnatit.ccw.compat.NeapolitanCompats"),
+                    new Entry("youkaishomecoming", "com.lnatit.ccw.compat.YoukaisHomecomingCompats"));
 
     public static void loadCompats() {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -25,7 +25,12 @@ public class CompatManager
         for (var entry : COMPATS) {
             if (ModList.get().isLoaded(entry.modid())) {
                 try {
-                    Class<?> clazz = Class.forName(entry.className());
+                    Class<?> clazz;
+                    try {
+                        clazz = Class.forName(entry.className());
+                    } catch (ClassNotFoundException ex) {
+                        clazz = Class.forName(entry.className(), true, Thread.currentThread().getContextClassLoader());
+                    }
                     handle = lookup.findStatic(clazz, entry.initMethod(), type);
                     handle.invoke();
                 }

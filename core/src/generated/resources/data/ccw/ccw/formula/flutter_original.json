@@ -1,11 +1,11 @@
 {
-    "effects": [
-        {
-            "duration": 600,
-            "amplifier": 0,
-            "mob_effect": "minecraft:slow_falling"
-        }
-    ],
-    "flavor": "ccw:original",
-    "sugar": "ccw:flutter"
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "mob_effect": "minecraft:slow_falling"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:flutter"
 }

@@ -1,11 +1,11 @@
 {
-    "effects": [
-        {
-            "duration": 600,
-            "amplifier": 1,
-            "mob_effect": "minecraft:hunger"
-        }
-    ],
-    "flavor": "ccw:excited",
-    "sugar": "ccw:hunger"
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 600,
+      "mob_effect": "minecraft:hunger"
+    }
+  ],
+  "flavor": "ccw:excited",
+  "sugar": "ccw:hunger"
 }

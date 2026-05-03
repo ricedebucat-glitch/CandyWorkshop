@@ -6,7 +6,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = CandyWorkshop.MODID)
+//@EventBusSubscriber(value = Dist.CLIENT, modid = CandyWorkshop.MODID)
 public class KeyImpl
 {
 

@@ -80,11 +80,6 @@ subprojects {
             minecraftVersion = project.parchment_minecraft_version
         }
 
-        mods {
-            "${mod_id}" {
-                sourceSet(sourceSets.main)
-            }
-        }
     }
 
     def templatesDir = file('src/main/templates')
@@ -127,8 +122,25 @@ subprojects {
 
 apply from: "$rootDir/gradle/lang-merge-and-conflicts.gradle"
 
+def compatProjects = [
+        project(':compat-apotheosis'),
+        project(':compat-farmersdelight'),
+        project(':compat-fruitsdelight'),
+        project(':compat-jei'),
+        project(':compat-kaleidoscope'),
+        project(':compat-neapolitan'),
+        project(':compat-rei'),
+        project(':compat-youkaishomecoming')
+]
+
 project(':core') {
     neoForge {
+        mods {
+            "${mod_id}" {
+                sourceSet(sourceSets.main)
+            }
+        }
+
         runs {
             client {
                 client()
@@ -154,33 +166,41 @@ project(':core') {
     }
 
     dependencies {
-        implementation("curse.maven:patchouli-306770:6164617")
-        implementation("curse.maven:placebo-283644:6446766-sources")
-        implementation("curse.maven:apoattr-898963:6514649-sources")
-        implementation("curse.maven:apoench-1063926:6631673-sources")
-        implementation("curse.maven:apospaw-986583:6689771-sources")
-        implementation("curse.maven:apotheosis-313970:6545942-sources")
-
-        implementation("curse.maven:farmers-delight-398521:8007613")
-
-        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
-        implementation("curse.maven:fruits-delight-943774:8004727")
-        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
-
-        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
-
-        implementation("curse.maven:blueprint-382216:7148094")
-        implementation("curse.maven:neapolitan-382016:7119475")
-        runtimeOnly("curse.maven:gallery-1173553:6449910")
-
-        implementation("l2core:l2core:3.0.8+3")
-        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
+//        implementation("curse.maven:patchouli-306770:6164617")
+//        implementation("curse.maven:placebo-283644:6446766-sources")
+//        implementation("curse.maven:apoattr-898963:6514649-sources")
+//        implementation("curse.maven:apoench-1063926:6631673-sources")
+//        implementation("curse.maven:apospaw-986583:6689771-sources")
+//        implementation("curse.maven:apotheosis-313970:6545942-sources")
+//
+//        implementation("curse.maven:farmers-delight-398521:8007613")
+//
+//        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+//        implementation("curse.maven:fruits-delight-943774:8004727")
+//        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+//
+//        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
+//
+//        implementation("curse.maven:blueprint-382216:7148094")
+//        implementation("curse.maven:neapolitan-382016:7119475")
+//        runtimeOnly("curse.maven:gallery-1173553:6449910")
+//
+//        implementation("l2core:l2core:3.0.8+3")
+//        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
     }
 
 }
 
 project(':data') {
     neoForge {
+        mods {
+            "${mod_id}" {
+                def coreMainSourceSet = rootProject.project(':core').sourceSets.main
+                sourceSet(coreMainSourceSet)
+                sourceSet(sourceSets.main)
+            }
+        }
+
         runs {
             data {
                 data()
@@ -198,47 +218,41 @@ project(':data') {
 
     dependencies {
         implementation project(':core')
-        // Add new compat project here so datagen can resolve compat symbols.
-        // Example: implementation project(':compat-<newmod>')
-        implementation project(':compat-apothesis')
-        implementation project(':compat-farmersdelight')
-        implementation project(':compat-fruitsdelight')
-        implementation project(':compat-kaleidoscope')
-        implementation project(':compat-neapolitan')
-        implementation project(':compat-youkaishomecoming')
-
-        implementation("curse.maven:patchouli-306770:6164617")
-        implementation("curse.maven:placebo-283644:6446766-sources")
-        implementation("curse.maven:apoattr-898963:6514649-sources")
-        implementation("curse.maven:apoench-1063926:6631673-sources")
-        implementation("curse.maven:apospaw-986583:6689771-sources")
-        implementation("curse.maven:apotheosis-313970:6545942-sources")
-
-        implementation("curse.maven:farmers-delight-398521:8007613")
-
-        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
-        implementation("curse.maven:fruits-delight-943774:8004727")
-        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
-
-        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
-
-        implementation("curse.maven:blueprint-382216:7148094")
-        implementation("curse.maven:neapolitan-382016:7119475")
-        runtimeOnly("curse.maven:gallery-1173553:6449910")
-
-        implementation("l2core:l2core:3.0.8+3")
-        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
+//        compatProjects.each { compatProject ->
+//            implementation compatProject
+//        }
+//
+//        implementation("curse.maven:patchouli-306770:6164617")
+//        implementation("curse.maven:placebo-283644:6446766-sources")
+//        implementation("curse.maven:apoattr-898963:6514649-sources")
+//        implementation("curse.maven:apoench-1063926:6631673-sources")
+//        implementation("curse.maven:apospaw-986583:6689771-sources")
+//        implementation("curse.maven:apotheosis-313970:6545942-sources")
+//
+//        implementation("curse.maven:farmers-delight-398521:8007613")
+//
+//        implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+//        implementation("curse.maven:fruits-delight-943774:8004727")
+//        runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+//
+//        implementation("curse.maven:kaleidoscope-cookery-1309203:7738871")
+//
+//        implementation("curse.maven:blueprint-382216:7148094")
+//        implementation("curse.maven:neapolitan-382016:7119475")
+//        runtimeOnly("curse.maven:gallery-1173553:6449910")
+//
+//        implementation("l2core:l2core:3.0.8+3")
+//        implementation("youkaishomecoming:youkaishomecoming:3.0.8")
     }
 }
 
 // New compat onboarding checklist:
 // 1) Add include in settings.gradle: include 'compat-<newmod>'
 // 2) Add compat project block below with required mod dependencies
-// 3) Add compat project dependency in :data (see above)
-// 4) Add project to compat run-task configure([...]) list
-// 5) Add project jar to root moduleJars aggregation list
+// 3) Add project to compatProjects list above
+// 4) Add project jar to root moduleJars aggregation list
 
-project(':compat-apothesis') {
+project(':compat-apotheosis') {
     dependencies {
         implementation project(':core')
         implementation("curse.maven:patchouli-306770:6164617")
@@ -303,18 +317,17 @@ project(':compat-youkaishomecoming') {
     }
 }
 
-configure([
-        // Keep this list in sync when adding/removing compat modules.
-        project(':compat-apothesis'),
-        project(':compat-farmersdelight'),
-        project(':compat-fruitsdelight'),
-        project(':compat-jei'),
-        project(':compat-kaleidoscope'),
-        project(':compat-neapolitan'),
-        project(':compat-rei'),
-        project(':compat-youkaishomecoming')
-]) {
+configure(compatProjects) {
     neoForge {
+        mods {
+            "${mod_id}" {
+                def coreMainSourceSet = rootProject.project(':core').sourceSets.main
+                sourceSet(coreMainSourceSet)
+                // Attach current compat classes/resources so runClient/runData can load compat implementations.
+                sourceSet(sourceSets.main)
+            }
+        }
+
         runs {
             client {
                 client()
@@ -348,13 +361,15 @@ configure([
 }
 
 tasks.named('jar', Jar).configure {
+    // TODO build-invocation: prefer using ':jar' (or a dedicated aggregate task alias) instead of unqualified 'jar'
+    // to avoid task selector resolving subproject jar tasks unexpectedly.
     notCompatibleWithConfigurationCache('Aggregates subproject jars via zipTree providers.')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     def moduleJars = [
             project(':core').tasks.named('jar'),
             // Keep this list in sync when adding/removing compat modules.
-            project(':compat-apothesis').tasks.named('jar'),
+            project(':compat-apotheosis').tasks.named('jar'),
             project(':compat-farmersdelight').tasks.named('jar'),
             project(':compat-fruitsdelight').tasks.named('jar'),
             project(':compat-jei').tasks.named('jar'),
@@ -369,7 +384,6 @@ tasks.named('jar', Jar).configure {
     from(moduleJars.collect { jarTask -> jarTask.flatMap { it.archiveFile }.map { archive -> zipTree(archive) } })
     // Root aggregate excludes datagen implementation while subproject jars keep datagen classes for runData workflows.
     exclude 'com/lnatit/ccw/datagen/**'
-    exclude 'com/lnatit/ccw/compat/**/datagen/**'
 
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 }

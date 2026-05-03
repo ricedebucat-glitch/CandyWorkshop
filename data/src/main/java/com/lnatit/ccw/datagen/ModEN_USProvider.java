@@ -1,8 +1,6 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
-import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
 import com.lnatit.ccw.item.GummyGlazerItem;
 import com.lnatit.ccw.item.GummyMagazineItem;
 import com.lnatit.ccw.item.ItemRegistry;
@@ -137,18 +135,5 @@ public class ModEN_USProvider extends LanguageProvider {
             this.add(res.nameKey(), "adv name ph");
             this.add(res.descKey(), "adv desc ph");
         }
-
-        // Apotheosis
-        this.add(ApothesisCompats.MALIGNANT_BERRY.get(), "Malignant Berry");
-        this.add(ApothesisCompats.KNOWLEDGE_BOTTLE.get(), "Knowledge Bottle");
-        this.add(ApothesisCompats.EROSION_SHELL.get(), "Erosion Shell");
-        this.add(ApothesisCompats.VITALITY_BERRY.get(), "Vitality Berry");
-
-        // FarmersDelight
-        this.add(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), "Glazed Meat Rice");
-        this.add(FarmersDelightCompats.SWEET_HARVEST_SOUP.get(), "Sweet Harvest Soup");
-
-        // REI Compat
-        this.add("compat.ccw.rei.title", "Refining");
     }
 }

@@ -1,27 +1,27 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "misc",
-    "key": {
-        "#": {
-            "item": "minecraft:iron_ingot"
-        },
-        "/": {
-            "tag": "c:rods/wooden"
-        },
-        "U": {
-            "item": "minecraft:bucket"
-        },
-        "X": {
-            "tag": "c:stones"
-        }
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
     },
-    "pattern": [
-        "U #",
-        "X/X",
-        " X "
-    ],
-    "result": {
-        "count": 1,
-        "id": "ccw:sugar_refinery"
+    "/": {
+      "tag": "c:rods/wooden"
+    },
+    "U": {
+      "item": "minecraft:bucket"
+    },
+    "X": {
+      "tag": "c:stones"
     }
+  },
+  "pattern": [
+    "U #",
+    "X/X",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ccw:sugar_refinery"
+  }
 }

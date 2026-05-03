@@ -97,7 +97,7 @@ public class GummyGlazerItem extends GummyDeviceItem
 
         tooltipComponents.add(DESC_1);
         tooltipComponents.add(DESC_2);
-        // TODO reset styles of each mode
+        // TODO reset styles get each mode
         GlazerMode.getOrDefault(stack).addGlazerTooltip(tooltipComponents::add);
         if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
             tooltipComponents.add(FOLDED_1);

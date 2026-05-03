@@ -1,14 +1,11 @@
 package com.lnatit.ccw.menu;
 
-import dev.shadowsoffire.placebo.menu.LockedSlot;
-import it.unimi.dsi.fastutil.ints.Int2BooleanFunction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.IntFunction;
 
 public abstract class ModContainerMenu extends AbstractContainerMenu {
     protected ModContainerMenu(@Nullable MenuType<?> menuType, int containerId) {
@@ -44,5 +41,17 @@ public abstract class ModContainerMenu extends AbstractContainerMenu {
             return new LockedSlot(playerInventory, slotId, x, y);
         }
         return new Slot(playerInventory, slotId, x, y);
+    }
+
+    private static class LockedSlot extends Slot
+    {
+        public LockedSlot(Inventory inventory, int slot, int x, int y) {
+            super(inventory, slot, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
+        }
     }
 }

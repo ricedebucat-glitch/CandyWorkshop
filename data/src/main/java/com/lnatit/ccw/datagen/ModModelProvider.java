@@ -2,9 +2,6 @@ package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.block.BlockRegistry;
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
-import com.lnatit.ccw.compat.farmersdelight.FarmersDelightCompats;
-import com.lnatit.ccw.compat.kaleidoscope.CookeryCompat;
 import com.lnatit.ccw.item.ItemRegistry;
 import com.lnatit.ccw.item.sugaring.Sugar;
 import com.lnatit.ccw.item.sugaring.Sugars;
@@ -92,25 +89,6 @@ public class ModModelProvider
             basicItem(ItemRegistry.CARAMETAL.getId());
             basicItem(ItemRegistry.NETHER_SMITHING_WAFER.getId());
             basicItem(ItemRegistry.ENDER_SMITHING_WAFER.getId());
-
-            // Compats below
-            // Apotheosis
-            basicItem(ApothesisCompats.MALIGNANT_BERRY.asItem());
-            basicItem(ApothesisCompats.KNOWLEDGE_BOTTLE.asItem());
-            basicItem(ApothesisCompats.EROSION_SHELL.asItem());
-            basicItem(ApothesisCompats.VITALITY_BERRY.asItem());
-            // FarmersDelight
-            basicItem(FarmersDelightCompats.GLAZED_MEAT_RICE.get());
-            basicItem(FarmersDelightCompats.SWEET_HARVEST_SOUP.get());
-            // Kaleidoscope Cookery
-            basicItem(CookeryCompat.SWEET_AND_SOUR_MEAT_SAUCE.getId());
-            basicItem(CookeryCompat.FRESH_VEGGIE_SAUCE.getId());
-            basicItem(CookeryCompat.LACTO_BOLT_RED_SAUCE.getId());
-            basicItem(CookeryCompat.SASHIMI_SIDE_SAUCE.getId());
-            basicItem(CookeryCompat.ULTRA_RICH_MARROW_CREAM.getId());
-            basicItem(CookeryCompat.SILENCED_SAUCE.getId());
-            basicItem(CookeryCompat.HEARTH_WARM_MARROW_SAUCE.getId());
-            basicItem(CookeryCompat.LAMB_CARROT_SAUCE.getId());
          }
      }
  }

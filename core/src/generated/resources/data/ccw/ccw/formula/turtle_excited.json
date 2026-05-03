@@ -1,16 +1,16 @@
 {
-    "effects": [
-        {
-            "duration": 100,
-            "amplifier": 5,
-            "mob_effect": "minecraft:slowness"
-        },
-        {
-            "duration": 100,
-            "amplifier": 3,
-            "mob_effect": "minecraft:resistance"
-        }
-    ],
-    "flavor": "ccw:excited",
-    "sugar": "ccw:turtle"
+  "effects": [
+    {
+      "amplifier": 5,
+      "duration": 100,
+      "mob_effect": "minecraft:slowness"
+    },
+    {
+      "amplifier": 3,
+      "duration": 100,
+      "mob_effect": "minecraft:resistance"
+    }
+  ],
+  "flavor": "ccw:excited",
+  "sugar": "ccw:turtle"
 }
