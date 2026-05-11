@@ -52,12 +52,15 @@ subprojects {
         generated.resources { srcDir 'src/generated/resources' }
     }
 
-    processResources {
-        from sourceSets.main.resources
-        from sourceSets.generated.resources
+    tasks.withType(ProcessResources).configureEach {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         exclude '.cache'
         exclude 'assets/ccw/unused'
+    }
+
+    processResources {
+        from sourceSets.main.resources
+        from sourceSets.generated.resources
     }
 
     configurations {
@@ -133,6 +136,14 @@ def compatProjects = [
         project(':compat-youkaishomecoming')
 ]
 
+tasks.register('runAllCompatAndDataRunData') {
+    group = 'mod development'
+    description = 'Runs runData for :data and all compat subprojects.'
+
+    def runDataProjects = [project(':data')] + compatProjects
+    dependsOn(runDataProjects.collect { it.tasks.named('runData') })
+}
+
 project(':core') {
     neoForge {
         mods {
@@ -196,8 +207,11 @@ project(':data') {
         mods {
             "${mod_id}" {
                 def coreMainSourceSet = rootProject.project(':core').sourceSets.main
+                def coreGeneratedSourceSet = rootProject.project(':core').sourceSets.generated
                 sourceSet(coreMainSourceSet)
+                sourceSet(coreGeneratedSourceSet)
                 sourceSet(sourceSets.main)
+                sourceSet(sourceSets.generated)
             }
         }
 
@@ -322,9 +336,12 @@ configure(compatProjects) {
         mods {
             "${mod_id}" {
                 def coreMainSourceSet = rootProject.project(':core').sourceSets.main
+                def coreGeneratedSourceSet = rootProject.project(':core').sourceSets.generated
                 sourceSet(coreMainSourceSet)
+                sourceSet(coreGeneratedSourceSet)
                 // Attach current compat classes/resources so runClient/runData can load compat implementations.
                 sourceSet(sourceSets.main)
+                sourceSet(sourceSets.generated)
             }
         }
 

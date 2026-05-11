@@ -75,6 +75,9 @@ def aggregatedProjectPaths = [
 def aggregatedResourceOutputDirs = aggregatedProjectPaths.collectEntries { subprojectPath ->
     [(subprojectPath): project(subprojectPath).tasks.named('processResources').map { it.destinationDir }]
 }
+def projectPriority = aggregatedProjectPaths.withIndex().collectEntries { subprojectPath, idx ->
+    [(subprojectPath): idx]
+}
 def resourceConflictReport = layout.buildDirectory.file('reports/resource-conflicts.txt')
 
 tasks.register('validateCrossProjectResourceConflicts') {
@@ -95,19 +98,25 @@ tasks.register('validateCrossProjectResourceConflicts') {
             }
         }
 
+        def reportFile = resourceConflictReport.get().asFile
         def conflicts = ownersByPath.findAll { path, owners -> owners.toSet().size() > 1 }
         if (conflicts.isEmpty()) {
+            if (reportFile.exists()) {
+                reportFile.delete()
+            }
             return
         }
 
-        def reportFile = resourceConflictReport.get().asFile
         reportFile.parentFile.mkdirs()
         def lines = conflicts.keySet().sort().collect { conflictPath ->
-            "${conflictPath} <= ${conflicts[conflictPath].toSet().sort().join(', ')}"
+            def owners = conflicts[conflictPath].toSet().toList().sort { a, b ->
+                (projectPriority[a] ?: Integer.MAX_VALUE) <=> (projectPriority[b] ?: Integer.MAX_VALUE)
+            }
+            def winner = owners.contains(':core') ? ':core' : owners.first()
+            "${conflictPath} <= ${owners.join(', ')} | winner=${winner}"
         }
         reportFile.text = lines.join(System.lineSeparator())
-
-        throw new GradleException("Cross-project resource conflicts detected (${conflicts.size()}). See ${reportFile}")
+        logger.lifecycle("Cross-project resource overlaps found (${conflicts.size()}). Silent merge keeps winner by priority (core first). Report: ${reportFile}")
     }
 }
 

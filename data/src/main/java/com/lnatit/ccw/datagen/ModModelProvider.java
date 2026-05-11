@@ -36,14 +36,16 @@ public class ModModelProvider
         }
     }
 
-    public static class Item extends ItemModelProvider
+    public static class Item extends CoreItemModelProvider
     {
         public Item(PackOutput output, ExistingFileHelper existingFileHelper) {
-            super(output, CandyWorkshop.MODID, existingFileHelper);
+            super(output, existingFileHelper);
         }
 
         @Override
         protected void registerModels() {
+            super.registerModels();
+
             simpleBlockItem(BlockRegistry.SUGAR_REFINERY.get());
             simpleBlockItem(BlockRegistry.PLAIN_DRAWER_TABLE.get());
             simpleBlockItem(BlockRegistry.DRAWER_TABLE.get());
@@ -70,9 +72,9 @@ public class ModModelProvider
             basicItem(ItemRegistry.OMINOUS_FLAG.getId());
             basicItem(ItemRegistry.MILK_GELATIN.getId());
 
-            for (DeferredHolder<Sugar, ?> sugar : Sugars.SUGARS.getEntries()) {
-                basicItem(Sugar.getItemModel(sugar));
-            }
+//            for (DeferredHolder<Sugar, ?> sugar : Sugars.SUGARS.getEntries()) {
+//                basicItem(Sugar.getItemModel(sugar));
+//            }
 
             ResourceLocation id = ItemRegistry.MILK_EXTRACTOR.getId();
             basicItem(id.withSuffix("_empty"));
