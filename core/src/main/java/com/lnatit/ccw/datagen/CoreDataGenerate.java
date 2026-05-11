@@ -16,7 +16,8 @@ import java.util.concurrent.CompletableFuture;
  * Registers core shared datapack providers used by all datagen runs.
  */
 @EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class CoreDataGenerate {
+public class CoreDataGenerate
+{
     // Use lowest so that we can init those datapacks
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onGatherData(GatherDataEvent event) {

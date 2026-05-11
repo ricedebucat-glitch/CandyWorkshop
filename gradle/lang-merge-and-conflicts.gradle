@@ -65,10 +65,8 @@ def aggregatedProjectPaths = [
         ':compat-apotheosis',
         ':compat-farmersdelight',
         ':compat-fruitsdelight',
-        ':compat-jei',
         ':compat-kaleidoscope',
         ':compat-neapolitan',
-        ':compat-rei',
         ':compat-youkaishomecoming'
 ]
 

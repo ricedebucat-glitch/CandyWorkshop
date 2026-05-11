@@ -129,10 +129,8 @@ def compatProjects = [
         project(':compat-apotheosis'),
         project(':compat-farmersdelight'),
         project(':compat-fruitsdelight'),
-        project(':compat-jei'),
         project(':compat-kaleidoscope'),
         project(':compat-neapolitan'),
-        project(':compat-rei'),
         project(':compat-youkaishomecoming')
 ]
 
@@ -294,11 +292,6 @@ project(':compat-fruitsdelight') {
     }
 }
 
-project(':compat-jei') {
-    dependencies {
-        implementation project(':core')
-    }
-}
 
 project(':compat-kaleidoscope') {
     dependencies {
@@ -316,11 +309,6 @@ project(':compat-neapolitan') {
     }
 }
 
-project(':compat-rei') {
-    dependencies {
-        implementation project(':core')
-    }
-}
 
 project(':compat-youkaishomecoming') {
     dependencies {
@@ -390,10 +378,8 @@ tasks.named('jar', Jar).configure {
             project(':compat-apotheosis').tasks.named('jar'),
             project(':compat-farmersdelight').tasks.named('jar'),
             project(':compat-fruitsdelight').tasks.named('jar'),
-            project(':compat-jei').tasks.named('jar'),
             project(':compat-kaleidoscope').tasks.named('jar'),
             project(':compat-neapolitan').tasks.named('jar'),
-            project(':compat-rei').tasks.named('jar'),
             project(':compat-youkaishomecoming').tasks.named('jar')
     ]
 

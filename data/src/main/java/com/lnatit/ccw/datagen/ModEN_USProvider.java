@@ -130,5 +130,7 @@ public class ModEN_USProvider extends CoreEN_USProvider {
             this.add(res.nameKey(), "adv name ph");
             this.add(res.descKey(), "adv desc ph");
         }
+
+        this.add("compat.ccw.rei.title", "Refining");
     }
 }
