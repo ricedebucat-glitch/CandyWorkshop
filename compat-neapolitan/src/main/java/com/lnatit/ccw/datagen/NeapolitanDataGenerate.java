@@ -4,15 +4,12 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.compat.NeapolitanCompats;
 import com.lnatit.ccw.data.Effect;
 import com.teamabnormals.neapolitan.core.registry.NeapolitanMobEffects;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-
-import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class NeapolitanDataGenerate {
@@ -45,7 +42,7 @@ public class NeapolitanDataGenerate {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(event.includeClient(), new CoreEN_USProvider(output));
-        generator.addProvider(event.includeClient(), new CoreItemModelProvider(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new NeapolitanModelProvider(output, existingFileHelper));
     }
 }
 

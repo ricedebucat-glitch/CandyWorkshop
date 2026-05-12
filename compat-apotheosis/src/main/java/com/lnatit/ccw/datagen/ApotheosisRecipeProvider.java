@@ -1,6 +1,6 @@
 package com.lnatit.ccw.datagen;
 
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
+import com.lnatit.ccw.compat.ApotheosisCompats;
 import dev.shadowsoffire.apotheosis.Apoth;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -22,26 +22,26 @@ public class ApotheosisRecipeProvider extends RecipeProvider {
     protected void buildRecipes(RecipeOutput output, HolderLookup.Provider registries) {
         RecipeOutput conditional = output.withConditions(new ModLoadedCondition("apotheosis"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.KNOWLEDGE_BOTTLE)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApotheosisCompats.KNOWLEDGE_BOTTLE)
                 .requires(Apoth.Items.GEM_DUST.value())
                 .requires(Items.EXPERIENCE_BOTTLE)
                 .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
                 .save(conditional);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.VITALITY_BERRY)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApotheosisCompats.VITALITY_BERRY)
                 .requires(Apoth.Items.GEM_DUST.value())
                 .requires(Items.SWEET_BERRIES)
                 .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
                 .save(conditional);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.MALIGNANT_BERRY)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApotheosisCompats.MALIGNANT_BERRY)
                 .requires(Apoth.Items.GEM_DUST.value())
                 .requires(Items.FERMENTED_SPIDER_EYE)
                 .requires(Items.SWEET_BERRIES)
                 .unlockedBy("has_gem_dust", has(Apoth.Items.GEM_DUST.value()))
                 .save(conditional);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApothesisCompats.EROSION_SHELL)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, ApotheosisCompats.EROSION_SHELL)
                 .requires(Apoth.Items.GEM_DUST.value())
                 .requires(Items.FERMENTED_SPIDER_EYE)
                 .requires(Items.SHULKER_SHELL)

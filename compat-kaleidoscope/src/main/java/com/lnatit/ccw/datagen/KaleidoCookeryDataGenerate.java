@@ -23,7 +23,7 @@ public class KaleidoCookeryDataGenerate {
                 .register(CookeryCompat.VEGGIE_FRESH, Effect.simple(ModEffects.PRESERVATION))
                 .defaultBold()
 
-                .register(CookeryCompat.LACTRO_BOLT, Effect.simple(ModEffects.FLATULENCE))
+                .register(CookeryCompat.LACTO_BOLT, Effect.simple(ModEffects.FLATULENCE))
                 .defaultBold()
 
                 .register(CookeryCompat.SASHIMI, Effect.simple(ModEffects.MUSTARD))

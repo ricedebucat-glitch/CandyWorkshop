@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "fruitsdelight"
+    }
+  ],
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "fruitsdelight:alienating"
+    },
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "fruitsdelight:suspicious_smell"
+    }
+  ],
+  "flavor": "ccw:bold",
+  "sugar": "ccw:durian"
+}

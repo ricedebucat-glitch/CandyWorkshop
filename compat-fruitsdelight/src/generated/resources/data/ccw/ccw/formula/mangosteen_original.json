@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "fruitsdelight"
+    }
+  ],
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "mob_effect": "fruitsdelight:sliding"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:mangosteen"
+}

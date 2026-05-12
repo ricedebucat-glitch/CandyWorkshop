@@ -1,6 +1,7 @@
 package com.lnatit.ccw.compat;
 
-import com.lnatit.ccw.item.sugaring.*;
+import com.lnatit.ccw.item.sugaring.Sugar;
+import com.lnatit.ccw.item.sugaring.Sugars;
 import dev.xkmc.youkaishomecoming.init.food.YHCrops;
 import dev.xkmc.youkaishomecoming.init.food.YHTea;
 import dev.xkmc.youkaishomecoming.init.registrate.YHItems;

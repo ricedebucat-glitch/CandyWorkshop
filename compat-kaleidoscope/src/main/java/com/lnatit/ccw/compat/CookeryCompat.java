@@ -40,7 +40,7 @@ public class CookeryCompat
                                                                                            () -> new Sugar(Sugar.Type.OVERWORLD,
                                                                                                            Ingredient.of(
                                                                                                                    FRESH_VEGGIE_SAUCE.get())));
-    public static final DeferredHolder<Sugar, Sugar> LACTRO_BOLT = Sugars.SUGARS.register("lacto_bolt",
+    public static final DeferredHolder<Sugar, Sugar> LACTO_BOLT = Sugars.SUGARS.register("lacto_bolt",
                                                                                           () -> new Sugar(Sugar.Type.OVERWORLD,
                                                                                                           Ingredient.of(
                                                                                                                   LACTO_BOLT_RED_SAUCE.get())));

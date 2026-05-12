@@ -14,9 +14,9 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.function.Supplier;
 
-public class FarmersDelightCompats
+public interface FarmersDelightCompats
 {
-    public static final Supplier<Item> GLAZED_MEAT_RICE = registerWithTab("glazed_meat_rice",
+    Supplier<Item> GLAZED_MEAT_RICE = registerWithTab("glazed_meat_rice",
                                                                           () -> new ConsumableItem(ModItems.bowlFoodItem(
                                                                                   new FoodProperties.Builder().nutrition(
                                                                                                                       12)
@@ -37,7 +37,7 @@ public class FarmersDelightCompats
 //                                                                                                                        1.0F)
 //                                                                                                                .build())));
 
-    public static final DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.SUGARS.register("nourished",
+    DeferredHolder<Sugar, Sugar> NOURISHED = Sugars.SUGARS.register("nourished",
                                                                                         () -> new Sugar(Sugar.Type.OVERWORLD,
                                                                                                         Ingredient.of(
                                                                                                                 GLAZED_MEAT_RICE.get())));
@@ -46,7 +46,7 @@ public class FarmersDelightCompats
 //                                                                                                      Ingredient.get(
 //                                                                                                              SWEET_HARVEST_SOUP.get())));
 
-    public static void init() {
+    static void init() {
     }
 
     private static Supplier<Item> registerWithTab(String name, Supplier<Item> supplier) {

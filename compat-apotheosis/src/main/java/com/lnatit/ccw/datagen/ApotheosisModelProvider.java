@@ -1,9 +1,7 @@
 package com.lnatit.ccw.datagen;
 
-import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
+import com.lnatit.ccw.compat.ApotheosisCompats;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ApotheosisModelProvider extends CoreItemModelProvider {
@@ -13,11 +11,15 @@ public class ApotheosisModelProvider extends CoreItemModelProvider {
 
     @Override
     protected void registerModels() {
-        super.registerModels();
-        basicItem(ApothesisCompats.MALIGNANT_BERRY.asItem());
-        basicItem(ApothesisCompats.KNOWLEDGE_BOTTLE.asItem());
-        basicItem(ApothesisCompats.EROSION_SHELL.asItem());
-        basicItem(ApothesisCompats.VITALITY_BERRY.asItem());
+        basicItem(ApotheosisCompats.MALIGNANT_BERRY.asItem());
+        basicItem(ApotheosisCompats.KNOWLEDGE_BOTTLE.asItem());
+        basicItem(ApotheosisCompats.EROSION_SHELL.asItem());
+        basicItem(ApotheosisCompats.VITALITY_BERRY.asItem());
+
+        sugarModel(ApotheosisCompats.GRIEVOUS);
+        sugarModel(ApotheosisCompats.SUNDERING);
+        sugarModel(ApotheosisCompats.VITALITY);
+        sugarModel(ApotheosisCompats.KNOWLEDGE);
     }
 }
 

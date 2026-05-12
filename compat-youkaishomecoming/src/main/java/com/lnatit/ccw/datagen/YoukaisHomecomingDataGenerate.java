@@ -54,7 +54,7 @@ public class YoukaisHomecomingDataGenerate {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(event.includeClient(), new CoreEN_USProvider(output));
-        generator.addProvider(event.includeClient(), new CoreItemModelProvider(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new YoukaisHomecomingModelProvider(output, existingFileHelper));
     }
 }
 

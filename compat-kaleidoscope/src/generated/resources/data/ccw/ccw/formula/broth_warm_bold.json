@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "kaleidoscope_cookery"
+    }
+  ],
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "kaleidoscope_cookery:warmth"
+    }
+  ],
+  "flavor": "ccw:bold",
+  "sugar": "ccw:broth_warm"
+}

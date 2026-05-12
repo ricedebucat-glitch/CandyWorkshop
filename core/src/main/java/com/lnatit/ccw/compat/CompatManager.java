@@ -11,7 +11,7 @@ import java.util.List;
 public class CompatManager
 {
     private static final List<Entry> COMPATS =
-            List.of(new Entry("apotheosis", "com.lnatit.ccw.compat.apothesis.ApothesisCompats"),
+            List.of(new Entry("apotheosis", "com.lnatit.ccw.compat.ApotheosisCompats"),
                     new Entry("farmersdelight", "com.lnatit.ccw.compat.FarmersDelightCompats"),
                     new Entry("fruitsdelight", "com.lnatit.ccw.compat.FruitsDelightCompats"),
                     new Entry("kaleidoscope_cookery", "com.lnatit.ccw.compat.CookeryCompat"),
@@ -33,12 +33,10 @@ public class CompatManager
                     }
                     handle = lookup.findStatic(clazz, entry.initMethod(), type);
                     handle.invoke();
+                    CandyWorkshop.LOGGER.info("Hello there [{}]!", entry.modid());
                 }
                 catch (Throwable e) {
-                    throw new RuntimeException(e);
-                }
-                finally {
-                    CandyWorkshop.LOGGER.info("Hello there [" + entry.modid() + "]!");
+                    CandyWorkshop.LOGGER.warn("Unable to load compats for mod: {}, Exception: {}", entry.modid(), e.getMessage());
                 }
             }
         }

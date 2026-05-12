@@ -1,7 +1,6 @@
 package com.lnatit.ccw.datagen;
 
-import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
+import com.lnatit.ccw.compat.ApotheosisCompats;
 import net.minecraft.data.PackOutput;
 
 public class ApotheosisEN_USProvider extends CoreEN_USProvider {
@@ -13,10 +12,10 @@ public class ApotheosisEN_USProvider extends CoreEN_USProvider {
     protected void addTranslations() {
         super.addTranslations();
 
-        this.add(ApothesisCompats.MALIGNANT_BERRY.get(), "Malignant Berry");
-        this.add(ApothesisCompats.KNOWLEDGE_BOTTLE.get(), "Knowledge Bottle");
-        this.add(ApothesisCompats.EROSION_SHELL.get(), "Erosion Shell");
-        this.add(ApothesisCompats.VITALITY_BERRY.get(), "Vitality Berry");
+        this.add(ApotheosisCompats.MALIGNANT_BERRY.get(), "Malignant Berry");
+        this.add(ApotheosisCompats.KNOWLEDGE_BOTTLE.get(), "Knowledge Bottle");
+        this.add(ApotheosisCompats.EROSION_SHELL.get(), "Erosion Shell");
+        this.add(ApotheosisCompats.VITALITY_BERRY.get(), "Vitality Berry");
     }
 }
 

@@ -1,7 +1,7 @@
 package com.lnatit.ccw.datagen;
 
 import com.lnatit.ccw.CandyWorkshop;
-import com.lnatit.ccw.compat.apothesis.ApothesisCompats;
+import com.lnatit.ccw.compat.ApotheosisCompats;
 import com.lnatit.ccw.data.Effect;
 import dev.shadowsoffire.apothic_attributes.api.ALObjects;
 import net.minecraft.core.HolderLookup;
@@ -20,19 +20,19 @@ public class ApotheosisDataGenerate {
     public static void onGatherData(GatherDataEvent event) {
         CoreDataProviders.get()
                          .loaded("apotheosis")
-                         .register(ApothesisCompats.GRIEVOUS, Effect.simple(ALObjects.MobEffects.GRIEVOUS))
+                         .register(ApotheosisCompats.GRIEVOUS, Effect.simple(ALObjects.MobEffects.GRIEVOUS))
                          .defaultExcited()
                          .defaultBold()
 
-                         .register(ApothesisCompats.KNOWLEDGE, Effect.simple(ALObjects.MobEffects.KNOWLEDGE))
+                         .register(ApotheosisCompats.KNOWLEDGE, Effect.simple(ALObjects.MobEffects.KNOWLEDGE))
                          .defaultExcited()
                          .defaultBold()
 
-                         .register(ApothesisCompats.SUNDERING, Effect.simple(ALObjects.MobEffects.SUNDERING))
+                         .register(ApotheosisCompats.SUNDERING, Effect.simple(ALObjects.MobEffects.SUNDERING))
                          .defaultExcited()
                          .defaultBold()
 
-                         .register(ApothesisCompats.VITALITY, Effect.simple(ALObjects.MobEffects.VITALITY))
+                         .register(ApotheosisCompats.VITALITY, Effect.simple(ALObjects.MobEffects.VITALITY))
                          .defaultExcited()
                          .defaultBold()
                          .clearConditions();

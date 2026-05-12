@@ -9,7 +9,6 @@ import com.lnatit.ccw.misc.model.ModelHandler;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -44,8 +43,6 @@ public class ModModelProvider
 
         @Override
         protected void registerModels() {
-            super.registerModels();
-
             simpleBlockItem(BlockRegistry.SUGAR_REFINERY.get());
             simpleBlockItem(BlockRegistry.PLAIN_DRAWER_TABLE.get());
             simpleBlockItem(BlockRegistry.DRAWER_TABLE.get());
@@ -72,9 +69,9 @@ public class ModModelProvider
             basicItem(ItemRegistry.OMINOUS_FLAG.getId());
             basicItem(ItemRegistry.MILK_GELATIN.getId());
 
-//            for (DeferredHolder<Sugar, ?> sugar : Sugars.SUGARS.getEntries()) {
-//                basicItem(Sugar.getItemModel(sugar));
-//            }
+            for (DeferredHolder<Sugar, ?> sugar : Sugars.SUGARS.getEntries()) {
+                sugarModel(sugar);
+            }
 
             ResourceLocation id = ItemRegistry.MILK_EXTRACTOR.getId();
             basicItem(id.withSuffix("_empty"));
