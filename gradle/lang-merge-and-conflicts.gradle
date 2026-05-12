@@ -8,7 +8,8 @@ def aggregatedProjectPaths = [
         ':compat-fruitsdelight',
         ':compat-kaleidoscope',
         ':compat-neapolitan',
-        ':compat-youkaishomecoming'
+        ':compat-youkaisfeasts',
+        ':compat-youkaishomecoming',
 ]
 
 def aggregatedResourceOutputDirs = aggregatedProjectPaths.collectEntries { subprojectPath ->
