@@ -10,9 +10,9 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class CapRegistry {
+public interface CapRegistry {
     @SubscribeEvent
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event) {
+    static void registerCapabilities(final RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 BlockRegistry.SUGAR_REFINERY_BETYPE.get(),

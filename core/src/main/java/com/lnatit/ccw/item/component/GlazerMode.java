@@ -1,6 +1,7 @@
 package com.lnatit.ccw.item.component;
 
 import com.lnatit.ccw.item.ItemRegistry;
+import com.lnatit.ccw.misc.KeyRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -35,10 +36,10 @@ public enum GlazerMode implements StringRepresentable
     public void addGlazerTooltip(Consumer<Component> tooltipAdder) {
         switch (this) {
             case SAVE -> tooltipAdder.accept(Component.translatable(GlazerMode.DESC_MODE_SELECTION_KEY,
-                                                                    DESC_MODE_SAVE_A, DESC_MODE_EXTEND_D)
+                                                                    DESC_MODE_SAVE_A, DESC_MODE_EXTEND_D, KeyRegistry.SWITCH_MODE.get().getTranslatedKeyMessage())
                                                       .withStyle(ChatFormatting.GRAY));
             case EXTEND -> tooltipAdder.accept(Component.translatable(GlazerMode.DESC_MODE_SELECTION_KEY,
-                                                                      DESC_MODE_SAVE_D, DESC_MODE_EXTEND_A)
+                                                                      DESC_MODE_SAVE_D, DESC_MODE_EXTEND_A, KeyRegistry.SWITCH_MODE.get().getTranslatedKeyMessage())
                                                         .withStyle(ChatFormatting.GRAY));
         }
     }

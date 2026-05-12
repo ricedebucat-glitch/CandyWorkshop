@@ -150,7 +150,7 @@
     "item.ccw.gummy_glazer.folded5": "+ Upgradeable at a §6Smithing Table§r",
     "item.ccw.gummy_glazer.mode_extend": "Extend",
     "item.ccw.gummy_glazer.mode_save": "Save",
-    "item.ccw.gummy_glazer.mode_selection": "[%s|%s] - Press [D] to toggle modes",
+    "item.ccw.gummy_glazer.mode_selection": "[ %s | %s ] - Press [%s] to toggle modes",
     "item.ccw.gummy_magazine": "Gummy Magazine",
     "item.ccw.gummy_magazine.desc0": "Consume multiple gummies with one click",
     "item.ccw.gummy_magazine.desc1": "Sneak + Right-click to open the GUI",
