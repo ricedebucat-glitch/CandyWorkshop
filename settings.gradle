@@ -9,3 +9,16 @@ pluginManagement {
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
+
+rootProject.name = 'CandyWorkshop'
+
+include 'core'
+include 'data'
+include 'compat-apotheosis'
+include 'compat-farmersdelight'
+include 'compat-fruitsdelight'
+include 'compat-kaleidoscope'
+include 'compat-neapolitan'
+include 'compat-youkaisfeasts'
+include 'compat-youkaishomecoming'
+

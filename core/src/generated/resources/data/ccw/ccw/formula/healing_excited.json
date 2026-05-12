@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 1,
+      "mob_effect": "minecraft:instant_health"
+    }
+  ],
+  "flavor": "ccw:excited",
+  "sugar": "ccw:healing"
+}

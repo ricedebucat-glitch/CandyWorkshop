@@ -1,0 +1,141 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// aggregatedProjectPaths is derived from build.gradle's ext.activeCompats so the two stay in sync.
+def aggregatedProjectPaths = [':core', *activeCompats.collect { it.path as String }]
+
+def aggregatedResourceOutputDirs = aggregatedProjectPaths.collectEntries { subprojectPath ->
+    [(subprojectPath): project(subprojectPath).tasks.named('processResources').map { it.destinationDir }]
+}
+def projectPriority = aggregatedProjectPaths.withIndex().collectEntries { subprojectPath, idx ->
+    [(subprojectPath): idx]
+}
+def resourceConflictReport = layout.buildDirectory.file('reports/resource-conflicts.txt')
+
+// Capture per-subproject lang source dirs at configuration time (configuration-cache safe).
+def coreModId = project(':core').mod_id
+def aggregateLangOutputDir = project(':core').file("src/main/resources/assets/${coreModId}/lang")
+def projectLangDirsList = aggregatedProjectPaths.collect { subprojectPath ->
+    def sub = project(subprojectPath)
+    def modId = sub.mod_id
+    [
+        main     : sub.file("src/main/resources/assets/${modId}/lang"),
+        generated: sub.file("src/generated/resources/assets/${modId}/lang")
+    ]
+}
+
+tasks.register('validateCrossProjectResourceConflicts') {
+    dependsOn aggregatedProjectPaths.collect { project(it).tasks.named('processResources') }
+
+    doLast {
+        def ownersByPath = [:].withDefault { [] as List<String> }
+
+        aggregatedResourceOutputDirs.each { subprojectPath, outDirProvider ->
+            def outDir = outDirProvider.get()
+            if (outDir == null || !outDir.exists()) {
+                return
+            }
+
+            outDir.eachFileRecurse(groovy.io.FileType.FILES) { file ->
+                def relativePath = outDir.toPath().relativize(file.toPath()).toString().replace('\\', '/')
+                ownersByPath[relativePath] << subprojectPath
+            }
+        }
+
+        def reportFile = resourceConflictReport.get().asFile
+        def conflicts = ownersByPath.findAll { path, owners -> owners.toSet().size() > 1 }
+        if (conflicts.isEmpty()) {
+            if (reportFile.exists()) {
+                reportFile.delete()
+            }
+            return
+        }
+
+        reportFile.parentFile.mkdirs()
+        def lines = conflicts.keySet().sort().collect { conflictPath ->
+            def owners = conflicts[conflictPath].toSet().toList().sort { a, b ->
+                (projectPriority[a] ?: Integer.MAX_VALUE) <=> (projectPriority[b] ?: Integer.MAX_VALUE)
+            }
+            def winner = owners.contains(':core') ? ':core' : owners.first()
+            "${conflictPath} <= ${owners.join(', ')} | winner=${winner}"
+        }
+        reportFile.text = lines.join(System.lineSeparator())
+        logger.lifecycle("Cross-project resource overlaps found (${conflicts.size()}). Silent merge keeps winner by priority (core first). Report: ${reportFile}")
+    }
+}
+
+/**
+ * Aggregates lang files from all subprojects into core/src/main/resources (add-only).
+ *
+ * Priority (higher = wins on key conflict):
+ *   existing output file  >  core/main  >  core/generated  >  compat/main  >  compat/generated
+ *
+ * "Add-only": keys already present in the output file are NEVER overwritten, preserving manual edits.
+ * New keys discovered in any source are appended in priority order.
+ *
+ * Trigger manually:  ./gradlew aggregateLangResources
+ * Auto-triggered:    after runAllCompatAndDataRunData (see build.gradle finalizedBy)
+ */
+tasks.register('aggregateLangResources') {
+    group = 'mod development'
+    description = 'Aggregates lang files from all subprojects into core/src/main/resources (add-only, core-first priority).'
+
+    // Declare all source lang files as inputs so Gradle can detect staleness.
+    inputs.files(provider {
+        projectLangDirsList.collectMany { dirs ->
+            [dirs.main, dirs.generated].collectMany { langDir ->
+                langDir.exists() ? (langDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: []) : []
+            }
+        }
+    })
+
+    // Always re-run when invoked: add-only writes mean output hash alone cannot determine staleness.
+    outputs.upToDateWhen { false }
+
+    doLast {
+        // Step 1: seed merged map from existing output (highest priority – preserves manual edits).
+        def mergedByFile = [:].withDefault { new LinkedHashMap<String, Object>() }
+        if (aggregateLangOutputDir.exists()) {
+            (aggregateLangOutputDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: [])
+                    .sort { it.name }
+                    .each { f ->
+                        def parsed = new JsonSlurper().parse(f)
+                        if (parsed instanceof Map) {
+                            mergedByFile[f.name].putAll(parsed as Map<String, Object>)
+                        }
+                    }
+        }
+
+        // Step 2: walk subprojects in priority order (core first per aggregatedProjectPaths).
+        //         Within each project: main before generated (main has higher priority).
+        //         putIfAbsent ensures already-present keys are never overwritten.
+        projectLangDirsList.each { dirs ->
+            [dirs.main, dirs.generated].each { langDir ->
+                if (!langDir.exists()) return
+                (langDir.listFiles()?.findAll { it.name.endsWith('.json') } ?: [])
+                        .sort { it.name }
+                        .each { f ->
+                            def parsed = new JsonSlurper().parse(f)
+                            if (!(parsed instanceof Map)) return
+                            (parsed as Map<String, Object>).each { key, value ->
+                                mergedByFile[f.name].putIfAbsent(key, value)
+                            }
+                        }
+            }
+        }
+
+        // Step 3: write results.
+        aggregateLangOutputDir.mkdirs()
+        mergedByFile.keySet().sort().each { fileName ->
+            def target = new File(aggregateLangOutputDir, fileName as String)
+            def json = JsonOutput.prettyPrint(JsonOutput.toJson(mergedByFile[fileName]))
+            // JsonOutput escapes all non-ASCII chars to Unicode escapes; restore them for readability.
+            json = json.replaceAll(/\\u([0-9a-fA-F]{4})/) { match, hex ->
+                new String(Character.toChars(Integer.parseInt(hex as String, 16)))
+            }
+            target.setText(json, 'UTF-8')
+        }
+        logger.lifecycle("aggregateLangResources: wrote ${mergedByFile.size()} lang file(s) to ${aggregateLangOutputDir}")
+    }
+}
+

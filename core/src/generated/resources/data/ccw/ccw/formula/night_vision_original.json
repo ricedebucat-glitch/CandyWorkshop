@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "mob_effect": "minecraft:night_vision"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:night_vision"
+}

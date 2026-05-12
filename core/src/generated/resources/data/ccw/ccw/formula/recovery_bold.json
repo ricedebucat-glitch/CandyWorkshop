@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "minecraft:regeneration"
+    }
+  ],
+  "flavor": "ccw:bold",
+  "sugar": "ccw:recovery"
+}

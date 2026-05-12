@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "minecraft:health_boost"
+    }
+  ],
+  "flavor": "ccw:bold",
+  "sugar": "ccw:red_heart"
+}

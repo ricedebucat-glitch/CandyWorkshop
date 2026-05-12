@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "mob_effect": "minecraft:dolphins_grace"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:fish_swim"
+}

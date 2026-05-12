@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "mob_effect": "minecraft:wind_charged"
+    }
+  ],
+  "flavor": "ccw:bold",
+  "sugar": "ccw:gale"
+}

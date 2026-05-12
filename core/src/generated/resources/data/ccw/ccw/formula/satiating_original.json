@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 20,
+      "mob_effect": "minecraft:saturation"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:satiating"
+}

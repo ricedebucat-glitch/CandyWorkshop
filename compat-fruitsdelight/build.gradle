@@ -1,0 +1,6 @@
+// Fruits Delight compat module build customizations are configured from the root build.
+
+dependencies {
+	compileOnly files("${rootDir}/libs/l2core-3.0.8+3.jar")
+}
+

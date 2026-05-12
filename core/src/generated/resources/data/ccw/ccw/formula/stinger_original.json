@@ -1,0 +1,11 @@
+{
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1,
+      "mob_effect": "minecraft:instant_damage"
+    }
+  ],
+  "flavor": "ccw:original",
+  "sugar": "ccw:stinger"
+}
