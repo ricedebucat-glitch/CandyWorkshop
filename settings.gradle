@@ -19,6 +19,6 @@ include 'compat-farmersdelight'
 include 'compat-fruitsdelight'
 include 'compat-kaleidoscope'
 include 'compat-neapolitan'
-include 'compat-youkaishomecoming'
 include 'compat-youkaisfeasts'
+include 'compat-youkaishomecoming'
 

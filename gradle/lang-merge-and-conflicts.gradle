@@ -1,16 +1,8 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-def aggregatedProjectPaths = [
-        ':core',
-        ':compat-apotheosis',
-        ':compat-farmersdelight',
-        ':compat-fruitsdelight',
-        ':compat-kaleidoscope',
-        ':compat-neapolitan',
-        ':compat-youkaisfeasts',
-        ':compat-youkaishomecoming',
-]
+// aggregatedProjectPaths is derived from build.gradle's ext.activeCompats so the two stay in sync.
+def aggregatedProjectPaths = [':core', *activeCompats.collect { it.path as String }]
 
 def aggregatedResourceOutputDirs = aggregatedProjectPaths.collectEntries { subprojectPath ->
     [(subprojectPath): project(subprojectPath).tasks.named('processResources').map { it.destinationDir }]
@@ -137,7 +129,7 @@ tasks.register('aggregateLangResources') {
         mergedByFile.keySet().sort().each { fileName ->
             def target = new File(aggregateLangOutputDir, fileName as String)
             def json = JsonOutput.prettyPrint(JsonOutput.toJson(mergedByFile[fileName]))
-            // JsonOutput escapes all non-ASCII chars to \uXXXX; restore them for readability.
+            // JsonOutput escapes all non-ASCII chars to Unicode escapes; restore them for readability.
             json = json.replaceAll(/\\u([0-9a-fA-F]{4})/) { match, hex ->
                 new String(Character.toChars(Integer.parseInt(hex as String, 16)))
             }
