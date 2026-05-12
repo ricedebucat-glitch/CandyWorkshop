@@ -59,8 +59,8 @@ subprojects {
     }
 
     processResources {
-        from sourceSets.main.resources
-        from sourceSets.generated.resources
+        from sourceSets.main.resources      // main first → wins on DuplicatesStrategy.EXCLUDE
+        from sourceSets.generated.resources // generated second
     }
 
     configurations {
@@ -141,10 +141,11 @@ def activeCompats = [
 
 tasks.register('runAllCompatAndDataRunData') {
     group = 'mod development'
-    description = 'Runs runData for :data and all compat subprojects.'
+    description = 'Runs runData for :data and all compat subprojects, then aggregates lang files into core.'
 
     def runDataProjects = [project(':data')] + activeCompats
     dependsOn(runDataProjects.collect { it.tasks.named('runData') })
+    finalizedBy(tasks.named('aggregateLangResources'))
 }
 
 project(':core') {
@@ -211,10 +212,10 @@ project(':data') {
             "${mod_id}" {
                 def coreMainSourceSet = rootProject.project(':core').sourceSets.main
                 def coreGeneratedSourceSet = rootProject.project(':core').sourceSets.generated
-                sourceSet(coreMainSourceSet)
                 sourceSet(coreGeneratedSourceSet)
-                sourceSet(sourceSets.main)
+                sourceSet(coreMainSourceSet)
                 sourceSet(sourceSets.generated)
+                sourceSet(sourceSets.main)
             }
         }
 
@@ -334,11 +335,12 @@ configure(compatProjects) {
             "${mod_id}" {
                 def coreMainSourceSet = rootProject.project(':core').sourceSets.main
                 def coreGeneratedSourceSet = rootProject.project(':core').sourceSets.generated
-                sourceSet(coreMainSourceSet)
                 sourceSet(coreGeneratedSourceSet)
                 // Attach current compat classes/resources so runClient/runData can load compat implementations.
-                sourceSet(sourceSets.main)
                 sourceSet(sourceSets.generated)
+                sourceSet(sourceSets.main)
+                // Attach core main last so it wins on classpath/resource conflicts
+                sourceSet(coreMainSourceSet)
             }
         }
 
