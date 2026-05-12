@@ -6,13 +6,15 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class FarmersDelightModelProvider extends ItemModelProvider {
+public class FarmersDelightModelProvider extends CoreItemModelProvider {
     public FarmersDelightModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, CandyWorkshop.MODID, existingFileHelper);
+        super(output, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
+        super.registerModels();
+
         basicItem(FarmersDelightCompats.GLAZED_MEAT_RICE.get());
     }
 }

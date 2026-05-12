@@ -6,13 +6,14 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class ApotheosisModelProvider extends ItemModelProvider {
+public class ApotheosisModelProvider extends CoreItemModelProvider {
     public ApotheosisModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, CandyWorkshop.MODID, existingFileHelper);
+        super(output, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
+        super.registerModels();
         basicItem(ApothesisCompats.MALIGNANT_BERRY.asItem());
         basicItem(ApothesisCompats.KNOWLEDGE_BOTTLE.asItem());
         basicItem(ApothesisCompats.EROSION_SHELL.asItem());

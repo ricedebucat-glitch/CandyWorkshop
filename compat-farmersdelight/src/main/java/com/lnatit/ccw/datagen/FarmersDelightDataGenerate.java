@@ -16,32 +16,22 @@ import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class FarmersDelightDataGenerate {
-    private static boolean formulasInitialized;
-
-    private static void initFormulas() {
-        if (formulasInitialized) {
-            return;
-        }
-        formulasInitialized = true;
-
-        CoreDataProviders.get()
-                         .loaded("farmersdelight")
-                         .register(FarmersDelightCompats.NOURISHED, Effect.simple(ModEffects.NOURISHMENT))
-                         .defaultBold()
-                         .clearConditions();
-    }
 
     @SubscribeEvent
     public static void onGatherData(GatherDataEvent event) {
-        initFormulas();
+        CoreDataProviders.get()
+                .loaded("farmersdelight")
+                .register(FarmersDelightCompats.NOURISHED, Effect.simple(ModEffects.NOURISHMENT))
+                .defaultBold()
+                .clearConditions();
 
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeClient(), new FarmersDelightModelProvider(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new FarmersDelightEN_USProvider(output));
+        generator.addProvider(event.includeClient(), new FarmersDelightModelProvider(output, existingFileHelper));
         generator.addProvider(event.includeServer(), new FarmersDelightRecipeProvider(output, lookupProvider));
 
         var blockTags = new FarmersDelightTagProvider.BlockTagsCompat(output, lookupProvider, existingFileHelper);

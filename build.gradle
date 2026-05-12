@@ -88,19 +88,17 @@ subprojects {
     def templatesDir = file('src/main/templates')
     if (templatesDir.exists()) {
         var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
-            var replaceProperties = [
-                    minecraft_version      : minecraft_version,
-                    minecraft_version_range: minecraft_version_range,
-                    neo_version            : neo_version,
-                    neo_version_range      : neo_version_range,
-                    loader_version_range   : loader_version_range,
-                    mod_id                 : mod_id,
-                    mod_name               : mod_name,
-                    mod_license            : mod_license,
-                    mod_version            : buildVersion,
-                    mod_authors            : mod_authors,
-                    mod_description        : mod_description
-            ]
+            var replaceProperties = [minecraft_version      : minecraft_version,
+                                     minecraft_version_range: minecraft_version_range,
+                                     neo_version            : neo_version,
+                                     neo_version_range      : neo_version_range,
+                                     loader_version_range   : loader_version_range,
+                                     mod_id                 : mod_id,
+                                     mod_name               : mod_name,
+                                     mod_license            : mod_license,
+                                     mod_version            : buildVersion,
+                                     mod_authors            : mod_authors,
+                                     mod_description        : mod_description]
             inputs.properties replaceProperties
             expand replaceProperties
             from templatesDir
@@ -125,14 +123,12 @@ subprojects {
 
 apply from: "$rootDir/gradle/lang-merge-and-conflicts.gradle"
 
-def compatProjects = [
-        project(':compat-apotheosis'),
-        project(':compat-farmersdelight'),
-        project(':compat-fruitsdelight'),
-        project(':compat-kaleidoscope'),
-        project(':compat-neapolitan'),
-        project(':compat-youkaishomecoming')
-]
+def compatProjects = [project(':compat-apotheosis'),
+                      project(':compat-farmersdelight'),
+                      project(':compat-fruitsdelight'),
+                      project(':compat-kaleidoscope'),
+                      project(':compat-neapolitan'),
+                      project(':compat-youkaishomecoming')]
 
 tasks.register('runAllCompatAndDataRunData') {
     group = 'mod development'
@@ -216,9 +212,9 @@ project(':data') {
         runs {
             data {
                 data()
-                programArguments.addAll '--mod', project.mod_id, '--all', '--output',
-                        rootProject.project(':core').file('src/generated/resources/').getAbsolutePath(), '--existing',
-                        rootProject.project(':core').file('src/main/resources/').getAbsolutePath()
+                programArguments.addAll '--mod', project.mod_id, '--all',
+                        '--output', rootProject.project(':core').file('src/generated/resources/').getAbsolutePath(),
+                        '--existing', rootProject.project(':core').file('src/main/resources/').getAbsolutePath()
             }
 
             configureEach {
@@ -353,9 +349,10 @@ configure(compatProjects) {
 
             data {
                 data()
-                programArguments.addAll '--mod', project.mod_id, '--all', '--output',
-                        file('src/generated/resources/').getAbsolutePath(), '--existing',
-                        file('src/main/resources/').getAbsolutePath()
+                programArguments.addAll '--mod', project.mod_id, '--all',
+                        '--output', file('src/generated/resources/').getAbsolutePath(),
+                        '--existing', rootProject.project(':core').file('src/main/resources/').getAbsolutePath(),
+                        '--existing', file('src/main/resources/').getAbsolutePath()
             }
 
             configureEach {
@@ -372,16 +369,14 @@ tasks.named('jar', Jar).configure {
     notCompatibleWithConfigurationCache('Aggregates subproject jars via zipTree providers.')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    def moduleJars = [
-            project(':core').tasks.named('jar'),
-            // Keep this list in sync when adding/removing compat modules.
-            project(':compat-apotheosis').tasks.named('jar'),
-            project(':compat-farmersdelight').tasks.named('jar'),
-            project(':compat-fruitsdelight').tasks.named('jar'),
-            project(':compat-kaleidoscope').tasks.named('jar'),
-            project(':compat-neapolitan').tasks.named('jar'),
-            project(':compat-youkaishomecoming').tasks.named('jar')
-    ]
+    def moduleJars = [project(':core').tasks.named('jar'),
+                      // Keep this list in sync when adding/removing compat modules.
+                      project(':compat-apotheosis').tasks.named('jar'),
+                      project(':compat-farmersdelight').tasks.named('jar'),
+                      project(':compat-fruitsdelight').tasks.named('jar'),
+                      project(':compat-kaleidoscope').tasks.named('jar'),
+                      project(':compat-neapolitan').tasks.named('jar'),
+                      project(':compat-youkaishomecoming').tasks.named('jar')]
 
     dependsOn(moduleJars)
     dependsOn(tasks.named('validateCrossProjectResourceConflicts'))

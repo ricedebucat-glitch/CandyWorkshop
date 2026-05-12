@@ -4,20 +4,17 @@ import com.lnatit.ccw.CandyWorkshop;
 import com.lnatit.ccw.compat.YoukaisHomecomingCompats;
 import com.lnatit.ccw.data.Effect;
 import dev.xkmc.youkaishomecoming.init.registrate.YHEffects;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class YoukaisHomecomingDataGenerate {
-    private static boolean formulasInitialized;
-
-    private static void initFormulas() {
-        if (formulasInitialized) {
-            return;
-        }
-        formulasInitialized = true;
-
+    @SubscribeEvent
+    public static void onGatherData(GatherDataEvent event) {
         CoreDataProviders.get()
                          .loaded("youkaishomecoming")
                          .register(YoukaisHomecomingCompats.GREEN_TEA,
@@ -51,11 +48,13 @@ public class YoukaisHomecomingDataGenerate {
                          .register(YoukaisHomecomingCompats.UDUMBARA, Effect.simple(YHEffects.UDUMBARA))
                          .defaultBold()
                          .clearConditions();
-    }
 
-    @SubscribeEvent
-    public static void onGatherData(GatherDataEvent event) {
-        initFormulas();
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+
+        generator.addProvider(event.includeClient(), new CoreEN_USProvider(output));
+        generator.addProvider(event.includeClient(), new CoreItemModelProvider(output, existingFileHelper));
     }
 }
 

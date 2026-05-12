@@ -5,13 +5,15 @@ import com.lnatit.ccw.compat.FarmersDelightCompats;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
-public class FarmersDelightEN_USProvider extends LanguageProvider {
+public class FarmersDelightEN_USProvider extends CoreEN_USProvider {
     public FarmersDelightEN_USProvider(PackOutput output) {
-        super(output, CandyWorkshop.MODID, "en_us");
+        super(output);
     }
 
     @Override
     protected void addTranslations() {
+        super.addTranslations();
+
         this.add(FarmersDelightCompats.GLAZED_MEAT_RICE.get(), "Glazed Meat Rice");
     }
 }
