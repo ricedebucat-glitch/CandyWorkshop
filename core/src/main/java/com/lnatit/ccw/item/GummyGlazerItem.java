@@ -94,7 +94,6 @@ public class GummyGlazerItem extends GummyDeviceItem
             List<Component> tooltipComponents,
             TooltipFlag tooltipFlag
     ) {
-
         tooltipComponents.add(DESC_1);
         tooltipComponents.add(DESC_2);
         // TODO reset styles get each mode
