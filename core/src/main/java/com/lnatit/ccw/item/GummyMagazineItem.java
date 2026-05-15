@@ -34,7 +34,7 @@ public class GummyMagazineItem extends GummyDeviceItem
     public static final Component FOLDED_3 = Component.translatable(FOLDED_3_KEY).withStyle(ChatFormatting.GRAY);
 
     private GummyMagazineItem(Properties properties, Tier tier) {
-        super(properties.stacksTo(1), IContents.Type.MAGAZINE, tier);
+        super(properties, IContents.Type.MAGAZINE, tier);
     }
 
     public static GummyMagazineItem create(Tier tier) {

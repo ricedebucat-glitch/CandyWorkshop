@@ -31,7 +31,7 @@ public abstract class GummyDeviceItem extends Item
     private boolean folded = true;
 
     public GummyDeviceItem(Properties properties, IContents.Type type, Tier tier) {
-        super(properties);
+        super(properties.stacksTo(1));
         this.type = type;
         this.tier = tier;
     }
