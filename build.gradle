@@ -273,6 +273,13 @@ project(':compat-fruitsdelight') {
         // Datagen issue
         // https://www.curseforge.com/minecraft/mc-mods/cuisine-delight/files
         runtimeOnly("curse.maven:cuisine-delight-893541:8004724")
+
+        // ISS test
+//        runtimeOnly("curse.maven:playeranimator-658587:7389814")
+//        runtimeOnly("curse.maven:geckolib-388172:7707149")
+//        runtimeOnly("curse.maven:curios-309927:6529130")
+//        runtimeOnly("curse.maven:irons-lib-1492763:7907336")
+//        runtimeOnly("curse.maven:irons-spells-n-spellbooks-855414:7907341")
     }
 }
 
