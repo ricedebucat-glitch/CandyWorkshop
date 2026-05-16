@@ -55,9 +55,7 @@ public class MutableContents extends ItemStackHandler implements IContents
             ItemStack stack = stacks.get(i);
             if (isItemValid(i, stack)) {
                 if (stack.isEmpty()) {
-                    ItemStack template = this.stacks.get(i);
-                    this.stacks.set(i, ItemStack.EMPTY);
-                    feed(i, template);
+                    feed(i);
                 }
                 else {
                     this.stacks.set(i, stack);
@@ -71,15 +69,28 @@ public class MutableContents extends ItemStackHandler implements IContents
         return unaccepted;
     }
 
-    private void feed(int slot, ItemStack template) {
-        for (int i = this.activeSize(); i < this.stacks.size(); i++) {
+    private void feed(int slot) {
+        ItemStack template = this.stacks.get(slot);
+        if (template.isEmpty()) {
+            return;
+        }
+
+        // The original stack is only used as a type template; refill starts from an empty target slot.
+        int targetSize = Math.min(this.getSlotLimit(slot), template.getMaxStackSize());
+        int pulled = 0;
+        for (int i = this.activeSize(); i < this.stacks.size() && pulled < targetSize; i++) {
             ItemStack stack = this.stacks.get(i);
-            if (ItemStack.isSameItemSameComponents(template, stack)) {
-                this.stacks.set(slot, stack);
-                this.stacks.set(i, ItemStack.EMPTY);
-                return;
+            if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(template, stack)) {
+                int transfer = Math.min(targetSize - pulled, stack.getCount());
+                if (transfer > 0) {
+                    stack.shrink(transfer);
+                    pulled += transfer;
+                    this.stacks.set(i, stack.isEmpty() ? ItemStack.EMPTY : stack);
+                }
             }
         }
+
+        this.stacks.set(slot, pulled > 0 ? template.copyWithCount(pulled) : ItemStack.EMPTY);
     }
 
     public List<ItemStack> apply(Function<ItemStack, ItemStack> consumer) {
