@@ -55,7 +55,9 @@ public class MutableContents extends ItemStackHandler implements IContents
             ItemStack stack = stacks.get(i);
             if (isItemValid(i, stack)) {
                 if (stack.isEmpty()) {
-                    feed(i);
+                    ItemStack template = this.stacks.get(i);
+                    this.stacks.set(i, stack);
+                    feed(i, template);
                 }
                 else {
                     this.stacks.set(i, stack);
@@ -69,11 +71,12 @@ public class MutableContents extends ItemStackHandler implements IContents
         return unaccepted;
     }
 
-    private void feed(int slot) {
-        ItemStack target = this.stacks.get(slot);
+    private void feed(int slot, ItemStack template) {
+        // Feed only runs when target slot is empty, so we need to clear it here
+        this.stacks.set(slot, ItemStack.EMPTY);
         for (int i = this.activeSize(); i < this.stacks.size(); i++) {
             ItemStack stack = this.stacks.get(i);
-            if (ItemStack.isSameItemSameComponents(target, stack)) {
+            if (ItemStack.isSameItemSameComponents(template, stack)) {
                 this.stacks.set(slot, stack);
                 this.stacks.set(i, ItemStack.EMPTY);
                 return;
