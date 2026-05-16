@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Registers core shared datapack providers used by all datagen runs.
  */
-@EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CandyWorkshop.MODID)
 public class CoreDataGenerate
 {
     // Use lowest so that we can init those datapacks
@@ -23,7 +23,6 @@ public class CoreDataGenerate
     public static void onGatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(

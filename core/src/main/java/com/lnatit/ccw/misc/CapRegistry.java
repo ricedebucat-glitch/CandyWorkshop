@@ -9,7 +9,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
-@EventBusSubscriber(modid = CandyWorkshop.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CandyWorkshop.MODID)
 public interface CapRegistry {
     @SubscribeEvent
     static void registerCapabilities(final RegisterCapabilitiesEvent event) {
