@@ -10,7 +10,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,19 +50,15 @@ public class GummyMagazineItem extends GummyDeviceItem
         if (player.isShiftKeyDown()) {
             if (!client) {
                 int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
-                GummyContentMenu.Provider provider = GummyContentMenu.provider(this.type,
-                                                                               magazine,
-                                                                               usedHand,
-                                                                               slot,
-                                                                               itemstack.getHoverName());
+                GummyContentMenu.Provider provider =
+                        GummyContentMenu.provider(this.type, magazine, usedHand, slot, itemstack.getHoverName());
                 player.openMenu(provider);
             }
         }
         else {
-            if (magazine.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
+            if (magazine.activeSlots().stream().allMatch(ItemStack::isEmpty) || !eatGummies(level, player, magazine)) {
                 return InteractionResultHolder.fail(itemstack);
             }
-            eatGummies(level, player, magazine);
             GummyContents.set(itemstack, magazine);
         }
 
@@ -71,19 +66,8 @@ public class GummyMagazineItem extends GummyDeviceItem
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
     }
 
-    public static void eatGummies(Level level, Player player, MutableContents magazine) {
-        List<ItemStack> drops = magazine.apply(new Consumer(level, player));
-        if (!level.isClientSide() && !drops.isEmpty()) {
-            for (ItemStack drop : drops) {
-                if (drop.isEmpty()) continue;
-                if (!player.getInventory().add(drop)) {
-                    ItemEntity item = player.drop(drop, true);
-                    if (item != null) {
-                        item.setNoPickUpDelay();
-                    }
-                }
-            }
-        }
+    public static boolean eatGummies(Level level, Player player, MutableContents magazine) {
+        return magazine.apply(new Consumer(level, player));
     }
 
     @Override

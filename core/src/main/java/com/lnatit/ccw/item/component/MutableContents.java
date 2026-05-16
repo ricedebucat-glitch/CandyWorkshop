@@ -7,7 +7,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -48,27 +47,6 @@ public class MutableContents extends ItemStackHandler implements IContents
         return this.stacks.subList(0, length);
     }
 
-    public List<ItemStack> updateSlots(List<ItemStack> stacks) {
-        stacks = stacks.subList(0, Math.min(stacks.size(), this.activeSize()));
-        List<ItemStack> unaccepted = new ArrayList<>();
-        for (int i = 0; i < stacks.size(); i++) {
-            ItemStack stack = stacks.get(i);
-            if (isItemValid(i, stack)) {
-                if (stack.isEmpty()) {
-                    feed(i);
-                }
-                else {
-                    this.stacks.set(i, stack);
-                }
-            }
-            else {
-                this.stacks.set(i, ItemStack.EMPTY);
-                unaccepted.add(stack);
-            }
-        }
-        return unaccepted;
-    }
-
     private void feed(int slot) {
         ItemStack template = this.stacks.get(slot);
         if (template.isEmpty()) {
@@ -93,9 +71,25 @@ public class MutableContents extends ItemStackHandler implements IContents
         this.stacks.set(slot, pulled > 0 ? template.copyWithCount(pulled) : ItemStack.EMPTY);
     }
 
-    public List<ItemStack> apply(Function<ItemStack, ItemStack> consumer) {
+    public boolean apply(Function<ItemStack, ItemStack> consumer) {
+        boolean changed = false;
         List<ItemStack> results = this.activeSlots().stream().map(consumer).toList();
-        return updateSlots(results);
+        results = results.subList(0, Math.min(results.size(), this.activeSize()));
+        for (int i = 0; i < results.size(); i++) {
+            ItemStack old = this.stacks.get(i);
+            ItemStack updated = results.get(i);
+            if (ItemStack.isSameItemSameComponents(old, updated) && old.getCount() == updated.getCount()) {
+                continue;
+            }
+            if (updated.isEmpty()) {
+                feed(i);
+            }
+            else {
+                this.stacks.set(i, updated);
+            }
+            changed = true;
+        }
+        return changed;
     }
 
     @Override
@@ -127,5 +121,4 @@ public class MutableContents extends ItemStackHandler implements IContents
     public boolean isItemValid(int slot, ItemStack stack) {
         return stack.isEmpty() || slot < this.stacks.size() && stack.is(ItemRegistry.GUMMY);
     }
-
 }

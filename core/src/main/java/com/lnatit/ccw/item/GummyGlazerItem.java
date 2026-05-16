@@ -27,7 +27,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @EventBusSubscriber(modid = CandyWorkshop.MODID)
-public class GummyGlazerItem extends GummyDeviceItem {
+public class GummyGlazerItem extends GummyDeviceItem
+{
     public static final String DESC_1_KEY = "item.ccw.gummy_glazer.desc0";
     public static final String DESC_2_KEY = "item.ccw.gummy_glazer.desc1";
     public static final String FOLDED_1_KEY = "item.ccw.gummy_glazer.folded0";
@@ -52,7 +53,7 @@ public class GummyGlazerItem extends GummyDeviceItem {
 
     public static GummyGlazerItem create(Tier tier) {
         return new GummyGlazerItem(new Item.Properties().component(IContents.Type.GLAZER.dataComponentType,
-                IContents.Type.GLAZER.defaultContents()), tier);
+                                                                   IContents.Type.GLAZER.defaultContents()), tier);
     }
 
 //    @Override
@@ -69,10 +70,10 @@ public class GummyGlazerItem extends GummyDeviceItem {
             if (!level.isClientSide) {
                 int slot = usedHand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 0;
                 GummyContentMenu.Provider provider = GummyContentMenu.provider(this.type,
-                        this.getMutable(itemstack),
-                        usedHand,
-                        slot,
-                        itemstack.getHoverName());
+                                                                               this.getMutable(itemstack),
+                                                                               usedHand,
+                                                                               slot,
+                                                                               itemstack.getHoverName());
                 player.openMenu(provider);
             }
             player.awardStat(Stats.ITEM_USED.get(this));
@@ -117,9 +118,12 @@ public class GummyGlazerItem extends GummyDeviceItem {
     public static void onLivingInteract(PlayerInteractEvent.EntityInteract event) {
         if (event.getTarget() instanceof LivingEntity target) {
             Player player = event.getEntity();
+            if (player.isShiftKeyDown()) {
+                return;
+            }
 
             ItemStack mainHand = player.getMainHandItem();
-            applyGummies(player, mainHand, target);
+            if (applyGummies(player, mainHand, target)) return;
 
             ItemStack offHand = player.getOffhandItem();
             applyGummies(player, offHand, target);
@@ -133,31 +137,35 @@ public class GummyGlazerItem extends GummyDeviceItem {
             LivingEntity living = event.getEntity();
 
             ItemStack mainHand = source.getMainHandItem();
-            applyGummies(source, mainHand, living);
+            if (applyGummies(source, mainHand, living)) return;
 
             ItemStack offHand = source.getOffhandItem();
             applyGummies(source, offHand, living);
         }
     }
 
-    private static void applyGummies(LivingEntity applier, ItemStack stack, LivingEntity target) {
+    private static boolean applyGummies(LivingEntity applier, ItemStack stack, LivingEntity target) {
         if (stack.getItem() instanceof GummyGlazerItem glazer) {
             MutableContents contents = glazer.getMutable(stack);
             if (contents.activeSlots().stream().allMatch(ItemStack::isEmpty)) {
-                return;
+                return false;
             }
-            contents.apply(new Consumer(applier, target, GlazerMode.getOrDefault(stack)));
-            GummyContents.set(stack, contents);
-
-            if (applier instanceof ServerPlayer player) {
-                player.awardStat(Stats.ITEM_USED.get(glazer));
+            if (contents.apply(new Consumer(applier, target, GlazerMode.getOrDefault(stack)))) {
+                GummyContents.set(stack, contents);
+                if (applier instanceof ServerPlayer player) {
+                    player.getCooldowns().addCooldown(stack.getItem(), 10);
+                    player.awardStat(Stats.ITEM_USED.get(glazer));
+                }
+                return true;
             }
         }
+        return false;
     }
 
     private record Consumer(LivingEntity applier,
                             LivingEntity target,
-                            GlazerMode mode) implements Function<ItemStack, ItemStack> {
+                            GlazerMode mode) implements Function<ItemStack, ItemStack>
+    {
         @Override
         public ItemStack apply(ItemStack stack) {
             if (stack.isEmpty()) return stack;
@@ -167,9 +175,9 @@ public class GummyGlazerItem extends GummyDeviceItem {
                 assert contents != null;
                 Optional<Formula> optional = Formula.getFormulaOptional(contents.sugar(), contents.flavor());
                 if (optional.isPresent() && optional.get()
-                        .effects()
-                        .stream()
-                        .allMatch(effect -> target.hasEffect(effect.mobEffect()))) {
+                                                    .effects()
+                                                    .stream()
+                                                    .allMatch(effect -> target.hasEffect(effect.mobEffect()))) {
                     return stack;
                 }
             }
