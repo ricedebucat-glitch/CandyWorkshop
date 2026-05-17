@@ -1,14 +1,13 @@
 package com.lnatit.ccw.item;
 
+import com.lnatit.ccw.CandyWorkshopClient;
 import com.lnatit.ccw.block.entity.DrawerTableBlockEntity;
 import com.lnatit.ccw.item.component.GummyContents;
 import com.lnatit.ccw.item.component.IContents;
 import com.lnatit.ccw.item.component.MutableContents;
 import com.lnatit.ccw.misc.SoundRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -28,7 +27,6 @@ public abstract class GummyDeviceItem extends Item
     public static final Component DESC_UNFOLD = Component.translatable(DESC_UNFOLD_KEY).withStyle(ChatFormatting.GRAY);
     protected final IContents.Type type;
     protected final Tier tier;
-    private boolean folded = true;
 
     public GummyDeviceItem(Properties properties, IContents.Type type, Tier tier) {
         super(properties.stacksTo(1));
@@ -187,26 +185,24 @@ public abstract class GummyDeviceItem extends Item
             TooltipFlag tooltipFlag
     ) {
         this.appendCommonTooltips(stack, tooltipComponents);
-        if (FMLEnvironment.dist.isClient() && Screen.hasShiftDown()) {
-            if (folded) {
-                Minecraft.getInstance()
-                        .getSoundManager()
-                        .play(SimpleSoundInstance.forUI(SoundRegistry.UNFOLD_DESC.get(), 1.0f));
-                folded = false;
+        if (FMLEnvironment.dist.isClient()) {
+            if (Screen.hasShiftDown()) {
+                if (CandyWorkshopClient.folded()) {
+                    CandyWorkshopClient.playSound(SoundRegistry.UNFOLD_DESC);
+                    CandyWorkshopClient.setFolded(false);
+                }
+                appendFoldedTooltips(tooltipComponents);
+            } else {
+                if (!CandyWorkshopClient.folded()) {
+                    CandyWorkshopClient.playSound(SoundRegistry.FOLD_DESC);
+                    CandyWorkshopClient.setFolded(true);
+                }
+                appendUnfoldNotification(tooltipComponents);
             }
-            this.appendFoldedTooltips(tooltipComponents);
-        } else {
-            if (!folded) {
-                Minecraft.getInstance()
-                        .getSoundManager()
-                        .play(SimpleSoundInstance.forUI(SoundRegistry.FOLD_DESC.get(), 1.0f));
-                folded = true;
-            }
-            this.appendUnfoldNotification(tooltipComponents);
         }
     }
 
-    private void appendUnfoldNotification(List<Component> tooltipComponents) {
+    void appendUnfoldNotification(List<Component> tooltipComponents) {
         tooltipComponents.add(DESC_UNFOLD);
     }
 
