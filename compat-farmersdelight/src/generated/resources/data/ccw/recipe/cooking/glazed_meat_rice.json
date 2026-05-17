@@ -12,18 +12,7 @@
       "item": "ccw:gummy"
     },
     {
-      "type": "neoforge:compound",
-      "children": [
-        {
-          "tag": "c:foods/raw/chicken"
-        },
-        {
-          "tag": "c:foods/raw/pork"
-        },
-        {
-          "tag": "c:foods/raw/beef"
-        }
-      ]
+      "tag": "c:foods/raw_meat"
     },
     {
       "tag": "c:crops/rice"
